@@ -1,39 +1,30 @@
 class StringCalculator {
-  def string
-  def tokens
 
   def add(String str) {
-    operadores(str)
-    sumar(numeros())
+    sumar(numeros(str))
   }
 
-  /**
-    * Inicializa y configura en función de la entrada
-    */
-  private def operadores(str) {
-    if (str && str[0]=='/') {
-      tokens = str[2..str.indexOf('\n')]
-      string = str[str.indexOf('\n')..-1]
-    } else {
-      string = str
-    }
+  private def numeros(str) {
+    def (tokens, operacion) = tokensYOperacion(str)
+    def validos = []
+    def negativos = []
+    new Separador(tokens:tokens, operacion:operacion).separar validos, negativos
+    if (negativos)
+      throw new Exception("negatives not allowed: ${negativos}")
+
+    return validos
   }
 
-  private def numeros() {
-    def numeros = []
-    def negatives = []
-    string.tokenize(",\n${tokens}").each {
-      def num = it.toInteger()
-      if (num < 0)
-        negatives << num
-      if (num < 1000)
-        numeros << num
-    }
-    if (negatives)
-      throw new Exception("negatives not allowed: ${negatives}")
-
-    return numeros
+  private def separarNegativo(num, out) {
+      if (num.toInteger() < 0)
+        out << num
   }
+
+  private def separarValido(num, out) {
+      if (num.toInteger() < 1000)
+        out << num.toInteger()
+  }
+
   private def sumar(numeros) {
     def result = 0
     numeros.each {
@@ -41,5 +32,39 @@ class StringCalculator {
     }
     return result
   }
+
+  private def tokensYOperacion(str) {
+    def tokens
+    if (str && str[0]=='/') {
+      tokens = str[2..str.indexOf('\n')]
+      str = str[str.indexOf('\n')..-1]
+    }
+    return [tokens, str]
+  }
+
+}
+
+class Separador {
+  def tokens
+  def operacion
+
+  def separar(validos, negativos) {
+    operacion.tokenize(",\n${tokens}").each { num ->
+        separarNegativo num, negativos
+        separarValido num, validos
+    }
+  }
+
+  private def separarNegativo(num, out) {
+      if (num.toInteger() < 0)
+        out << num
+  }
+
+  private def separarValido(num, out) {
+      if (num.toInteger() < 1000)
+        out << num.toInteger()
+  }
+
+
 }
 
