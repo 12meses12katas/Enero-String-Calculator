@@ -8,7 +8,7 @@ public class StringCalculator {
 		if (numberSequence.equals(""))
 			return 0;
 
-		String [] separateNumbers = numberSequence.split(",");
+		String [] separateNumbers = numberSequence.split("[\",\"||\"\n\"]");
 		int result = 0;
 
 		if (separateNumbers.length >= 1)

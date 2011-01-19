@@ -27,13 +27,17 @@ public class StringCalculatorTest {
 	public void testTwoArguments(){
 		assertEquals(2, stcal.add("1,1"));
 		assertEquals(-1, stcal.add("-1,0"));
+		assertEquals(2, stcal.add("1\n1"));
+		assertEquals(-1, stcal.add("-1\n0"));
 	}
 
 	@Test
 	public void testMoreThanTwoArguments(){
 		assertEquals(3, stcal.add("1,1,1"));
+		assertEquals(3, stcal.add("1\n1,1"));
 		assertEquals(4, stcal.add("1,1,1,1"));
 		assertEquals(5, stcal.add("1,1,1,1,1"));
+		assertEquals(5, stcal.add("1,1,1,1\n1"));
 	}
 
 	@Test
