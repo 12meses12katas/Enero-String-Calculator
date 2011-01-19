@@ -3,21 +3,17 @@ package com.josmas.katas;
 public class StringCalculator {
 
 	public int add(final String numbers) {
-		String numberSequence = numbers;
+		String numberSequence = numbers.trim();
 
 		if (numberSequence.equals(""))
 			return 0;
 
 		String [] separateNumbers = numberSequence.split(",");
-		int result;
+		int result = 0;
 
-		if (separateNumbers.length == 1)
-			result = Integer.parseInt(separateNumbers[0]);
-		else if (separateNumbers.length == 2)
-			result = transformNumber(separateNumbers);
-		else
-			throw new IllegalArgumentException("Passing more than 2 numbers");
-			
+		if (separateNumbers.length >= 1)
+			result = transformNumber(separateNumbers);			
+
 		return result;
 	}
 

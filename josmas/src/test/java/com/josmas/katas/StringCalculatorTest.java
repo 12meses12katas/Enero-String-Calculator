@@ -15,6 +15,7 @@ public class StringCalculatorTest {
 	@Test
 	public void testAddNoArguments(){
 		assertEquals(0, stcal.add(""));
+		assertEquals(0, stcal.add("   "));
 	}
 
 	@Test
@@ -29,14 +30,20 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void testMoreArgumentsThanPermittedSofar(){
+	public void testMoreThanTwoArguments(){
+		assertEquals(3, stcal.add("1,1,1"));
+		assertEquals(4, stcal.add("1,1,1,1"));
+		assertEquals(5, stcal.add("1,1,1,1,1"));
+	}
+
+	@Test
+	public void passingTheWrongSeparator(){
 		try {
-			stcal.add("1,1,1");
+			stcal.add("1+1");
 			fail("Exception expected!");
 		}
-		catch (IllegalArgumentException iae) {
-			//Ignoring		
+		catch (NumberFormatException nfe){
+			//Ignoring
 		}
-	
 	}
 }
