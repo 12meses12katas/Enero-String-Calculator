@@ -1,22 +1,44 @@
 class StringCalculator {
-  static def add(String str) {
-    def token = ""
+  def string
+  def tokens
+
+  def add(String str) {
+    operadores(str)
+    sumar(numeros())
+  }
+
+  /**
+    * Inicializa y configura en función de la entrada
+    */
+  private def operadores(str) {
     if (str && str[0]=='/') {
-      token = str[2..str.indexOf('\n')]
-      str = str[str.indexOf('\n')..-1]
+      tokens = str[2..str.indexOf('\n')]
+      string = str[str.indexOf('\n')..-1]
+    } else {
+      string = str
     }
-    def result = 0
+  }
+
+  private def numeros() {
+    def numeros = []
     def negatives = []
-    str.tokenize(",\n${token}").each {
+    string.tokenize(",\n${tokens}").each {
       def num = it.toInteger()
       if (num < 0)
         negatives << num
-      else
-        result += (num > 1000)?0:num
+      if (num < 1000)
+        numeros << num
     }
     if (negatives)
       throw new Exception("negatives not allowed: ${negatives}")
 
+    return numeros
+  }
+  private def sumar(numeros) {
+    def result = 0
+    numeros.each {
+      result += it.toInteger()
+    }
     return result
   }
 }
