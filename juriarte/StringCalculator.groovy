@@ -10,19 +10,15 @@ class StringCalculator {
     def validos = []
     def negativos = []
     new Separador(texto).separarNumerosValidosYNegativos validos, negativos
+
     if (negativos)
       throw new Exception("negatives not allowed: ${negativos}")
-
 
     return validos
   }
 
   private def sumar(numeros) {
-    def result = 0
-    numeros.each {
-      result += it.toInteger()
-    }
-    return result
+    numeros.inject(0) { total, num -> total + num }
   }
 
 }
