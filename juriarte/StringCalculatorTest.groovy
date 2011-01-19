@@ -66,7 +66,8 @@ class StringCalculatorTest extends GroovyTestCase {
   }
 
   void testMultipleDelimiters() {
-    ["//[add][pepe][juan]\n1add2juan1pepe3":7].each { inp, out ->
+    ["//[add][pepe][juan]\n1add2juan1pepe3":7,
+     "//[add][pepe][juan]\n20add30juan40pepe50":140].each { inp, out ->
       assert (new StringCalculator()).add(inp) == out
     }
   }
