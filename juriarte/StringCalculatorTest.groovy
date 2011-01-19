@@ -2,36 +2,36 @@ import groovy.util.GroovyTestCase
 
 class StringCalculatorTest extends GroovyTestCase {
   void testNoNumbersReturnsZero() {
-    assertEquals StringCalculator.add(""), 0
+    assert (new StringCalculator()).add("") == 0
   }
 
   void testOneNumberReturnsItself() {
     [1,4,5,6].each {
-      assertEquals StringCalculator.add(it.toString()), it
+      assert (new StringCalculator()).add(it.toString()) == it
     }
   }
 
   void testTwoNumbersGetAdded() {
     ["1,2":3, "3,5":8, "9,9":18].each { input, output ->
-      assertEquals StringCalculator.add(input), output
+      assert (new StringCalculator()).add(input) == output
     }
   }
 
   void testSeveralNumbers() {
     ["1,2,34":37, "9,8,7,6":30].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 
   void testNumbersWithNewLineAsSeparator() {
     ["1\n2,4":7].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 
   void testConfigurabilityOfSeparator() {
     ["//;\n2;4":6, "//+\n3+201":204].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 
@@ -42,7 +42,7 @@ class StringCalculatorTest extends GroovyTestCase {
      "1,2,3,-1"    :["-1"]
     ].each { test, values ->
       try {
-        StringCalculator.add(test)
+        (new StringCalculator()).add(test)
         assert false
       } catch (e) {
         assert e.message.contains("negatives not allowed")
@@ -55,19 +55,19 @@ class StringCalculatorTest extends GroovyTestCase {
 
   void testBiggerThanThousendIgnored() {
     ["2,1001":2].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 
   void testBigDelimiters() {
     ["//[add]\n123add243":366].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 
   void testMultipleDelimiters() {
     ["//[add][pepe][juan]\n1add2juan1pepe3":7].each { inp, out ->
-      assert StringCalculator.add(inp) == out
+      assert (new StringCalculator()).add(inp) == out
     }
   }
 }
