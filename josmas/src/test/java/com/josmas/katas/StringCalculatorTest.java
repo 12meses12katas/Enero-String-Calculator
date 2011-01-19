@@ -41,7 +41,7 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void passingTheWrongSeparator(){
+	public void testPassingTheWrongSeparator(){
 		try {
 			stcal.add("1+1");
 			fail("Exception expected!");
@@ -49,5 +49,11 @@ public class StringCalculatorTest {
 		catch (NumberFormatException nfe){
 			//Ignoring
 		}
+	}
+
+	@Test
+	public void testHandlingAnySeparator(){
+		assertEquals(3, stcal.add("//;\n1;2"));
+		assertEquals(3, stcal.add("//p\n1p2"));
 	}
 }

@@ -8,7 +8,13 @@ public class StringCalculator {
 		if (numberSequence.equals(""))
 			return 0;
 
-		String [] separateNumbers = numberSequence.split("[\",\"||\"\n\"]");
+		String separatorRegexp = "[\",\"||\"\n\"]";
+		if ( numberSequence.startsWith("//") ){
+			separatorRegexp = numberSequence.charAt(2) + "";
+			numberSequence = numberSequence.substring(4);
+		}
+			
+		String [] separateNumbers = numberSequence.split(separatorRegexp);
 		int result = 0;
 
 		if (separateNumbers.length >= 1)
