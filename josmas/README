@@ -2,10 +2,21 @@
 -- 12 meses 12 katas --
 -----------------------
 
+Warning! --> this kata contains Java!
+Or I should say my folder for this kata contains Java. I have created a very simple maven 2 project to build the project.
+'mvn install' or 'mvn test' should do the trick (if you have maven 2 installed!).
+
 I have decided to give this a go cause I've been trying to work more on katas for a while now but never find the time.
 This way I hope to keep at it!
+I also intend to push to git 2 version of the kata (maybe more), my first attempt at it, and another version when I have been
+practicing it for a while. I hope to be able to compare and see an evolution from it.
+
+Peligro! --> esta kata contiene Java!
+La kata ha sido desarrollada con Java y maven. Para construir el proyecto, usando 'mvn install' o 'mvn test' debería ser suficiente.
 
 He decidido seguir este proyecto porque llevo un tiempo queriendo hace más katas pero nunca tengo tiempo. A ver si de esta
 forma soy un poco mas consistente!
+Voy a subir dos versiones de la kata, la primera vez que la complete, y otra versión despues de haberla hecho unas cuantas veces. 
+La intención es poder comparar las dos soluciones y ver si he evolucionado algo durante ese periodo.
 
 Jos - January 2o11
