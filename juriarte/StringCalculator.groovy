@@ -32,7 +32,7 @@ class Separador {
   }
 
   def separarNumerosValidosYNegativos(validos, negativos) {
-    operacion.tokenize(",\n${tokens}").each { num ->
+    normalizar(operacion).tokenize(",\n").each { num ->
         añadirNumeroSiNegativo num, negativos
         añadirNumeroSiValido num, validos
     }
@@ -53,10 +53,20 @@ class Separador {
   private def tokensYOperacion(str) {
     def tokens
     if (str && str[0]=='/') {
-      tokens = str[2..str.indexOf('\n')]
-      str = str[str.indexOf('\n')..-1]
+      tokens = str[2..str.indexOf('\n')-1]
+      str = str[str.indexOf('\n')+1..-1]
     }
     return [tokens, str]
+  }
+
+  private def normalizar(operacion) {
+    def regexp = ( tokens =~ /\[([\w]+)\]+/ ).collect {it[1]}.join('|')
+    if (regexp)
+      return operacion.replaceAll(regexp?:tokens, ",")
+    else if (tokens)
+      return operacion.replace(tokens, ",")
+    else
+      return operacion
   }
 
 }

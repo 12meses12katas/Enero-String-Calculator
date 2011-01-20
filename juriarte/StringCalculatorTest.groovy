@@ -70,9 +70,16 @@ class StringCalculatorTest extends GroovyTestCase {
 
   void testMultipleDelimiters() {
     ["//[add][pepe][juan]\n1add2juan1pepe3":7,
-     "//[add][pepe][juan]\n20add30juan40pepe50":140].each { inp, out ->
-      assert calculator.add(inp) == out
+     "//[add][pepe][juan]\n1a2a1a3":"FALLO1",
+     "//[add][pepe][juan]\n20add30juan40pepe50":140,
+    ].each { inp, out ->
+      try {
+        assert calculator.add(inp) == out
+      } catch (e) {
+        assert e instanceof NumberFormatException
+      }
     }
   }
+
 }
 
