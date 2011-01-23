@@ -33,7 +33,7 @@ class StringCalculatorTests extends JUnitSuite {
 
   @Test
   def threeNumbersSeparatedWithCustomSingleCharSeparator_sumAs_threeNumbers() {
-    assertThat(calculator.sum("//;\n1;2;3"), equalTo(6))
+    assertThat(calculator.sum("//[;]\n1;2;3"), equalTo(6))
   }
 
   @Test

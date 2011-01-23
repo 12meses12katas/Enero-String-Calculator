@@ -23,7 +23,7 @@ class StringCalculator {
   }
 
   private def convertFoundSeparatorsToRegex(separators: String) = {
-    val singleSeparatorRegex = """\[?.+?\]?""".r
+    val singleSeparatorRegex = """\[.+?\]""".r
     val quotedSeparators = for(sep <- singleSeparatorRegex findAllIn separators)
       yield quote(sep.replaceAll("""[\[\]]""", ""))
 
