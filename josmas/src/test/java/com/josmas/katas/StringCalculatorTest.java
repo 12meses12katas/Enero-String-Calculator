@@ -53,7 +53,7 @@ public class StringCalculatorTest {
 
 	@Test
 	public void testHandlingAnySeparator(){
-		assertEquals(3, stcal.add("//;\n1;2"));
-		assertEquals(3, stcal.add("//p\n1p2"));
+		assertEquals(6, stcal.add("//;\n1;2\n3"));
+		assertEquals(6, stcal.add("//p\n1p2,3"));
 	}
 }

@@ -10,7 +10,7 @@ public class StringCalculator {
 
 		String separatorRegexp = "[\",\"||\"\n\"]";
 		if ( numberSequence.startsWith("//") ){
-			separatorRegexp = numberSequence.charAt(2) + "";
+			separatorRegexp = "[\",\"||\"\n\"||\"" + numberSequence.charAt(2) + "\"]";
 			numberSequence = numberSequence.substring(4);
 		}
 			
