@@ -26,9 +26,7 @@ public class StringCalculatorTest {
 	@Test
 	public void testTwoArguments(){
 		assertEquals(2, stcal.add("1,1"));
-		assertEquals(-1, stcal.add("-1,0"));
 		assertEquals(2, stcal.add("1\n1"));
-		assertEquals(-1, stcal.add("-1\n0"));
 	}
 
 	@Test
@@ -55,5 +53,24 @@ public class StringCalculatorTest {
 	public void testHandlingAnySeparator(){
 		assertEquals(6, stcal.add("//;\n1;2\n3"));
 		assertEquals(6, stcal.add("//p\n1p2,3"));
+	}
+	
+	@Test
+	public void testNegativesNotAllowed(){
+		try {
+			stcal.add("1,-1");
+			fail("Illegal Argument Exception expected!");
+		}
+		catch (IllegalArgumentException iae){
+			assertTrue(iae.getMessage().contains("-1"));
+		}
+		
+		try {
+			stcal.add("//p\n-1,-1\n-9p-3");
+			fail("Illegal Argument Exception expected!");
+		}
+		catch (IllegalArgumentException iae){
+			assertTrue(iae.getMessage().contains("-1, -1, -9, -3"));
+		}
 	}
 }

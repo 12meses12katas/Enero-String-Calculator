@@ -1,5 +1,8 @@
 package com.josmas.katas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringCalculator {
 
 	public int add(final String numbers) {
@@ -13,21 +16,23 @@ public class StringCalculator {
 			separatorRegexp = "[\",\"||\"\n\"||\"" + numberSequence.charAt(2) + "\"]";
 			numberSequence = numberSequence.substring(4);
 		}
-			
-		String [] separateNumbers = numberSequence.split(separatorRegexp);
-		int result = 0;
-
-		if (separateNumbers.length >= 1)
-			result = transformNumber(separateNumbers);			
-
-		return result;
+		
+		return transformNumbers(numberSequence.split(separatorRegexp));
 	}
 
-	private int transformNumber(String[] separateNumbers){
+	private int transformNumbers(String[] separateNumbers){
 		int result = 0;
-		for (int i = 0; i < separateNumbers.length; i++)
-			result += Integer.parseInt(separateNumbers[i]);
-
+		List<String> negativesForReport = new ArrayList<String>();
+		for (int i = 0; i < separateNumbers.length; i++){
+			int number = Integer.parseInt(separateNumbers[i]);
+			if ( number < 0 )
+				negativesForReport.add(separateNumbers[i]);
+			result += number;
+		}
+		
+		if (!negativesForReport.isEmpty())
+			throw new IllegalArgumentException("Negatives not allowed: " + negativesForReport);
+		
 		return result;
 	}
 
