@@ -47,4 +47,14 @@ public class StringCalculatorTest {
 		}
 	}
 	
+	@Test
+	public void when_unknown_amount_of_numbers_are_taken_then_should_return_their_sum(){
+		String [] valuesTaken={"1,2,3,10","2,10,22","3,30","10,100,9,1,4,23","20,100,500,2"};
+		int [] resultExpected ={16,34,33,147,622};
+		for(int i=0;i<valuesTaken.length;i++){		
+			int result = stringCalculator.add(valuesTaken[i]);
+			assertThat(result, is(resultExpected[i]));
+		}
+	}
+	
 }
