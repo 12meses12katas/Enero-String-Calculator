@@ -24,6 +24,16 @@ public class StringCalculatorTest {
 		assertThat(result, is(0));
 	}
 	
-	
+	@Test
+	public void when_takes_one_number_then_should_return_the_same_number(){
+		String [] valuesTaken={"1","2","3","10","100"};
+		int [] resultExpected ={1,2,3,10,100};
+		 
+		for(int i=0;i<valuesTaken.length;i++){		
+			int result = stringCalculator.add(valuesTaken[i]);
+			assertThat(result, is(resultExpected[i]));
+		}
+
+	}
 	
 }
