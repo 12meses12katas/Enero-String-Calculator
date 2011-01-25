@@ -36,4 +36,15 @@ public class StringCalculatorTest {
 
 	}
 	
+	@Test
+	public void when_takes_two_numbers_then_should_return_their_sum(){
+		String [] valuesTaken={"1,2","2,10","3,30","10,100","20,100"};
+		int [] resultExpected ={3,12,33,110,120};
+		 
+		for(int i=0;i<valuesTaken.length;i++){		
+			int result = stringCalculator.add(valuesTaken[i]);
+			assertThat(result, is(resultExpected[i]));
+		}
+	}
+	
 }
