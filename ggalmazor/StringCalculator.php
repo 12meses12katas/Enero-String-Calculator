@@ -6,40 +6,39 @@
 class StringCalculator {
   const SEPARATOR_NEW_LINE = "\n";
   const SEPARATOR_COMMA = ",";
+  const CUSTOM_SEPARATOR_START = "//";
+  const CUSTOM_SEPARATOR_END = "\n";
+  const CUSTOM_SEPARATOR_REGEXP = "/\[(.+?)\]/";
+  const VALID_NUMBER_BOTTOM = 0;
+  const VALID_NUMBER_CEIL = 1000;
 
   public function add($str) {
-    if ($str == "") {
+    if ($str == "")
       return 0;
-    }
-    if ($this->hasCustomSeparator($str)) {
+    if ($this->hasCustomSeparator($str))
       $str = $this->processCustomSeparators($str);
-    }
-    $forbiddenNumbers = array();
-    $validNumbers = array();
+    $forbiddenNumbers = $validNumbers = array();
     foreach ($this->extractNumbers($str) as $number) {
-      if ($this->isNumberForbidden($number)) {
+      if ($this->isNumberForbidden($number))
         $forbiddenNumbers[] = $number;
-      }
-      if ($this->isNumberValid($number)) {
+      if ($this->isNumberValid($number))
         $validNumbers[] = $number;
-      }
     }
-    if (count($forbiddenNumbers)) {
+    if (count($forbiddenNumbers))
       throw new Exception(sprintf("Found some negative numbers in the string: %s", implode(", ", $forbiddenNumbers)));
-    }
     return array_sum($validNumbers);
   }
 
   protected function isNumberForbidden($number) {
-    return $number < 0;
+    return $number < self::VALID_NUMBER_BOTTOM;
   }
 
   protected function isNumberValid($number) {
-    return $number < 1000;
+    return $number < self::VALID_NUMBER_CEIL;
   }
 
   protected function hasCustomSeparator($str) {
-    return substr($str, 0, 2) == "//";
+    return substr($str, 0, 2) == self::CUSTOM_SEPARATOR_START;
   }
 
   protected function unifySeparators($str) {
@@ -52,28 +51,39 @@ class StringCalculator {
   }
 
   protected function processCustomSeparators($str) {
-    $header = $this->extractHeader($str);
-    $str = $this->removeHeader($str);
+    list($header, $str) = $this->separateHeader($str);
     $separators = $this->extractSeparators($header);
     return $this->normalizeSeparators($separators, $str);
   }
 
+  protected function separateHeader($str) {
+    return array($this->extractHeader($str), $this->removeHeader($str));
+  }
+
   protected function extractHeader($str) {
-    return substr($str, 0, strpos($str, "\n"));
+    return substr($str, 0, strpos($str, self::CUSTOM_SEPARATOR_END));
   }
 
   protected function removeHeader($str) {
-    return substr($str, strpos($str, "\n") + 1, strlen($str));
+    return substr($str, strpos($str, self::CUSTOM_SEPARATOR_END) + 1, strlen($str));
   }
 
   protected function extractSeparators($header) {
-    if ($header[2] == "[") {
+    $header = $this->cleanHeader($header);
+    if ($this->isComplexSeparatorDefinition($header)) {
       $matches = array();
-      $header = str_replace("//", "", $header);
-      preg_match_all("/\[(.+?)\]/i", $header, $matches);
+      preg_match_all(self::CUSTOM_SEPARATOR_REGEXP, $header, $matches);
       return $matches[1];
     }
-    return array($header[2]);
+    return array($header[0]);
+  }
+
+  protected function cleanHeader($header) {
+    return str_replace(self::CUSTOM_SEPARATOR_START, "", $header);
+  }
+
+  protected function isComplexSeparatorDefinition($header) {
+    return $header[0] == "[";
   }
 
   protected function normalizeSeparators(array $separators, $str) {
@@ -81,5 +91,3 @@ class StringCalculator {
   }
 
 }
-
-// That's it! Thanks for watching :D
