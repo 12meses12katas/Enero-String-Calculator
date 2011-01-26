@@ -1,7 +1,9 @@
 <?php
 
+require_once 'SeparatorExtractor/Base.php';
+
 /**
- * Screencast: http://vimeo.com/19208035
+ * Screencast de la kata básica (sin DI) en http://vimeo.com/19208035
  */
 class StringCalculator {
   const SEPARATOR_NEW_LINE = "\n";
@@ -11,6 +13,12 @@ class StringCalculator {
   const CUSTOM_SEPARATOR_REGEXP = "/\[(.+?)\]/";
   const VALID_NUMBER_BOTTOM = 0;
   const VALID_NUMBER_CEIL = 1000;
+
+  protected $separatorExtractor;
+
+  public function __construct(SeparatorExtractor\Base $separatorExtractor) {
+    $this->separatorExtractor = $separatorExtractor;
+  }
 
   public function add($str) {
     if ($str == "")
@@ -71,9 +79,7 @@ class StringCalculator {
   protected function extractSeparators($header) {
     $header = $this->cleanHeader($header);
     if ($this->isComplexSeparatorDefinition($header)) {
-      $matches = array();
-      preg_match_all(self::CUSTOM_SEPARATOR_REGEXP, $header, $matches);
-      return $matches[1];
+      return $this->separatorExtractor->extract($header);
     }
     return array($header[0]);
   }

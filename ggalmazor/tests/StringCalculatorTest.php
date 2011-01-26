@@ -1,16 +1,16 @@
 <?php
 
-require_once '../StringCalculator.php';
+require_once '../StringCalculatorFactory.php';
 
 /**
- * Screencast: http://vimeo.com/19208035
+ * Screencast de la kata básica (sin DI) en http://vimeo.com/19208035
  */
-class StringCalculatorTest extends PHPUnit_Framework_TestCase {
+class StringCalculatorTest extends \PHPUnit_Framework_TestCase {
 
-  protected $strinCalculator;
+  protected $stringCalculator;
 
   public function setUp() {
-    $this->strinCalculator = new StringCalculator;
+    $this->stringCalculator = StringCalculatorFactory::create(StringCalculatorFactory::EXTRACTOR_TOKENIZER);
   }
 
   public function getSumTestCases() {
@@ -27,26 +27,16 @@ class StringCalculatorTest extends PHPUnit_Framework_TestCase {
     );
   }
 
-  public function testFramework() {
-    $this->assertTrue(true);
-  }
-
   /**
    * @dataProvider getSumTestCases
    */
   public function testSumCases($str, $expected) {
-    $this->assertEquals($expected, $this->strinCalculator->add($str));
+    $this->assertEquals($expected, $this->stringCalculator->add($str));
   }
 
   public function testNegativeNumbersAreNotAllowed() {
     $this->setExpectedException('Exception');
-    $this->strinCalculator->add("1,-2");
-  }
-
-  public function testOneNumberStringShouldReturnTheNumber() {
-    $stringCalculator = new StringCalculator();
-    $actual = $stringCalculator->add("1");
-    $this->assertEquals(1, $actual);
+    $this->stringCalculator->add("1,-2");
   }
 
 }
