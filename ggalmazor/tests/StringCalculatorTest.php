@@ -43,10 +43,4 @@ class StringCalculatorTest extends PHPUnit_Framework_TestCase {
     $this->strinCalculator->add("1,-2");
   }
 
-  public function testOneNumberStringShouldReturnTheNumber() {
-    $stringCalculator = new StringCalculator();
-    $actual = $stringCalculator->add("1");
-    $this->assertEquals(1, $actual);
-  }
-
 }
