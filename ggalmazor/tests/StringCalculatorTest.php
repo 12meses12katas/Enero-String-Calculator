@@ -2,6 +2,9 @@
 
 require_once '../StringCalculator.php';
 
+/**
+ * Screencast: http://vimeo.com/19208035
+ */
 class StringCalculatorTest extends PHPUnit_Framework_TestCase {
 
   protected $strinCalculator;

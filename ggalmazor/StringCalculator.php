@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Screencast: http://vimeo.com/19208035
+ */
 class StringCalculator {
   const SEPARATOR_NEW_LINE = "\n";
   const SEPARATOR_COMMA = ",";
@@ -78,3 +81,5 @@ class StringCalculator {
   }
 
 }
+
+// That's it! Thanks for watching :D
