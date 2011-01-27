@@ -63,6 +63,9 @@ public class StringCalculator {
 	}
 
 	private String selectNewStringToParse(String stringToParse,String delimiter) {
+		if(stringToParse.contains("]")){
+			delimiter = "]";
+		}
 		stringToParse =stringToParse.substring(stringToParse.indexOf(delimiter)+1);
 		return stringToParse;
 	}
@@ -75,17 +78,27 @@ public class StringCalculator {
 	}
 
 	private int findStartPosition(String stringToParse) {
-		int initPosition = stringToParse.indexOf("//")+2;
+		int initPosition = 0;
+		
+		if(stringToParse.contains("[")){
+			initPosition = stringToParse.indexOf("[")+1;
+		}else{
+			initPosition = stringToParse.indexOf("//")+2;
+		}
 		return initPosition;
 	}
 
 	private int findEndPosition(String stringToParse) {
 		int endPosition = 0;
 
-		Pattern pattern = Pattern.compile("(//)(\\W*)(\\d*)(.*)");
-		Matcher matcher = pattern.matcher(stringToParse);
-		if (matcher.find()) {
-			endPosition = matcher.start(3);
+		if(stringToParse.contains("]")){
+			endPosition = stringToParse.indexOf("]");
+		}else{
+			Pattern pattern = Pattern.compile("(//)(\\W*)(\\d*)(.*)");
+			Matcher matcher = pattern.matcher(stringToParse);
+			if (matcher.find()) {
+				endPosition = matcher.start(3);
+			}
 		}
 
 		return endPosition;
