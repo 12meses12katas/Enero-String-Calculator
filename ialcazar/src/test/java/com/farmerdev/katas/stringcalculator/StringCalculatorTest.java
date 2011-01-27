@@ -119,10 +119,14 @@ public class StringCalculatorTest {
 		}
 	}
 	
-	
-	
-	
-	
-	
+	@Test
+	public void when_delimiters_with_any_length_then_should_add_the_numbers(){
+		String [] valuesTaken={"//[***]\n1***2***3","//[++]\n10++20++30"};
+		int [] resultExpected ={6,60};
+		for(int i=0;i<valuesTaken.length;i++){		
+			int result = stringCalculator.add(valuesTaken[i]);
+			assertThat(result, is(resultExpected[i]));
+		}
+	}
 	
 }
