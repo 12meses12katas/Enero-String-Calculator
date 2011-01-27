@@ -109,6 +109,16 @@ public class StringCalculatorTest {
 		}
 	}
 	
+	@Test
+	public void when_add_a_number_bigger_than_1000_then_should_be_ignored(){
+		String [] valuesTaken={"//;2;1003","//+10+2222","1,1001"};
+		int [] resultExpected ={2,10,1};
+		for(int i=0;i<valuesTaken.length;i++){		
+			int result = stringCalculator.add(valuesTaken[i]);
+			assertThat(result, is(resultExpected[i]));
+		}
+	}
+	
 	
 	
 	
