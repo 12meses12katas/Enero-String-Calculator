@@ -95,7 +95,9 @@ public class StringCalculator {
 		int result = 0;
 		String [] numbersToAdd = stringToParse.split(",");
 		for(String aux:numbersToAdd){
-			result += Integer.parseInt(aux);
+			int numberToAdd = Integer.parseInt(aux);
+			if(numberToAdd<1000)
+				result += numberToAdd;
 		}
 		return result;
 	}
