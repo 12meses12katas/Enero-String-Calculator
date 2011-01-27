@@ -7,30 +7,41 @@ import com.farmerdev.katas.stringcalculator.exceptions.NumberException;
 
 public class StringCalculator {
 
-	public int add(String stringToParse) {
+	public int add(String stringToParse) throws NumberException{
 		int result = 0;
 		String delimiter = ",";
 		
 		if(stringToParse.contains("//")){
+			stringToParse = replaceDelimiter(stringToParse,"\n","");
 			delimiter = findDelimiterAssigned(stringToParse);
 			stringToParse = selectNewStringToParse(stringToParse,delimiter);
 		}else if(stringToParse.contains("\n")){
 			delimiter = "\n";
 		}
 		
-		stringToParse = replaceDelimiterWithComma(stringToParse, delimiter);
+		stringToParse = replaceDelimiter(stringToParse, delimiter, ",");
 		
-		if(stringToParse.contains("-")){
-			String message = composeErrorMessage(stringToParse);
-			throw new NumberException("Negative numbers are not allowed ["+message+"]");
-		}
+		checkNegativeNumbers(stringToParse);
 		
+		result = calculateAdd(stringToParse);
+		return result;
+	}
+
+	private int calculateAdd(String stringToParse) {
+		int result =0;
 		if(stringToParse.contains(",")){
 			result = addAString(stringToParse);
 		}else if(!stringToParse.equals("")){
 			result = Integer.parseInt(stringToParse);
 		}
 		return result;
+	}
+
+	private void checkNegativeNumbers(String stringToParse) {
+		if(stringToParse.contains("-")){
+			String message = composeErrorMessage(stringToParse);
+			throw new NumberException("Negative numbers are not allowed ["+message+"]");
+		}
 	}
 
 	private String composeErrorMessage(String stringToParse) {
@@ -45,18 +56,14 @@ public class StringCalculator {
 		return message.toString();
 	}
 
-	private String replaceDelimiterWithComma(String stringToParse,
-			String delimiter) {
-		if(!",".equals(delimiter))
-			stringToParse = stringToParse.replace(delimiter, ",");
+	private String replaceDelimiter(String stringToParse,String delimiter, String newDelimiter) {
+		if(!newDelimiter.equals(delimiter))
+			stringToParse = stringToParse.replace(delimiter, newDelimiter);
 		return stringToParse;
 	}
 
 	private String selectNewStringToParse(String stringToParse,String delimiter) {
-		if(stringToParse.contains("\n")){
-			stringToParse =stringToParse.substring(stringToParse.indexOf("\n")+1);		}
-		else
-			stringToParse =stringToParse.substring(stringToParse.indexOf(delimiter)+1);
+		stringToParse =stringToParse.substring(stringToParse.indexOf(delimiter)+1);
 		return stringToParse;
 	}
 
@@ -74,15 +81,13 @@ public class StringCalculator {
 
 	private int findEndPosition(String stringToParse) {
 		int endPosition = 0;
-		if(stringToParse.contains("\n"))
-				endPosition = stringToParse.indexOf("\n");
-		else{
-			Pattern pattern = Pattern.compile("(//)(\\W*)(\\d*)(.*)");
-			Matcher matcher = pattern.matcher(stringToParse);
-			if(matcher.find()){
-				endPosition = matcher.start(3);
-			}
+
+		Pattern pattern = Pattern.compile("(//)(\\W*)(\\d*)(.*)");
+		Matcher matcher = pattern.matcher(stringToParse);
+		if (matcher.find()) {
+			endPosition = matcher.start(3);
 		}
+
 		return endPosition;
 	}
 
