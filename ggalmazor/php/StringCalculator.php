@@ -12,7 +12,7 @@ class StringCalculator {
   const CUSTOM_SEPARATOR_END = "\n";
   const CUSTOM_SEPARATOR_REGEXP = "/\[(.+?)\]/";
   const VALID_NUMBER_BOTTOM = 0;
-  const VALID_NUMBER_CEIL = 1000;
+  const VALID_NUMBER_CEILING = 1000;
 
   protected $separatorExtractor;
 
@@ -42,7 +42,7 @@ class StringCalculator {
   }
 
   protected function isNumberValid($number) {
-    return $number < self::VALID_NUMBER_CEIL;
+    return $number < self::VALID_NUMBER_CEILING;
   }
 
   protected function hasCustomSeparator($str) {
