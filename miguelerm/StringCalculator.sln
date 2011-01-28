@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringCalculator", "StringCalculator\StringCalculator.csproj", "{D8C46E6C-368D-4513-85DF-B91EDCB74048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringCalculatorTests", "StringCalculatorTests\StringCalculatorTests.csproj", "{E1E3C524-1B92-4082-BA3D-E423E79F7945}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Default|Any CPU = Default|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8C46E6C-368D-4513-85DF-B91EDCB74048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C46E6C-368D-4513-85DF-B91EDCB74048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C46E6C-368D-4513-85DF-B91EDCB74048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C46E6C-368D-4513-85DF-B91EDCB74048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E3C524-1B92-4082-BA3D-E423E79F7945}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = StringCalculator\StringCalculator.csproj
+	EndGlobalSection
+EndGlobal
