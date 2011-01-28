@@ -4,36 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringCalculator{
-
-	public int add(String inputToAdd) {
-		String trimmedInputToAdd = inputToAdd.trim();
-		if (trimmedInputToAdd.equals(""))
+	
+	public int add(String inputString){
+		String trimmedInput = inputString.trim();
+		if (trimmedInput.equals(""))
 			return 0;
 		
-		String [] numbersToAdd = trimmedInputToAdd.split("[^-0-9]");
-		checkForNegatives(numbersToAdd);
-		
-		return add(numbersToAdd);
-	}
-
-	private void checkForNegatives(String[] numbersToAdd) {
-		List<String> negativeNumbers = new ArrayList<String>();
-		for (String number : numbersToAdd) {
-			if ( !number.equals("") && (Integer.parseInt(number) < 0 ) )
-				negativeNumbers.add(number);
+		int result = 0;
+		String [] inputNumbers = trimmedInput.split("[^-0-9]");
+		checkForNegatives(inputNumbers);
+		for (String number : inputNumbers) {
+			if ( !number.equals("") && Integer.parseInt(number) < 1001)
+				result += Integer.parseInt(number);
 		}
 		
-		if (!negativeNumbers.isEmpty())
-			throw new IllegalArgumentException("Negative numbers not allowed: " + negativeNumbers);
+		return result;
 	}
 
-	private int add(String[] numbersToAdd) {
-		int resultOfAdding = 0;
-		for (String number : numbersToAdd) {
-			if (!number.equals("") && Integer.parseInt(number) < 1001 )
-				resultOfAdding += Integer.parseInt(number);
+	private void checkForNegatives(String[] inputNumbers) {
+		List<String> negativesFound = new ArrayList<String>();
+		for (String number : inputNumbers) {
+			if ( !number.equals("") && Integer.parseInt(number) < 0 )
+				negativesFound.add(number);
 		}
-		return resultOfAdding;
+		
+		if (!negativesFound.isEmpty())
+			throw new IllegalArgumentException("Negatives found: " + negativesFound);
+		
 	}
-	
 }
