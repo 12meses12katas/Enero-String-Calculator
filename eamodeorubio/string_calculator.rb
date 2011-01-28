@@ -2,7 +2,6 @@
 
 class StringCalculator
 	DEFAULT_DELIMITER_DETECTOR = /\,|\n/
-	CUSTOM_DELIMITER_PARSERS = [/^\/\/(.)\n/, /^\/\/((?:\[[^\]]+\])+)\n/]
 
 	def initialize(numbers)
 		@numbers=numbers
@@ -30,11 +29,9 @@ class StringCalculator
 	end
 
 	def detect_and_consume_custom_delimiter_if_any
-		CUSTOM_DELIMITER_PARSERS.detect do |customDelimiterDetectorRegExp|
-			if customDelimiterMatch = customDelimiterDetectorRegExp.match(@numbers) 
-				extractAllDelimiters(customDelimiterMatch[1])
-				@numbers = @numbers[customDelimiterMatch.end(0)..-1]
-			end
+		if customDelimiterMatch = /^\/\/([^\n]+)\n/.match(@numbers) 
+			extractAllDelimiters(customDelimiterMatch[1])
+			@numbers = @numbers[customDelimiterMatch.end(0)..-1]
 		end
 	end
 
