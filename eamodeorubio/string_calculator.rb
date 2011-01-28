@@ -1,13 +1,11 @@
 # StringCalculator in Ruby 1.8.x
 
 class StringCalculator
-	DEFAULT_DELIMITER_DETECTOR = /\,|\n/
-
 	def initialize(numbers)
 		@numbers=numbers
 		@result=nil
 		@errors=''
-		@delimiterDetectorRegExp=DEFAULT_DELIMITER_DETECTOR
+		@delimiterDetectorRegExp=/\,|\n/
 		detect_and_consume_custom_delimiter_if_any
 	end
 
