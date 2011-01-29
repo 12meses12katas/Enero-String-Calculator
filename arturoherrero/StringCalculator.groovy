@@ -16,6 +16,10 @@ class StringCalculatorTest extends GroovyTestCase {
         assert stringCalculator.add("1,2") == 3
     }
     
+    void testStringNumbersReturnTheirSum() {
+        assert stringCalculator.add("1,2,3") == 6
+    }
+    
 }
 
 class StringCalculator {
