@@ -17,7 +17,7 @@ class StringCalculator:
         return re.findall('(\d+)[,|\n]?', string)
 
     def __validate(self, string, separator):
-        pattern = re.compile('(\d+[\n|%s])*((\d+))'%separator)
-        if not re.match(pattern, string):
+        pattern = re.compile('^(//.\n)?(\d+[\n|%s])*(\d+)$'%separator)
+        if not re.search(pattern, string):
             raise SyntaxError("invalid input")
     
