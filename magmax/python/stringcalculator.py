@@ -30,20 +30,27 @@ class StringCalculator:
 
     def __extract_separator(self):
         match = re.match(self.PATTERN_SEPARATOR, self.input)
-        if match:
-            self.separator = match.groups()[0]
+        if not match:
+            return
+        for group in match.groups():
+            if group:
+                self.separator = group
 
     def __validate(self):
-        if not re.search(self.PATTERN_VALIDATION, self.input):
+        pattern = re.compile(self.PATTERN_VALIDATION)
+        print self.PATTERN_VALIDATION.replace('\n','\\n')
+        if not re.search(pattern, self.input):
             raise SyntaxError("invalid input")
     
 
 
     def __pattern_numbers(self):
-        return '(\d+)[%c|\n]?' % self.separator
+        return '(\d+)[(?:%s)|\n]?' % self.separator
 
     def __pattern_separator(self):
-        return '^//(.)\n'
+        simple   = '//(.)\n'
+        multiple = '//\[(.+)\]\n'
+        return '^(?:%s)|(?:%s)' % (simple, multiple)
 
     def __pattern_validation(self):
         return '^(%s)?(%s)*\d+$' % (self.PATTERN_SEPARATOR, self.PATTERN_NUMBERS)

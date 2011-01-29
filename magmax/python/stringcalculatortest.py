@@ -44,5 +44,8 @@ class StringCalculatorTest (unittest.TestCase):
     def test_numbers_bigger_than_1000_must_be_ignored(self):
         self.assertEqual(2, self.sut.add("1001,2"))
 
+    def test_delimiters_with_any_length(self):
+        self.assertEqual(6, self.sut.add("//[***]\n1***2***3"))
+
 if __name__ == '__main__':
     unittest.main()
