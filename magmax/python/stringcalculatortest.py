@@ -26,6 +26,9 @@ class StringCalculatorTest (unittest.TestCase):
     def test_more_numbers(self):
         self.assertEqual(25, self.sut.add("1,10,4,5,3,2"))
     
+    def test_return_is_a_separator(self):
+        self.assertEqual(9, self.sut.add("1,2\n6"))
+
 
 if __name__ == '__main__':
     unittest.main()
