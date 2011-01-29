@@ -68,6 +68,8 @@ begin
   AssertEquals(  0, StringCalculator.Add('//,\n150;2'));  // hay errores en el delimitador.
   AssertEquals(152, StringCalculator.Add('//,\n150,2'));
   AssertEquals(152, StringCalculator.Add('//@\n150@2'));
+  FValorMetodoGenerico := '//@\150@2';
+  AssertException('Delimiter format error', ExceptionDelimiterFormat, @UnMetodoGenerico);
 end;
 
 procedure TTestStringCalculator.UnMetodoGenerico;

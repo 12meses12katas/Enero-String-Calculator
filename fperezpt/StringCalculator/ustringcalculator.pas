@@ -10,14 +10,17 @@ uses
 type
   TIntegerList = specialize TFPGList<Integer>;
   ExceptionNegativeAddend = Class(Exception);
+  ExceptionDelimiterFormat = Class(Exception);
 
   { TStringCalculator }
   TStringCalculator = class
   private
+    FDelimiterInitToken: string;
     FDefaultDelimiter: char;
-    procedure ChangeValidDelimiters(var Addends: string);
-    function SplitSumands(Addends: string): TStringList;
-    function CheckSumandsValues(const Addends: TStringList): TIntegerList;
+    procedure SetValidDelimiters(var Addends: string);
+    function SplitAddends(Addends: string): TStringList;
+    function CheckAddendsValues(const Addends: TStringList): TIntegerList;
+    property DelimiterInitToken: string read FDelimiterInitToken;
   public
     constructor Create(DefaultDelimiter: char=',');
     function Add(const Addends: string): Integer;
@@ -29,20 +32,32 @@ implementation
 
 { TStringCalculator }
 
-procedure TStringCalculator.ChangeValidDelimiters(var Addends: string);
+procedure TStringCalculator.SetValidDelimiters(var Addends: string);
+var
+  longInitToken: Byte;
 begin
-  if (copy(Addends, 1, 2) = '//') then
+  longInitToken := Length(DelimiterInitToken);
+  if (copy(Addends, 1, longInitToken) = DelimiterInitToken) then
   begin
-    FDefaultDelimiter := Addends[3];
-    Addends := copy(Addends, 4, length(Addends))
+    if (copy(Addends, longInitToken + 2 , 2) = '\n') then
+    begin
+      // Get default token
+      FDefaultDelimiter := Addends[longInitToken + 1];
+      // Remove init token + delimiter (1) + \n separator (2).
+      Addends := copy(Addends, longInitToken + 1 + 2 + 1, length(Addends));
+    end
+    else
+    begin
+      raise ExceptionDelimiterFormat.Create('Delimiter format error');
+    end;
   end;
   // '\n' is not a new line in Pascal.  It must be replaced as any other string.
   Addends := StringReplace(Addends, '\n', DefaultDelimiter, [rfReplaceAll] );
 end;
 
-function TStringCalculator.SplitSumands(Addends: string): TStringList;
+function TStringCalculator.SplitAddends(Addends: string): TStringList;
 begin
-  ChangeValidDelimiters(Addends);
+  SetValidDelimiters(Addends);
   result := TStringList.Create;
   with result do
   begin
@@ -53,7 +68,7 @@ begin
   end;
 end;
 
-function TStringCalculator.CheckSumandsValues(const Addends: TStringList): TIntegerList;
+function TStringCalculator.CheckAddendsValues(const Addends: TStringList): TIntegerList;
 var
   x: Integer;
 begin
@@ -72,6 +87,8 @@ begin
     FDefaultDelimiter := ','
   else
     FDefaultDelimiter := DefaultDelimiter;
+
+  FDelimiterInitToken := '//';
 end;
 
 function TStringCalculator.Add(const Addends: string): Integer;
@@ -83,7 +100,7 @@ begin
 
   result := 0;
 
-  AddendList := CheckSumandsValues( SplitSumands(Addends) );
+  AddendList := CheckAddendsValues( SplitAddends(Addends) );
   try
     for Addend in AddendList do
     begin
