@@ -25,7 +25,7 @@ class StringCalculatorTest extends PHPUnit_Framework_TestCase {
      * @dataProvider dataProvider
      * @test
      */
-    public function sumaDeNumerosEnCadena($expected, $string) {
+    public function sumNumbersFromAstring($expected, $string) {
         $this->assertEquals($expected, $this->calculator->add($string));
     }
 
@@ -33,7 +33,7 @@ class StringCalculatorTest extends PHPUnit_Framework_TestCase {
      * @test
      * @expectedException InvalidArgumentException
      */
-    public function noSeAceptanNumerosNegativos(){
+    public function negativeNumbersAreNotAllowed(){
        $this->calculator->add("1,-2");
     }
 
