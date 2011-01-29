@@ -29,6 +29,8 @@ class StringCalculatorTest (unittest.TestCase):
     def test_return_is_a_separator(self):
         self.assertEqual(9, self.sut.add("1,2\n6"))
 
+    def test_changing_separator(self):
+        self.assertEqual(3, self.sut.add("//;\n1;2"))
 
 if __name__ == '__main__':
     unittest.main()
