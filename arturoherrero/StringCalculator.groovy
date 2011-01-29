@@ -20,12 +20,16 @@ class StringCalculatorTest extends GroovyTestCase {
         assert stringCalculator.add("1,2,3") == 6
     }
     
+    void testStringNumbersWithNewLinesReturnTheirSum() {
+        assert stringCalculator.add("1\n2,3") == 6
+    }
+    
 }
 
 class StringCalculator {
 
     int add(String numbers) {
-        numbers.replaceAll(" ", "0").split(",").inject(0) { sum, number ->
+        numbers.replaceAll("\n", ",").replaceAll(" ", "0").split(",").inject(0) { sum, number ->
             sum += number.toInteger()
         }
     }
