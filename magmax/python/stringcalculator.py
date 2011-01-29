@@ -14,8 +14,14 @@ class StringCalculator:
         self.input = number
         result = 0
         for val in self.__split_string():
-            result += int(val)
+            result += self.__correct_number(val)
         return result
+
+    def __correct_number (self, value):
+        number = int(value)
+        if number > 1000:
+            return 0
+        return number
 
     def __split_string (self):
         self.__extract_separator()
