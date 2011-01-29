@@ -18,8 +18,15 @@ class StringCalculator:
         return result
 
     def __split_string (self):
+        self.__extract_separator()
         self.__validate()
         return re.findall('(\d+)[,|\n]?', self.input)
+
+    def __extract_separator(self):
+        pattern = re.compile('^//(.)\n')
+        match = re.match(pattern, self.input)
+        if match:
+            self.separator = match.groups()[0]
 
     def __validate(self):
         pattern = re.compile('^(//.\n)?(\d+[\n|%s])*(\d+)$'%self.separator)
