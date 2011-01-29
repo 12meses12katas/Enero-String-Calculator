@@ -15,13 +15,13 @@ class StringCalculatorTest (unittest.TestCase):
         self.assertEqual(1, self.sut.add("1"))
 
     def test_string_with_a_long_number(self):
-        self.assertEqual(123456789, self.sut.add("123456789"))
+        self.assertEqual(123, self.sut.add("123"))
 
     def test_two_numbers(self):
         self.assertEqual(2, self.sut.add("1,1"))
 
     def test_two_large_numbers(self):
-        self.assertEqual(999999999, self.sut.add("123456789,876543210"))
+        self.assertEqual(999, self.sut.add("123,876"))
 
     def test_more_numbers(self):
         self.assertEqual(25, self.sut.add("1,10,4,5,3,2"))
@@ -40,6 +40,9 @@ class StringCalculatorTest (unittest.TestCase):
 
     def test_changing_separator(self):
         self.assertEqual(3, self.sut.add("//;\n1;2"))
+
+    def test_numbers_bigger_than_1000_must_be_ignored(self):
+        self.assertEqual(2, self.sut.add("1001,2"))
 
 if __name__ == '__main__':
     unittest.main()
