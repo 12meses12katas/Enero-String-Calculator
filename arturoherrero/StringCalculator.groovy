@@ -25,13 +25,8 @@ class StringCalculatorTest extends GroovyTestCase {
 class StringCalculator {
 
     int add(String numbers) {
-        if (numbers == " ") {
-            0
-        }
-        else {
-            numbers.split(",").inject(0) { sum, number ->
-                sum += number.toInteger()
-            }
+        numbers.replaceAll(" ", "0").split(",").inject(0) { sum, number ->
+            sum += number.toInteger()
         }
     }
     
