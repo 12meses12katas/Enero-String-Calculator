@@ -10,59 +10,42 @@ class StringCalculatorTest extends PHPUnit_framework_TestCase {
         $this->sc = new StringCalculator();
     }
 
-    public function testFramework() {
-        $this->assertTrue(true);
+    public function dataProvider() {
+        return array(
+            "sumaVaciaDevuelveCero" => array(0, ""),
+            "sumaUnSoloNumero1" => array(1, "1"),
+            "sumaUnSoloNumero2" => array(332, "332"),
+            "sumaDosNumeros1" => array(2, "1,1"),
+            "sumaDosNumeros2" => array(22, "10,12"),
+            "sumaVariosNumeros1" => array(6, "1,2,3"),
+            "sumaVariosNumeros2" => array(60, "10,20,30"),
+            "sumaVariosNumerosMasDeMil" => array(460, "10,20,30,400,1000"),
+            "sumaConRetornosYComas1" => array(6, "1\n2,3"),
+            "sumaConRetornosYComas2" => array(3, "1\n2"),
+            "sumaConfigurandoDelimitador1" => array(3, "//;\n1;2"),
+            "sumaConfigurandoDelimitador2" => array(7, "//;\n1;2;3\n1"),
+            "sumaConfigurandoDelimitadoLargo1" => array(6, "//[***]\n1***2***3"),
+            "sumaConfigurandoDelimitadoLargo2" => array(6, "//[+*+]\n1+*+2+*+3"),
+            "sumaConfigurandoDelimitadorMultiple" => array(3, "//;\n1;2"),
+        );
     }
 
-    public function testSumaVacio() {
-        $this->assertEquals($this->sc->add(''), 0);
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testSumaString($suma,$string) {
+        $this->assertEquals($suma,$this->sc->add($string));
     }
 
-    public function testSumaUnSoloNumero() {
-
-        $this->assertEquals($this->sc->add('1'), 1);
-        $this->assertEquals($this->sc->add('332'), 332);
-    }
-
-    public function testSumaDosNumeros() {
-        $this->assertEquals($this->sc->add('1,1'), 2);
-        $this->assertEquals($this->sc->add('10,12'), 22);
-    }
-
-    public function testSumaVariosNumeros() {
-        $this->assertEquals($this->sc->add('1,2,3'), 6);
-        $this->assertEquals($this->sc->add('10,20,30'), 60);
-        $this->assertEquals($this->sc->add('10,20,30,400,1000'), 460);
-    }
-
-    public function testRetornosComas() {
-        $this->assertEquals($this->sc->add("1\n2"), 3);
-        $this->assertEquals($this->sc->add("1,2\n3"), 6);
-    }
-
+    /**
+     *  @expectedException InvalidArgumentException
+     */
     public function testExpcepcionNegativa() {
-
-        try {
-            $this->sc->add('1,-2,3');
-        } catch (Exception $exception) {
-
-        }
+        $this->sc->add('1,-2,3');
     }
 
-    public function testCambioDelimitador() {
-        $this->assertEquals($this->sc->add("//;\n1;2"), 3);
-        $this->assertEquals($this->sc->add("//;\n1;2;3\n1"), 7);
-    }
 
-    public function testCambioDelimitadorLargo() {
-        $this->assertEquals($this->sc->add("//[***]\n1***2***3"), 6);
-        $this->assertEquals($this->sc->add("//[+*+]\n1+*+2+*+3"), 6);
-    }
 
-    public function testDelimitadoresMultiples() {
-        $this->assertEquals($this->sc->add("//[+][%]\n1+2%3"), 6);
-        $this->assertEquals($this->sc->add("//[+**][%--]\n1+**2%--3"), 6);
-    }
 
 }
 

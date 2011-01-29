@@ -24,7 +24,7 @@ class StringCalculator {
     const PATRON_FORBIDDEN_DELIMITERS = '/(\*|\+)/';
     const DEFAULT_DELIMITER = ',';
 
-    protected  $delimiter = ',';
+    protected  $delimiter = self::DEFAULT_DELIMITER;
 
 
     private function hasDelimiter($string) {
@@ -58,12 +58,12 @@ class StringCalculator {
 
     private function cleanString($string) {
 
-        if (preg_match(self::PATRON_ERR_NEG,$string,$values)) throw new Exception("negatives not allowed");
+        if (preg_match(self::PATRON_ERR_NEG,$string,$values)) throw new  InvalidArgumentException("negatives not allowed");
 
         $stringClean = preg_replace(self::PATRON_NEWLINE,$this->delimiter,$string);
 
         if (preg_match(self::PATRON_SUM, $stringClean, $match)) return preg_split("/".$this->delimiter."/", $stringClean);
-        else throw new Exception ('Unknown format');
+        else throw new  InvalidArgumentException ('Unknown format');
     }
 
 
