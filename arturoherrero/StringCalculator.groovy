@@ -29,7 +29,7 @@ class StringCalculatorTest extends GroovyTestCase {
 class StringCalculator {
 
     int add(String numbers) {
-        numbers.replaceAll("\n", ",").replaceAll(" ", "0").split(",").inject(0) { sum, number ->
+        numbers.replaceAll(/\D/, "0").inject(0) { sum, number ->
             sum += number.toInteger()
         }
     }
