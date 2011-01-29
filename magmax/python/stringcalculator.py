@@ -40,7 +40,7 @@ class StringCalculator:
         return '^//(.)\n'
 
     def __pattern_validation(self):
-        return '^(%s)?(%s)*(\d+)$' % (self.PATTERN_SEPARATOR, self.PATTERN_NUMBERS)
+        return '^(%s)?(%s)*\d+$' % (self.PATTERN_SEPARATOR, self.PATTERN_NUMBERS)
 
     PATTERN_VALIDATION = property(__pattern_validation)
     PATTERN_SEPARATOR  = property(__pattern_separator)
