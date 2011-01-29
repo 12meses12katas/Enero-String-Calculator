@@ -22,14 +22,12 @@ class StringCalculator {
 
     int add(String numbers) {
         if (numbers == " ") {
-            return 0
+            0
         }
         else {
-            def sum = 0
-            numbers.split(",").each {
-                sum += it.toInteger()
+            numbers.split(",").inject(0) { sum, number ->
+                sum += number.toInteger()
             }
-            return sum
         }
     }
     
