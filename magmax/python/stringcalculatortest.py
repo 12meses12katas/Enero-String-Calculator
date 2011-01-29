@@ -35,7 +35,7 @@ class StringCalculatorTest (unittest.TestCase):
     def test_invalid_input_without_separator(self):
         self.assertRaises(SyntaxError, self.sut.add, "//\n1")
     
-    def _test_invalid_input_erroneous_separator(self):
+    def test_invalid_input_erroneous_separator(self):
         self.assertRaises(SyntaxError, self.sut.add, "//;\n1,2\n3")
 
     def test_changing_separator(self):

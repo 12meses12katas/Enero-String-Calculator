@@ -20,16 +20,28 @@ class StringCalculator:
     def __split_string (self):
         self.__extract_separator()
         self.__validate()
-        return re.findall('(\d+)[,|\n]?', self.input)
+        return re.findall(self.PATTERN_NUMBERS, self.input)
 
     def __extract_separator(self):
-        pattern = re.compile('^//(.)\n')
-        match = re.match(pattern, self.input)
+        match = re.match(self.PATTERN_SEPARATOR, self.input)
         if match:
             self.separator = match.groups()[0]
 
     def __validate(self):
-        pattern = re.compile('^(//.\n)?(\d+[\n|%s])*(\d+)$'%self.separator)
-        if not re.search(pattern, self.input):
+        if not re.search(self.PATTERN_VALIDATION, self.input):
             raise SyntaxError("invalid input")
     
+
+
+    def __pattern_numbers(self):
+        return '(\d+)[%c|\n]?' % self.separator
+
+    def __pattern_separator(self):
+        return '^//(.)\n'
+
+    def __pattern_validation(self):
+        return '^(%s)?(%s)*(\d+)$' % (self.PATTERN_SEPARATOR, self.PATTERN_NUMBERS)
+
+    PATTERN_VALIDATION = property(__pattern_validation)
+    PATTERN_SEPARATOR  = property(__pattern_separator)
+    PATTERN_NUMBERS    = property(__pattern_numbers)
