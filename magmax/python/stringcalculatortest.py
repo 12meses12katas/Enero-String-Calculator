@@ -23,6 +23,8 @@ class StringCalculatorTest (unittest.TestCase):
     def test_two_large_numbers(self):
         self.assertEqual(999999999, self.sut.add("123456789,876543210"))
 
+    def test_more_numbers(self):
+        self.assertEqual(25, self.sut.add("1,10,4,5,3,2"))
     
 
 if __name__ == '__main__':
