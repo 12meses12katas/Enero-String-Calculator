@@ -17,5 +17,9 @@ class StringCalculatorTest (unittest.TestCase):
     def test_string_with_a_long_number(self):
         self.assertEqual(123456789, self.sut.add("123456789"))
 
+    def test_two_numbers(self):
+        self.assertEqual(2, self.sut.add("1,1"))
+    
+
 if __name__ == '__main__':
     unittest.main()
