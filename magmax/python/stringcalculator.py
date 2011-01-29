@@ -4,9 +4,6 @@
 import re
 
 class StringCalculator:
-    def __split_string (self, string):
-        return re.findall('(\d+)[,|\n]?', string)
-
     def add(self, number):
         if not number:
             return 0
@@ -15,5 +12,12 @@ class StringCalculator:
             result += int(val)
         return result
 
-    
+    def __split_string (self, string):
+        self.__validate(string, ',')
+        return re.findall('(\d+)[,|\n]?', string)
+
+    def __validate(self, string, separator):
+        pattern = re.compile('(\d+[\n|%s])*((\d+))'%separator)
+        if not re.match(pattern, string):
+            raise SyntaxError("invalid input")
     
