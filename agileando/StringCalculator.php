@@ -15,7 +15,7 @@ class StringCalculator {
     //put your code here
     const PATRON_SUM =  '/([[:digit:]]+(,))*([[:digit:]]+)$/';
     const PATRON_ERR_NEG  =  '/(-\d+)/';
-    const PATRON_4D = '/(\d\d\d\d+)/s';
+    const PATRON_4DIGITS = '/(\d\d\d\d+)/s';
     const PATRON_HAS_DELIMITER = '/^\/\/(.*)\n/';
     const PATRON_DELIMITER_SHORT = '/^\/\/(\W+)\n/';
     const PATRON_DELIMITER_LONG = '/^\/\/\[(\W+)\]\n/';
@@ -24,9 +24,9 @@ class StringCalculator {
     const PATRON_NEWLINE = '/[\r\n]/';
     const PATRON_FORBIDDEN_DELIMITERS = '/(\*|\+)/';
     const DEFAULT_DELIMITER = ',';
+    const EMPTY_STRING = "";
 
     protected  $delimiter = self::DEFAULT_DELIMITER;
-
 
     private function hasDelimiter($string) {
         return preg_match(self::PATRON_HAS_DELIMITER,$string,$match);
@@ -52,7 +52,7 @@ class StringCalculator {
             $this->delimiter = $match[1];
         }
 
-        $string =  preg_replace($patron,"",$string);
+        $string =  preg_replace($patron,self::EMPTY_STRING,$string);
         
         return $string;
     }
@@ -60,11 +60,10 @@ class StringCalculator {
     private function cleanString($string) {
 
         if (preg_match(self::PATRON_ERR_NEG,$string,$values)) throw new  InvalidArgumentException("negatives not allowed");
-        if (preg_match(self::PATRON_4D,$string,$match)) $string = preg_replace(self::PATRON_4D,'0',$string);
+        if (preg_match(self::PATRON_4DIGITS,$string,$match)) $string = preg_replace(self::PATRON_4DIGITS,'0',$string);
         if (preg_match(self::PATRON_NEWLINE,$string,$match)) $string = preg_replace(self::PATRON_NEWLINE,$this->delimiter,$string);
-        if (preg_match(self::PATRON_SUM, $string, $match)) {
-            return preg_split("/".$this->delimiter."/", $string);
-        } else throw new  InvalidArgumentException ('Unknown format');
+        if (preg_match(self::PATRON_SUM, $string, $match)) return preg_split("/".$this->delimiter."/", $string);
+        throw new  InvalidArgumentException ('Unknown format');
     }
 
 
