@@ -35,11 +35,16 @@ describe StringCalculator do
     subject.calculate('1,2,1001').should == 3
   end
 
-  it 'uses delimiters with the format “//[delimiter]\\n”' do
+  it 'uses delimiters with the format "//[delimiter]\\n"' do
     subject.calculate("//[***]\n1***2***3").should == 6
   end
 
-  it 'uses multiple delimiters with the format “//[delim1][delim2]\n”' do
+  it 'uses multiple delimiters with the format "//[delim1][delim2]\n"' do
     subject.calculate("//[*][%]\n1*2%3").should == 6
+  end
+  
+  it 'correctly detects delimiters on "//[,]\n1*2%3"' do
+    s = subject.send(:look_for_delimiter, "//[,]\n1,2,3").inspect
+    s.should == "/,/"
   end
 end

@@ -20,7 +20,7 @@ class StringCalculator
     return %r{\n|,} unless header
 
     scan = $1.scan(%r{(?<=\[)[^\]]+(?=\])})
-    escape = Regexp.escape(scan.join(","))
-    Regexp.new(escape.gsub(",", "|"))
+    escape = scan.collect {|delim| Regexp.escape(delim)}.join("|")
+    Regexp.new(escape)
   end
 end
