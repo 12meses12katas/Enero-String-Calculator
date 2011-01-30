@@ -24,14 +24,28 @@ class StringCalculatorTest extends GroovyTestCase {
         assert stringCalculator.add("1\n2,3") == 6
     }
     
+    void testStringNumbersWithDelimiterReturnTheirSum() {
+        assert stringCalculator.add("//;\n1\n2") == 3
+    }
+    
 }
 
 class StringCalculator {
 
     int add(String numbers) {
-        numbers.replaceAll(/\D/, "0").inject(0) { sum, number ->
+        numbers = changeDelimiterToComma(numbers)
+        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").inject(0) { sum, number ->
             sum += number.toInteger()
         }
     }
     
+    private String changeDelimiterToComma(String numbers) {
+        numbers.find(/\/\/\S[\n]/) { match ->
+            def delimeter = match[2]
+            numbers = numbers.minus(match).replaceAll(delimeter, ",")
+        }
+        return numbers
+    }
+    
 }
+
