@@ -51,6 +51,10 @@ class StringCalculatorSpec extends SpecificationWithJUnit {
     "an exception must be thrown when negative number is passed" in {
       StringCalculator.add("-3") must throwA(new RuntimeException("negative numbers not allowed: -3"))
     }
+    
+    "an exception must be thrown when a list of negative number are passed" in {
+      StringCalculator.add("-3,1,-4") must throwA(new RuntimeException("negative numbers not allowed: -3 -4"))
+    }
   }
 }
 
