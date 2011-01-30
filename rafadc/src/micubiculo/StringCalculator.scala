@@ -8,9 +8,9 @@ object StringCalculator {
   val CARRIAGE_RETURN_POSITION = 1
   val NEW_DELIMITER_POSITION = 2
   val START_OF_STRING_TO_COMPUTE = 4
-	
+
   def add(input: String): Integer = {
-	var stringToCompute = input
+    var stringToCompute = input
     val delimiter = new Array[Char](MAX_DELIMITERS)
     delimiter(DEFAULT_DELIMITER_POSITION) = DEFAULT_DELIMITER
     delimiter(CARRIAGE_RETURN_POSITION) = CARRIAGE_RETURN
@@ -19,16 +19,26 @@ object StringCalculator {
     }
     if (isDefaultDelimiterChanged(input)) {
       delimiter(DEFAULT_DELIMITER_POSITION) = input(NEW_DELIMITER_POSITION)
-      stringToCompute = input.substring(START_OF_STRING_TO_COMPUTE,input.size)
+      stringToCompute = input.substring(START_OF_STRING_TO_COMPUTE, input.size)
     }
-    return computeSum(delimiter,stringToCompute)
+    return computeSum(delimiter, stringToCompute)
   }
 
   private def isEmpty(input: String): Boolean = input.size == 0
-  
-  private def isDefaultDelimiterChanged(input: String): Boolean = input.size>START_OF_STRING_TO_COMPUTE && input.substring(0,NEW_DELIMITER_POSITION)=="//"
 
-  private def computeSum(delimiter : Array[Char], input: String): Integer = {
-    input.split(delimiter).foldLeft(0) { (sum, current) => sum + current.toInt }
+  private def isDefaultDelimiterChanged(input: String): Boolean = input.size > START_OF_STRING_TO_COMPUTE && input.substring(0, NEW_DELIMITER_POSITION) == "//"
+
+  private def computeSum(delimiter: Array[Char], input: String): Int = {
+    input.split(delimiter).foldLeft(0) { (sum, current) => computeNumber(sum, current) }
   }
+
+  private def computeNumber(sum: Int, current: String): Int = {
+    if (isNegativeNumber(current)) {
+      throw new RuntimeException("negative numbers not allowed: "+current)
+    } else {
+      sum + current.toInt
+    }
+  }
+  
+  private def isNegativeNumber(number:String) : Boolean = number.toInt < 0
 }
