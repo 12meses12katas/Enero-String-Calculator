@@ -27,7 +27,14 @@ class StringCalculatorSpec extends SpecificationWithJUnit {
     "return the sum in case four number are given" in {
       StringCalculator.add("12,5,1,1") must beEqualTo(19)
     }
+    
+    "return the sum in case two number are given separated with a \n" in {
+      StringCalculator.add("12\n5") must beEqualTo(17)
+    }
+    
+    "return the sum in case we use different separators" in {
+      StringCalculator.add("12,1\n5") must beEqualTo(18)
+    }
   }
 }
-
 
