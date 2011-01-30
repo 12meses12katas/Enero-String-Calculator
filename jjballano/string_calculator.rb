@@ -1,17 +1,49 @@
 class StringCalculator
-
-   def calculate (string)
-      string.nil? || string.empty? ? 0 : calculate_sum_of(string)
+  
+   def initialize
+     @separator = ","
    end
 
-   def calculate_sum_of(string)
-      numbers = split_string_in_numbers(string)
-      sum = 0
-      numbers.inject(0) { |number, sum| sum += number }
-      return sum
+   def calculate(string)
+      if (string.nil?)
+         0
+      else
+         change_separator(string)
+         calculate_sum_of_numbers_in(string_without_header(string)) 
+      end
    end
 
-   def split_string_in_numbers(string)
-      string.split(',').map{ |number| number.to_i}
+   def change_separator(string)
+      if (string_has_header?(string))
+         @separator = get_separator(string)
+      end
+   end
+
+   def string_has_header?(string)
+      string.start_with?("//")
+   end
+
+   def get_separator(string)
+      initial = string.index("//") + 2
+      final = string.index("\\n") - 1
+      string[initial..final]
+   end
+
+   def string_without_header(string)
+      if (string_has_header?(string))
+         initial = string.index("\\n") + 2
+         string[initial..-1]
+      else
+         string
+      end
+   end
+
+   def calculate_sum_of_numbers_in(string)
+      numbers = string.split(number_separator_char).collect { |number| number.to_i}
+      return numbers.inject(0) { |sum, number| sum + number }
+   end
+   
+   def number_separator_char
+      Regexp.new("#{@separator}|\\n")
    end
 end

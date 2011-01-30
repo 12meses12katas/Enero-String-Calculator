@@ -1,4 +1,4 @@
-require 'string_calculator'
+require './string_calculator'
 
 describe StringCalculator do
 
@@ -30,5 +30,16 @@ describe StringCalculator do
 	 @calculator.calculate("3,5,10,6").should == 24
       end
   end
- 
+
+  describe "string_with_new_lines_return_a_sum_of_the_numbers" do
+      it "return 12 if string is '7\n2,3'" do
+         @calculator.calculate("7\n2,3").should == 12
+      end
+  end 
+
+  describe "string_with_header_can_change_the_separator" do
+      it "return 15 if string is '//;\\n5;4;6'" do
+	 @calculator.calculate("//;\\n5;4;6").should == 15
+      end
+  end
 end
