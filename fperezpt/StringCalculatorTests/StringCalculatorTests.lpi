@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <MainUnit Value="0"/>
+      <UseXPManifest Value="True"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <Language Value=""/>
+      <CharSet Value=""/>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="FPCUnitConsoleRunner"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="7">
+      <Unit0>
+        <Filename Value="StringCalculatorTests.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="StringCalculatorTests"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="59" Y="19"/>
+        <UsageCount Value="28"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestStringCalculatorAdd"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="49"/>
+        <CursorPos X="94" Y="50"/>
+        <UsageCount Value="28"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStringCalculator"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="36"/>
+        <CursorPos X="95" Y="44"/>
+        <UsageCount Value="28"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="C:\lazarus\fpc\2.2.4\source\rtl\objpas\fgl.pp"/>
+        <UnitName Value="fgl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="82"/>
+        <CursorPos X="22" Y="87"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\objpas\fgl.pp"/>
+        <UnitName Value="fgl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="85"/>
+        <CursorPos X="18" Y="100"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\inc\objpash.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="170"/>
+        <CursorPos X="23" Y="185"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\delphibasura\LAZARUS\StringCalculator\ustringcalculator.pas"/>
+        <UnitName Value="uStringCalculator"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+    </Units>
+    <JumpHistory Count="17" HistoryIndex="16">
+      <Position1>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="60" Column="46" TopLine="51"/>
+      </Position1>
+      <Position2>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="27" Column="29" TopLine="7"/>
+      </Position2>
+      <Position3>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="66" Column="17" TopLine="57"/>
+      </Position3>
+      <Position4>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="68" Column="19" TopLine="51"/>
+      </Position4>
+      <Position5>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="8" Column="64" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="36" Column="51" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="25" Column="21" TopLine="3"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="97" Column="26" TopLine="89"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="48" Column="47" TopLine="35"/>
+      </Position9>
+      <Position10>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="18" Column="31" TopLine="8"/>
+      </Position10>
+      <Position11>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="18" Column="31" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="47" Column="102" TopLine="22"/>
+      </Position13>
+      <Position14>
+        <Filename Value="teststringcalculatoradd.pas"/>
+        <Caret Line="72" Column="88" TopLine="47"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="35" Column="32" TopLine="32"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="55" Column="18" TopLine="30"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\StringCalculator\ustringcalculator.pas"/>
+        <Caret Line="54" Column="41" TopLine="36"/>
+      </Position17>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="10"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\StringCalculator"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

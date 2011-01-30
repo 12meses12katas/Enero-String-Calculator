@@ -10,7 +10,7 @@ class StringCalculator{
     }
 
     public function add($str_input){
-        return array_sum($this->validator->validateInput($this->parser->stringNumbers($str_input)));
+        return array_sum($this->validator->validateInput($this->parser->parseNumbersSequence($str_input)));
     }
 }
 ?>
