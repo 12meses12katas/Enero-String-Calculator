@@ -19,14 +19,15 @@ class StringCalculatorSpec extends SpecificationWithJUnit {
     "return 12 in case the input '12'" in {
       StringCalculator.add("12") must beEqualTo(12)
     }
+    
+    "return the sum in case two number are given" in {
+      StringCalculator.add("12,5") must beEqualTo(17)
+    }
+    
+    "return the sum in case four number are given" in {
+      StringCalculator.add("12,5,1,1") must beEqualTo(19)
+    }
   }
 }
 
-object StringCalculator {
-  def add(input: String): Integer = {
-    if (isEmpty(input)) return 0
-    else return input.toInt
-  }
 
-  def isEmpty(input: String): Boolean = input.size == 0
-}
