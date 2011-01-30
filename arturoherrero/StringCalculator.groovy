@@ -34,7 +34,11 @@ class StringCalculatorTest extends GroovyTestCase {
         }
         assert message.contains("negatives not allowed")
         assert message.contains("-1")
-        assert message.contains("-2")  
+        assert message.contains("-2")
+    }
+    
+    void testIgnoreBiggerNumbers() {
+        assert stringCalculator.add("2,1001") == 2
     }
     
 }
@@ -44,8 +48,11 @@ class StringCalculator {
     int add(String numbers) {
         numbers = changeDelimiterToComma(numbers)
         numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").inject(0) { sum, num ->
-            if (num.toInteger() >= 0)
-                sum += num.toInteger()
+            if (numPositive(num))
+                if (numBigger(num))
+                    sum += 0
+                else
+                    sum += num.toInteger()
             else
                 negativesNotAllowed(numbers)
         }
@@ -59,10 +66,22 @@ class StringCalculator {
         return numbers
     }
     
-    def negativesNotAllowed(String numbers) {
+    private numPositive(String num) {
+        num.toInteger() >= 0
+    }
+    
+    private numNegative(String num) {
+        num.toInteger() < 0
+    }
+    
+    private numBigger(String num) {
+        num.toInteger() > 1000
+    }
+    
+    private negativesNotAllowed(String numbers) {
         def negativeNums = []
         numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").each { num ->
-            if (num.toInteger() < 0)
+            if (numNegative(num))
                 negativeNums << num
         }
         throw new Exception("negatives not allowed " + negativeNums)
