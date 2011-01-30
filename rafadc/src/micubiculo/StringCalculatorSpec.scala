@@ -35,6 +35,14 @@ class StringCalculatorSpec extends SpecificationWithJUnit {
     "return the sum in case we use different separators" in {
       StringCalculator.add("12,1\n5") must beEqualTo(18)
     }
+    
+    "the default delimiter is changed when first line starts with //<delimiter>" in {
+      StringCalculator.add("//;\n3;5") must beEqualTo(8)
+    }
+    
+    "the default delimiter is changed and we can mix with \n" in {
+      StringCalculator.add("//;\n3;5\n2") must beEqualTo(10)
+    }
   }
 }
 
