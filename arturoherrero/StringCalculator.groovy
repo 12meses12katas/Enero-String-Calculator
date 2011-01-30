@@ -25,7 +25,16 @@ class StringCalculatorTest extends GroovyTestCase {
     }
     
     void testStringNumbersWithDelimiterReturnTheirSum() {
-        assert stringCalculator.add("//;\n1\n2") == 3
+        assert stringCalculator.add("//;\n1;2") == 3
+    }
+    
+    void testStringNumbersNegativesNotAllowed() {
+        def message = shouldFail(Exception) {
+            stringCalculator.add("1,-1,2,-2")
+        }
+        assert message.contains("negatives not allowed")
+        assert message.contains("-1")
+        assert message.contains("-2")  
     }
     
 }
@@ -34,8 +43,11 @@ class StringCalculator {
 
     int add(String numbers) {
         numbers = changeDelimiterToComma(numbers)
-        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").inject(0) { sum, number ->
-            sum += number.toInteger()
+        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").inject(0) { sum, num ->
+            if (num.toInteger() >= 0)
+                sum += num.toInteger()
+            else
+                negativesNotAllowed(numbers)
         }
     }
     
@@ -45,6 +57,15 @@ class StringCalculator {
             numbers = numbers.minus(match).replaceAll(delimeter, ",")
         }
         return numbers
+    }
+    
+    def negativesNotAllowed(String numbers) {
+        def negativeNums = []
+        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").each { num ->
+            if (num.toInteger() < 0)
+                negativeNums << num
+        }
+        throw new Exception("negatives not allowed " + negativeNums)
     }
     
 }
