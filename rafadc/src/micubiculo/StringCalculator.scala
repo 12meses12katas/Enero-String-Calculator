@@ -21,24 +21,27 @@ object StringCalculator {
       delimiter(DEFAULT_DELIMITER_POSITION) = input(NEW_DELIMITER_POSITION)
       stringToCompute = input.substring(START_OF_STRING_TO_COMPUTE, input.size)
     }
-    return computeSum(delimiter, stringToCompute)
+    val valuesToSum = stringToCompute.split(delimiter) 
+    checkForNegatives(valuesToSum)
+    return computeSum(valuesToSum)
+  }
+
+  private def checkForNegatives(values: Array[String]) = {
+    val negatives = values.filter(_.toInt < 0)
+    if (negatives.size > 0) {
+      throw new RuntimeException("negative numbers not allowed: " + negatives.mkString(" "))
+    }
   }
 
   private def isEmpty(input: String): Boolean = input.size == 0
 
   private def isDefaultDelimiterChanged(input: String): Boolean = input.size > START_OF_STRING_TO_COMPUTE && input.substring(0, NEW_DELIMITER_POSITION) == "//"
 
-  private def computeSum(delimiter: Array[Char], input: String): Int = {
-    input.split(delimiter).foldLeft(0) { (sum, current) => computeNumber(sum, current) }
+  private def computeSum(input: Array[String]): Int = {
+    input.foldLeft(0) { (sum, current) => computeNumber(sum, current) }
   }
 
-  private def computeNumber(sum: Int, current: String): Int = {
-    if (isNegativeNumber(current)) {
-      throw new RuntimeException("negative numbers not allowed: "+current)
-    } else {
-      sum + current.toInt
-    }
-  }
-  
-  private def isNegativeNumber(number:String) : Boolean = number.toInt < 0
+  private def computeNumber(sum: Int, current: String): Int = sum + current.toInt
+
+  private def isNegativeNumber(number: String): Boolean = number.toInt < 0
 }
