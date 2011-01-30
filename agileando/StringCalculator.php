@@ -15,6 +15,7 @@ class StringCalculator {
     //put your code here
     const PATRON_SUM =  '/([[:digit:]]+(,))*([[:digit:]]+)$/';
     const PATRON_ERR_NEG  =  '/(-\d+)/';
+    const PATRON_4D = '/(\d\d\d\d+)/s';
     const PATRON_HAS_DELIMITER = '/^\/\/(.*)\n/';
     const PATRON_DELIMITER_SHORT = '/^\/\/(\W+)\n/';
     const PATRON_DELIMITER_LONG = '/^\/\/\[(\W+)\]\n/';
@@ -59,29 +60,20 @@ class StringCalculator {
     private function cleanString($string) {
 
         if (preg_match(self::PATRON_ERR_NEG,$string,$values)) throw new  InvalidArgumentException("negatives not allowed");
-
-        $stringClean = preg_replace(self::PATRON_NEWLINE,$this->delimiter,$string);
-
-        if (preg_match(self::PATRON_SUM, $stringClean, $match)) return preg_split("/".$this->delimiter."/", $stringClean);
-        else throw new  InvalidArgumentException ('Unknown format');
+        if (preg_match(self::PATRON_4D,$string,$match)) $string = preg_replace(self::PATRON_4D,'0',$string);
+        if (preg_match(self::PATRON_NEWLINE,$string,$match)) $string = preg_replace(self::PATRON_NEWLINE,$this->delimiter,$string);
+        if (preg_match(self::PATRON_SUM, $string, $match)) {
+            return preg_split("/".$this->delimiter."/", $string);
+        } else throw new  InvalidArgumentException ('Unknown format');
     }
 
 
     public function add($string) {
 
-        $total = 0;
-
         if ($string == '') return 0;
         
         if ($this->hasDelimiter($string)) $string = $this->configureDelimiter($string);
-
-        $arrayOfNumbers = $this->cleanString($string);
-
-        foreach ($arrayOfNumbers as $i => $number) {
-                if ($number < 1000) $total += $number;
-        }
-        return $total;
-
+        return array_sum($this->cleanString($string));
     }
 
 }
