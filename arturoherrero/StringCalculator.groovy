@@ -47,9 +47,9 @@ class StringCalculator {
 
     int add(String numbers) {
         numbers = changeDelimiterToComma(numbers)
-        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").inject(0) { sum, num ->
-            if (numPositive(num))
-                if (numBigger(num))
+        getNumbersInList(numbers).inject(0) { sum, num ->
+            if (isPositive(num))
+                if (isBigger(num))
                     sum += 0
                 else
                     sum += num.toInteger()
@@ -66,22 +66,26 @@ class StringCalculator {
         return numbers
     }
     
-    private numPositive(String num) {
+    private getNumbersInList(String numbers) {
+        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",")
+    }
+    
+    private isPositive(String num) {
         num.toInteger() >= 0
     }
     
-    private numNegative(String num) {
+    private isNegative(String num) {
         num.toInteger() < 0
     }
     
-    private numBigger(String num) {
+    private isBigger(String num) {
         num.toInteger() > 1000
     }
     
     private negativesNotAllowed(String numbers) {
         def negativeNums = []
-        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",").each { num ->
-            if (numNegative(num))
+        getNumbersInList(numbers).each { num ->
+            if (isNegative(num))
                 negativeNums << num
         }
         throw new Exception("negatives not allowed " + negativeNums)
