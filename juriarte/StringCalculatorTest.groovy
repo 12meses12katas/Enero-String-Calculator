@@ -69,7 +69,9 @@ class StringCalculatorTest extends GroovyTestCase {
   }
 
   void testBigDelimitersWithSpecialRegexpChars() {
-    ["//[***]\n123***243":366].each { inp, out ->
+    ["//[***]\n123***243":366,
+     "//[***][+++]\n111***222+++333":666,
+     "//[*+*][+**+]\n111*+*222*+*333+**+111":777].each { inp, out ->
       assert calculator.add(inp) == out
     }
   }
