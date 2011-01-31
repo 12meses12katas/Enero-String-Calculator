@@ -5,7 +5,8 @@ unit TestStringCalculatorAdd;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testutils, testregistry, ustringcalculator;
+  Classes, SysUtils, fpcunit, testutils, testregistry,
+  uHelperCalculator, ustringcalculator, uValidator, uParser;
 
 type
 
@@ -14,8 +15,8 @@ type
   TTestStringCalculator= class(TTestCase)
   private
     FStringCalculator: TStringCalculator;
-    FValorMetodoGenerico: string;
-    procedure UnMetodoGenerico;
+    FParser: TParser;
+    FValidator: TValidator;
   protected
     procedure SetUp; override;
     procedure TearDown; override;
@@ -43,8 +44,6 @@ begin
   AssertEquals(   2, StringCalculator.Add('2'));
   AssertEquals(1234, StringCalculator.Add('1234'));
   AssertEquals(1234, StringCalculator.Add('1234,'));
-  FValorMetodoGenerico := '-1';
-  AssertException('No deberia permitir valores negativos', ExceptionNegativeAddend, @UnMetodoGenerico);
 end;
 
 procedure TTestStringCalculator.TestAddWithNArguments;
@@ -65,26 +64,23 @@ procedure TTestStringCalculator.TestAddWithOtherDelimiter;
 begin
   AssertEquals(  3, StringCalculator.Add('//;\n1;2'));
   AssertEquals(152, StringCalculator.Add('//;\n150;2'));
-  AssertEquals(  0, StringCalculator.Add('//,\n150;2'));  // hay errores en el delimitador.
-  AssertEquals(152, StringCalculator.Add('//,\n150,2'));
+  AssertEquals(350, StringCalculator.Add('//,\n150,200'));
   AssertEquals(152, StringCalculator.Add('//@\n150@2'));
-  FValorMetodoGenerico := '//@\150@2';
-  AssertException('Delimiter format error', ExceptionDelimiterFormat, @UnMetodoGenerico);
-end;
-
-procedure TTestStringCalculator.UnMetodoGenerico;
-begin
-  StringCalculator.Add(FValorMetodoGenerico);
 end;
 
 procedure TTestStringCalculator.SetUp; 
 begin
-  FStringCalculator := TStringCalculator.Create();
+  FParser := TParser.Create(',');
+  FValidator := TValidator.Create;
+  FStringCalculator := TStringCalculator.Create( FParser, FValidator );
 end; 
 
 procedure TTestStringCalculator.TearDown; 
 begin
   FreeAndNil(FStringCalculator);
+  // Don't free this guys.  They are Ref.counted and owned by FStringCalculator.
+  // FreeAndNil(FValidator);
+  // FreeAndNil(FParser);
 end; 
 
 initialization
