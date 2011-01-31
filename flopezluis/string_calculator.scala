@@ -2,6 +2,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 /*
+* Félix López
 * To test  I've used http://www.scalatest.org/getting_started_with_flat_spec
 */
 class AddSpec extends FlatSpec with ShouldMatchers {
