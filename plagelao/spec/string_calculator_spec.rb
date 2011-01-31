@@ -1,70 +1,66 @@
 require 'rspec'
 require 'string_calculator.rb'
 
-describe Separator do
- it "uses custom separators" do
-   Separator.new.split("//[[[]\n10[[20").should == ["10", "20"]
-  end
-end
-
 describe StringCalculator do
-  let(:calculator){StringCalculator.new}
-
   it "returns 0 with an empty string" do
-    calculator.add("").should == 0
+    subject.add("").should == 0
   end
-  context "with only one number returns the number" do
-    it "returns 1 when 1" do
-      calculator.add("1").should == 1
+  context "with one number" do
+    it "returns 1 with 1" do
+      subject.add("1").should == 1
     end
-    it "returns 10 when 10" do
-      calculator.add("10").should == 10
-    end
-  end
-  context "with more than one number returns the sum of the numbers" do
-    it "returns 3 when 1,2" do
-      calculator.add("1,2").should == 3
-    end
-    it "returns 4 when 2,2" do
-      calculator.add("2,2").should == 4
-    end
-    it "returns 6 when 1,2,3" do
-      calculator.add("1,2,3").should == 6
+    it "returns 20 with 20" do
+      subject.add("20").should == 20
     end
   end
-  context "works with different separators" do
-    it "returns 5 when 2\n3" do
-      calculator.add("2\n3").should == 5
+  context "with more than one number" do
+    it "returns 3 with 1,2" do
+      subject.add("1,2").should == 3
     end
-    it "returns 7 when //;\n3;4" do
-      calculator.add("//;\n3;4").should == 7
+    it "returns 4 with 1,3" do
+      subject.add("1,3").should == 4
     end
-    it "returns 8 when //[separator]\n3separator5" do
-      calculator.add("//[separator]\n3separator5").should == 8
+    it "returns 6 with 1,2,3" do
+      subject.add("1,2,3").should == 6
     end
-    context "works with more than one defined separator" do
-      it "returns 9 when //[*][+]\n1*2+6" do
-        calculator.add("//[*][+]\n1*2+6").should == 9
-      end
-      it "returns 10 when //[**][+++]\n2**2+++6" do
-        calculator.add("//[**][+++]\n2**2+++6").should == 10
-      end
-      it "returns 100 when //[**][+++]\n20**20+++60" do
-        calculator.add("//[**][+++]\n20**20+++60").should == 100
+  end
+  context "with \n as separator" do
+    it "returns 7 when 3\n4" do
+      subject.add("3\\n4").should == 7
+    end
+    it "returns 8 when 2,3\n3" do
+      subject.add("2,3\\n3").should == 8
+    end
+  end
+  context "with defined separators" do
+    context "one character separator" do
+      it "returns 9 with //;\n4;5" do
+        subject.add("//;\\n4;5").should == 9
       end
     end
-  end
-  context "greater numbers than 1000 are ignored" do
-    it "returns 0 when 1001" do
-      calculator.add("1001").should == 0
+    context "more than one character separator" do
+      it "should return 11 with //[aa]\\n5aa6" do
+        subject.add("//[aa]\\n5aa6").should == 11
+      end
     end
-  end
-  context "negative numbers are not allowed" do
-    it "raise an exception when -1" do
-      lambda{calculator.add("-1")}.should raise_error
+    context "more than one separator" do
+      it "should return 12 with //[a][b]\\n1a2b9" do
+        subject.add("//[a][b]\\n1a2b9").should == 12
+      end
+      it "should return 13 with //[aa][bb]\\n1aa3bb9" do
+        subject.add("//[aa][bb]\\n1aa3bb9").should == 13
+      end
     end
-    it "raise an exception with 'negatives not allowed: -1,-2' when -1,-2,3" do
-      lambda{calculator.add("-1,-2,3")}.should raise_error('negatives not allowed: -1, -2')
+    context "valid numbers only from 0 to 1000" do
+      it "should return 0 with 1001" do
+        subject.add("1001").should == 0
+      end
+      it "raises with negative numbers" do
+        expect{ subject.add("-1") }.to raise_error
+      end
+      it "Shows the negative numbers" do
+        expect{ subject.add("-1,2,-3") }.to raise_error("negative numbers not allowed: -1,-3")
+      end
     end
   end
 end
