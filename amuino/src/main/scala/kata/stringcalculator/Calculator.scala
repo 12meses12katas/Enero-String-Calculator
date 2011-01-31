@@ -1,5 +1,6 @@
 package kata.stringcalculator
 
+import java.util.regex.Pattern
 class NegativesNotAllowed extends RuntimeException
 
 object calculator {
@@ -10,20 +11,18 @@ object calculator {
     sum(splitNumbers(numbers))
   }
 
-  def splitNumbers(numbers: String): List[String] = {
-    val dp = numbers match {
+  def splitNumbers(numbers: String): Iterable[String] = {
+    val (separator, only_numbers) = numbers match {
       case custom_single_delim_regexp(separator, only_numbers) =>
-        ("\\Q" + separator + "\\E", only_numbers)
+        (Pattern.quote(separator), only_numbers)
       case custom_multi_delim_regexp(separator, only_numbers) =>
-        ("\\Q" + separator.split("""\]\[""").mkString("\\E|\\Q") + "\\E", only_numbers)
+        (separator.split("""\]\[""").map(Pattern.quote).mkString("|"), only_numbers)
       case _ => (",|\\n", numbers)
     }
-    val separator = dp._1
-    val only_numbers = dp._2
-    only_numbers.split(separator).toList
+    only_numbers.split(separator)
   }
 
-  def sum(numbers: List[String]): Int = numbers match {
+  def sum(numbers: Iterable[String]): Int = numbers match {
     case "" :: Nil => 0
     case n :: Nil => toInt(n)
     case a :: tail => toInt(a) + add(tail.mkString(","))
