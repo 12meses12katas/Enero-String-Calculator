@@ -26,6 +26,7 @@ class StringCalculatorTest extends GroovyTestCase {
     
     void testStringNumbersWithDelimiterReturnTheirSum() {
         assert stringCalculator.add("//;\n1;2") == 3
+        assert stringCalculator.add("//+\n1+2") == 3
     }
     
     void testStringNumbersNegativesNotAllowed() {
@@ -59,9 +60,9 @@ class StringCalculator {
     }
     
     private String changeDelimiterToComma(String numbers) {
-        numbers.find(/\/\/\S[\n]/) { match ->
-            def delimeter = match[2]
-            numbers = numbers.minus(match).replaceAll(delimeter, ",")
+        numbers.find(/(?s)\/\/(.*)\n/) { match ->
+            def delimeter = match[1]
+            numbers = numbers.minus(match[0]).replaceAll(/\${delimeter}/, ",")
         }
         return numbers
     }
