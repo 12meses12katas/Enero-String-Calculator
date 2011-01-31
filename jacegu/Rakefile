@@ -1,0 +1,58 @@
+def show_and_execute(command)
+  #puts "#{command}"
+  `#{command}`
+end
+
+def remove_dir_if_exists(dir_path)
+  show_and_execute "rm -r #{dir_path}" if File.exists?(dir_path)
+end
+
+class String
+  def append_to(file_path)
+    show_and_execute "echo \"#{self}\" >> #{file_path}" 
+  end
+end
+
+def kata_name
+  ENV['kata'] || 'kata'
+end
+
+def spec_file
+  "spec/#{kata_name}_spec.rb"
+end
+
+def lib_file
+  "lib/#{kata_name}.rb"
+end
+
+desc "Creates a new kata environment (specify kata with kata=$kata_name)."
+task :new => [:clear, :setup_dirs, :setup_files, :wire_up, :setup_autotest] 
+
+task :clear do
+  remove_dir_if_exists "lib"
+  remove_dir_if_exists "spec"
+  remove_dir_if_exists "autotest"
+end
+
+task :setup_dirs do
+  show_and_execute "mkdir lib spec autotest"   
+end
+
+task :setup_files do
+  show_and_execute "touch #{spec_file} #{lib_file}"
+end
+
+task :wire_up do
+  ADD_LIB_TO_PATH = "$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib' )"
+  SPEC_HELPER = 'spec/spec_helper.rb'
+  ADD_LIB_TO_PATH.append_to SPEC_HELPER
+  "require '#{kata_name}'".append_to SPEC_HELPER
+  "require 'spec_helper'\n".append_to spec_file
+end
+
+desc "Adds discovery for rspec2 in autotest"
+task :setup_autotest do 
+  DISCOVER_RSPEC2 = "Autotest.add_discovery { 'rspec2' }"
+  show_and_execute "touch autotest/discover.rb"
+  DISCOVER_RSPEC2.append_to "autotest/discover.rb"
+end 
