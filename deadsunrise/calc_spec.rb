@@ -39,7 +39,7 @@ describe 'calc' do
     it "should rise an exception if numbers are negative" do
       lambda {@calc.add("-2")}.should raise_error(RuntimeError, 'negatives not allowed -2')
       lambda {@calc.add("1,-2,3")}.should raise_error(RuntimeError, 'negatives not allowed -2')
-      lambda {@calc.add("1,-2,-3")}.should raise_error(RuntimeError, 'negatives not allowed -2,-3')
+      lambda {@calc.add("//;\n1;2;1,-2,-3")}.should raise_error(RuntimeError, 'negatives not allowed -2,-3')
     end
 
 
@@ -49,6 +49,15 @@ describe 'calc' do
 
     it "should allow delimiters longer than 1 char" do
       @calc.add("//[***]\n1***2***3").should == 6
+    end
+
+    it "should allow multiple delimiters" do
+      @calc.add("//[*][%]\n1*2%3").should == 6
+    end
+
+    it "should allow multiple delimiters longer than 1char" do
+      @calc.add("//[,,,][;][;;]\n1,,,2;3").should == 6
+      @calc.add("//;[***]\n1,***2,3").should == 6
     end
 
 

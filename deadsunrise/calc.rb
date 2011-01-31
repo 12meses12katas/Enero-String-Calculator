@@ -2,38 +2,41 @@ class Calc
 
   def add(operation)
     return 0 if operation == ''
-    @delimiter = parse_delimiter(operation)
-    @clean_operation = parse(operation)
-    calculate(@clean_operation)
+    @clean_operands = clean(operation)
+    calculate(@clean_operands)
   end
 
   private
 
-  def parse(operation)
-    operands = operation.gsub(/\/\/.\n/ , '').gsub("\n",',').split(@delimiter)
+  def clean(operation)
+    operands = replace_delimiters(operation)
+    check_for_negative_operands?(operands)
     reject_big(operands)
-    negative_operands?(operands)
-    operands.map! {|s| s.to_i }
+    return operands
   end
 
+
+  def replace_delimiters(operation)
+    delimiters = parse_delimiter(operation)
+    operands = operation.gsub(/\/\/.*\n/ , '')
+    delimiters.flatten.each { |d| operands.gsub!(d.to_s,',') }
+    operands.split(',').map! {|s| s.to_i }
+  end
 
   def parse_delimiter(operation)
-    delimiter = ','
-    if operation[0..1] == "//"
-      delimiter = operation[2..2]
-    end
-    delimiter
+    delimiters = ["\n"]
+    delimiters << operation.scan(/\[([^[]+)\]/)
+    delimiters << operation.scan(/\/\/(.)\n/)
   end
 
-
-  def negative_operands?(operands)
-    negatives = operands.reject {|i| i.to_i >= 0  }
+  def check_for_negative_operands?(operands)
+    negatives = operands.reject {|i| i >= 0  }
     raise("negatives not allowed #{negatives.join(',')}") unless negatives.empty?
   end
 
 
   def reject_big(operands)
-    operands.reject! {|i| i.to_i > 1000}
+    operands.reject! {|i| i > 1000}
   end
 
 
