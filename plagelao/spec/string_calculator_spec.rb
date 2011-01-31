@@ -1,48 +1,12 @@
 require 'rspec'
-class StringCalculator
-  def add(string)
-    raise_error_if_negative_numbers_in(string)
-    split_numbers_from(string).inject(0){ |sum, numeral| sum + number_from(numeral)}
-  end
-  def raise_error_if_negative_numbers_in(string)
-    negatives = split_numbers_from(string).select{|numeral| number_from(numeral) < 0}
-    raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
-  end
-  def split_numbers_from(string, separator = Separator.new(string))
-    string.split(separator)
-  end
-  def number_from(string)
-    Summand.new(string).number
+require 'string_calculator.rb'
+
+describe Separator do
+ it "uses custom separators" do
+   Separator.new.split("//[[[]\n10[[20").should == ["10", "20"]
   end
 end
-class Summand
-  def initialize(string)
-    @string = string
-  end
-  def number
-    return @string.to_i if @string.to_i <= 1000
-    0
-  end
-end
-class Separator < Regexp
-  def initialize(string)
-    super(regexp(string))
-  end
-  private
-  def regexp(string)
-    separators = [',', "\n"]
-    separators.push(defined_separators(string)) if defined_separators?(string)
-    Regexp.new(separators.join('|'))
-  end
-  def defined_separators?(string)
-    string[0,2] == '//'
-  end
-  def defined_separators(string)
-    defined_separators = string.scan(/\/\/\[(.*)\]\n.*/)
-    return string[2,1] if defined_separators.empty?
-    defined_separators[0].to_s.split('][')
-  end
-end
+
 describe StringCalculator do
   let(:calculator){StringCalculator.new}
 
@@ -83,7 +47,10 @@ describe StringCalculator do
         calculator.add("//[*][+]\n1*2+6").should == 9
       end
       it "returns 10 when //[**][+++]\n2**2+++6" do
-        calculator.add("//[*][+]\n1*2+6").should == 9
+        calculator.add("//[**][+++]\n2**2+++6").should == 10
+      end
+      it "returns 100 when //[**][+++]\n20**20+++60" do
+        calculator.add("//[**][+++]\n20**20+++60").should == 100
       end
     end
   end
