@@ -5,9 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * 
  * @author A. Buigues (@animalaes), H. Rodes (@hector_rodes)
- * 
  */
 public class CalculatorTest {
 
@@ -56,5 +54,4 @@ public class CalculatorTest {
 		} catch (Exception e) {
 		}
 	}
-
 }
