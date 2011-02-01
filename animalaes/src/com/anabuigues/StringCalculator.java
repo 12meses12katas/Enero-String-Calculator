@@ -7,13 +7,13 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * Implementación sencilla de la calculadora para la kata de enero.<br />
+ * ImplementaciÃ³n sencilla de la calculadora para la kata de enero.<br />
  * <br />
- * La implementación está realizada usando java 6 estándar apoyándose en la
+ * La implementaciÃ³n estÃ¡ realizada usando java 6 estÃ¡ndar apoyÃ¡ndose en la
  * clase Scanner que permite trocear al vuelo un imput a partir de un o n
- * delimitadores. Para ello extrae los delimitadores y construye una expresión
- * reguar válida para el scanner al que se le solicitan los diferentes enteros
- * para ir sumándolos.
+ * delimitadores. Para ello extrae los delimitadores y construye una expresiÃ³n
+ * reguar vÃ¡lida para el scanner al que se le solicitan los diferentes enteros
+ * para ir sumÃ¡ndolos.
  * 
  * 
  * @author A. Buigues (@animalaes), H. Rodes (@hector_rodes)
@@ -64,12 +64,12 @@ public class StringCalculator {
 	}
 
 	/**
-	 * Método auxiliar que comprueba si hay números negativos y forma el mensaje
+	 * MÃ©todo auxiliar que comprueba si hay nÃºmeros negativos y forma el mensaje
 	 * 
 	 * @param negativeValues
-	 *            Lista de números negativos
+	 *            Lista de nÃºmeros negativos
 	 * @throws Exception
-	 *             Si la lista de números negativos contiene algún número
+	 *             Si la lista de nÃºmeros negativos contiene algÃºn nÃºmero
 	 */
 	private void checkNegativeValues(List<Integer> negativeValues)
 			throws Exception {
@@ -85,9 +85,9 @@ public class StringCalculator {
 
 	/**
 	 * Genera la cadena de delimitadores necesaria para ser usada en el scanner
-	 * y así poder procesar los números.<br />
-	 * Siempre introduce el \n como un delimitador válido.<br />
-	 * En caso de que los delimiters sean vacíos o nulos usa la , y el \n como
+	 * y asÃ­ poder procesar los nÃºmeros.<br />
+	 * Siempre introduce el \n como un delimitador vÃ¡lido.<br />
+	 * En caso de que los delimiters sean vacÃ­os o nulos usa la , y el \n como
 	 * delimitadores por defecto
 	 * 
 	 * @param delimiters
