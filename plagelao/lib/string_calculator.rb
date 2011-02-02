@@ -1,64 +1,54 @@
 class StringCalculator
   def add(string)
-    raise_error_if_negative_numbers_in(string)
-    split_numbers_from(string).inject(0){ |sum, numeral| sum + number_from(numeral)}
+    string_calculator(string).add(string)
   end
-  def raise_error_if_negative_numbers_in(string)
-    negatives = split_numbers_from(string).select{|numeral| number_from(numeral) < 0}
-    raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
-  end
-  def split_numbers_from(string, separator = Separator.new)
-    separator.split(string)
-  end
-  def number_from(string)
-    Summand.new(string).number
-  end
-end
-class Summand
-  def initialize(string)
-    @string = string
-  end
-  def number
-    return @string.to_i if @string.to_i <= 1000
-    0
-  end
-end
-class Separator
-  def split (string)
-    string_without_separator_definition = string
-    if defined_separators?(string)
-      string_without_separator_definition = string.slice(string.index("\n")+1..-1)
+  def string_calculator(string)
+    calculator = DefaultStringCalculator.new
+    defined_separators(string).each do |defined_separator|
+      calculator = DefinedSeparatorStringCalculator.new(defined_separator, calculator)
     end
-    strings = [string_without_separator_definition]
-    separators(string).each do |separator|
-      strings = internal_split(strings, separator)
-    end
-    strings
-  end
-  private
-  def separators(string)
-    separators = [',', "\n"]
-    separators << defined_separators(string) if defined_separators?(string)
-    separators.flatten
-  end
-  def internal_split(strings, separator)
-    strings_without_separator = []
-    strings.each do |string|
-      if string.include?(separator)
-        strings_without_separator << internal_split([string.slice(0...string.index(separator)), string.slice(string.index(separator)+separator.length..-1)], separator)
-      else
-        strings_without_separator << string
-      end
-    end
-    strings_without_separator.flatten
-  end
-  def defined_separators?(string)
-    string[0,2] == '//'
+    calculator
   end
   def defined_separators(string)
-    defined_separators = string.scan(/\/\/\[(.*)\]\n.*/)
-    return string[2,1] if defined_separators.empty?
-    defined_separators[0].to_s.slice(2..-3).split('][')
+    return [] unless string.start_with?('//')
+    return string.scan(/\/\/\[(.*)\]\\n/)[0][0].split('][') unless string.scan(/\/\/\[(.*)\]\\n/).empty?
+    [string[2]]
   end
 end
-
+module Splitter
+  def numbers(string, separator)
+    string.split(separator)
+  end
+end
+module Additioner
+  def sum(numbers, sum = 0, negatives = [])
+    check_for_negatives_in(numbers)
+    numbers.each do |summand|
+      sum += yield(summand) unless summand.to_i > 1000
+    end
+    sum
+  end
+  def check_for_negatives_in(numbers, negatives = [])
+    numbers.each do |summand|
+      negatives << summand.to_i if summand.to_i < 0
+    end
+    raise "negative numbers not allowed: #{negatives.join(',')}" unless negatives.empty?
+  end
+end
+class DefinedSeparatorStringCalculator
+  include Additioner
+  include Splitter
+  def initialize(separator, next_calculator)
+    @separator, @next_calculator = separator, next_calculator
+  end
+  def add(string)
+    sum(numbers(string, @separator)) {|summand| @next_calculator.add(summand) }
+  end
+end
+class DefaultStringCalculator
+  include Additioner
+  include Splitter
+  def add(string)
+    sum(numbers(string, /,|\\n/)) {|summand| summand.to_i }
+  end
+end

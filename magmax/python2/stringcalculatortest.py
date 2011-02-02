@@ -2,11 +2,25 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import re
 from stringcalculator import StringCalculator
 
 class StringCalculatorTest (unittest.TestCase):
     def setUp(self):
         self.sut = StringCalculator()
+
+    def assertRaisesRegExp (self, excClass, regexp, callableObj, *args, **kargs):
+        try:
+            callableObj(*args, **kargs)
+        except excClass as e:
+            if not re.match(regexp, str(e)):
+                self.fail("Invalid message: \n\t" + str(e) + '\nExpected:\n\t' + regexp)
+            
+        else:
+            if hasattr(excClass,'__name__'): excName = excClass.__name__
+            else: excName = str(excClass)
+            raise self.failureException, "%s not raised" % excName
+
 
     def test_empty_string(self):
         self.assertEqual(0, self.sut.add(""))
@@ -43,6 +57,15 @@ class StringCalculatorTest (unittest.TestCase):
 
     def test_ignore_big_values(self):
         self.assertEqual(2, self.sut.add("2,1002"))
+
+    def test_multicharacter_delimiter (self):
+        self.assertEqual(6, self.sut.add("//[***]\n3***2***1"))
+
+    def test_invalid_negatives(self):
+        self.assertRaisesRegExp(ValueError, "negatives not allowed:\[-2]", self.sut.add, "-2")
+        
+    def test_invalid_negatives_plural(self):
+        self.assertRaisesRegExp(ValueError, "negatives not allowed:\[-2, -3]", self.sut.add, "-2,-3")
 
 if __name__ == '__main__':
     unittest.main()

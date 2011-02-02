@@ -38,7 +38,12 @@ class StringCalculator {
   private def normalizar(texto) {
     def (tokens, operacion) = separarTokensYOperacion(texto)
 
-    def regexp = ( tokens =~ /\[([\w]+)\]+/ ).collect {it[1]}.join('|')
+    def regexp = ( tokens =~ /\[([+*\w]+)\]+/ ).collect {it[1]}.join('|')
+    ["\\*":"\\\\*",
+     "\\+":"\\\\+"].each { k,v ->
+         regexp = regexp.replaceAll(k, v)
+     }
+
     if (regexp)
       operacion = operacion.replaceAll(regexp, ",")
     else if (tokens)
