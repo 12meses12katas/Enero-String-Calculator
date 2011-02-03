@@ -1,3 +1,10 @@
+/**
+ *   kata:    String Calculator http://www.osherove.com/tdd-kata-1/
+ *   Author:  Arturo Herrero
+ *   Web:     http://arturoherrero.com/
+ *   Twitter: @ArturoHerrero
+ */
+
 import groovy.util.GroovyTestCase
 
 class StringCalculatorTest extends GroovyTestCase {
@@ -60,7 +67,7 @@ class StringCalculatorTest extends GroovyTestCase {
 class StringCalculator {
 
     int add(String numbers) {
-        numbers = changeDelimiterToComma(numbers)
+        numbers = changeDelimitersToComma(numbers)
         getNumbersInList(numbers).inject(0) { sum, num ->
             if (isPositive(num))
                 if (isBigger(num))
@@ -72,23 +79,24 @@ class StringCalculator {
         }
     }
     
-    private String changeDelimiterToComma(String numbers) {
-        def delimeters = []
+    private String changeDelimitersToComma(String numbers) {
+        def delimeters = ["\n"]
         numbers.find(/(?s)\/\/(.+)\n/) { match ->
             delimeters << match[1]
             match[1].eachMatch(/\[(.+?)\]/) { subMatch ->
                 delimeters << subMatch[1]
             }
             numbers = numbers.minus(match[0])
-        }
+        }  
+              
         delimeters.each {
             numbers = numbers.replace(it, ",")
-        }
+        }        
         return numbers
     }
     
     private getNumbersInList(String numbers) {
-        numbers.replaceAll(" ", "0").replaceAll("\n", ",").split(",")
+        numbers.replaceAll(" ", "0").split(",")
     }
     
     private isPositive(String num) {
