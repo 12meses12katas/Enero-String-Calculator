@@ -43,6 +43,18 @@ class StringCalculatorTest extends GroovyTestCase {
         assert stringCalculator.add("2,1001") == 2
     }
     
+    void testDelimitersCanBeAnyLength() {
+        assert stringCalculator.add("//[***]\n1***2***3") == 6
+    }
+    
+    void testMultipleDelimiters() {
+        assert stringCalculator.add("//[*][%]\n1*2%3") == 6
+    }
+    
+    void testMultipleDelimitersCanBeAnyLength() {
+        assert stringCalculator.add("//[**][%%]\n1**2%%3") == 6
+    }
+    
 }
 
 class StringCalculator {
@@ -61,9 +73,16 @@ class StringCalculator {
     }
     
     private String changeDelimiterToComma(String numbers) {
+        def delimeters = []
         numbers.find(/(?s)\/\/(.+)\n/) { match ->
-            def delimeter = match[1]
-            numbers = numbers.minus(match[0]).replace(delimeter, ",")
+            delimeters << match[1]
+            match[1].eachMatch(/\[(.+?)\]/) { subMatch ->
+                delimeters << subMatch[1]
+            }
+            numbers = numbers.minus(match[0])
+        }
+        delimeters.each {
+            numbers = numbers.replace(it, ",")
         }
         return numbers
     }
