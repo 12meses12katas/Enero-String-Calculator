@@ -13,4 +13,11 @@ describe "add" do
   it "should handle any amount of numbers" do
     StringCalculator.add('3,10,25,18').should == 56
   end
+  it "should handle , and \n as delimiters" do
+    StringCalculator.add("3,10\n25\n18").should == 56
+  end
+  # Use this test if single quote strings are allowed
+  # it "should handle , and \n as delimiters" do
+  #   StringCalculator.add('3,10\n25\n18').should == 56
+  # end
 end
