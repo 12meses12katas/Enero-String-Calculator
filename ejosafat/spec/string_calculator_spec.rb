@@ -10,4 +10,7 @@ describe "add" do
   it "should return the sum of two numbers" do
     StringCalculator.add('3,4').should == 7
   end
+  it "should handle any amount of numbers" do
+    StringCalculator.add('3,10,25,18').should == 56
+  end
 end
