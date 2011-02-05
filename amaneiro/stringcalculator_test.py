@@ -3,33 +3,32 @@
 import unittest
 from stringcalculator import StringCalculator
 
-class StringCalculatorTests(unittest.TestCase):
+class StringCalculatorTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.sc = StringCalculator()
 
     def testReturnZeroWhenNoParametersArePassed(self):
-        sc = StringCalculator()
-        self.assertEqual(sc.Add(), 0)
+        self.assertEqual(self.sc.add(), 0)
 
     def testReturnSameValueIfOnlyOneParameterIsPassed(self):
-        sc = StringCalculator()
         value = '1'
-        self.assertEqual(sc.Add(value), int(value))
+        self.assertEqual(self.sc.add(value), int(value))
 
     def testAddOperationIsOK(self):
-        sc = StringCalculator()
-        self.assertEquals(sc.Add("1,2"), 3)
+        self.assertEquals(self.sc.add("1,2"), 3)
 
     def testAddOperationFails(self):
-        sc = StringCalculator()
-        self.assertNotEqual(sc.Add("1,2"), 4)
+        self.assertNotEqual(self.sc.add("1,2"), 4)
 
     def testAddOperationWithNewLineSeparator(self):
-        sc = StringCalculator()
-        self.assertEquals(sc.Add("1\n2"), 3)
+        self.assertEquals(self.sc.add("1\n2"), 3)
 
     def testAddOperationIsOKWithBothTwoSeparators(self):
-        sc = StringCalculator()
-        self.assertEquals(sc.Add("1,2\n3"), 6)
+        self.assertEquals(self.sc.add("1,2\n3"), 6)
+
+    def testAddOperationIsOKWithCustomSeparator(self):
+        self.assertEquals(self.sc.add("//;\n4,5\n;6"), 15)
 
 if __name__ == '__main__':
     unittest.main()
-
