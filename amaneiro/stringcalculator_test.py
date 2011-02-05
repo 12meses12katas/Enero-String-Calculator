@@ -22,6 +22,14 @@ class StringCalculatorTests(unittest.TestCase):
         sc = StringCalculator()
         self.assertNotEqual(sc.Add("1,2"), 4)
 
+    def testAddOperationWithNewLineSeparator(self):
+        sc = StringCalculator()
+        self.assertEquals(sc.Add("1\n2"), 3)
+
+    def testAddOperationIsOKWithBothTwoSeparators(self):
+        sc = StringCalculator()
+        self.assertEquals(sc.Add("1,2\n3"), 6)
+
 if __name__ == '__main__':
     unittest.main()
 
