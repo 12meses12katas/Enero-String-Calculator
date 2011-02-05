@@ -18,8 +18,10 @@ class StringCalculatorTests(unittest.TestCase):
         sc = StringCalculator()
         self.assertEquals(sc.Add("1,2"), 3)
 
-def main():
-    unittest.main()
+    def testAddOperationFails(self):
+        sc = StringCalculator()
+        self.assertNotEqual(sc.Add("1,2"), 4)
 
 if __name__ == '__main__':
-    main()
+    unittest.main()
+
