@@ -28,7 +28,7 @@ class StringCalculatorTestCase(unittest.TestCase):
         self.assertEquals(self.sc.add("1,2\n3"), 6)
 
     def testAddOperationIsOKWithCustomSeparator(self):
-        self.assertEquals(self.sc.add("//;\n4,5\n;6"), 15)
+        self.assertEquals(self.sc.add("//;\n4,5\n6;4"), 19)
 
 if __name__ == '__main__':
     unittest.main()

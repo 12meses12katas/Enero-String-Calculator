@@ -13,4 +13,10 @@ class StringCalculator:
         return sum
 
     def split_entry_values(self, values):
+        """The strategy choosen is to convert first all possible separators (the user-defined, ',' or '\n') to one of them. And them, split the whole chain of values by that master separator. '\n' will be the master separator. """
+
+        if values.startswith("//"):
+            [custom_separator, values] = values.split("\n", 1)
+            values = values.replace(custom_separator[2:], '\n')
+
         return values.replace(',', '\n').split('\n')
