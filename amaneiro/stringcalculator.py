@@ -8,6 +8,6 @@ class StringCalculator:
             return 0
 
         sum=0
-        for i in values.split(','):
+        for i in values.replace(',', '\n').split('\n'):
             sum=sum+int(i)
         return sum
