@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import unittest
-from stringcalculator import StringCalculator
+from stringcalculator import StringCalculator, NegativesNotAllowed
 
 class StringCalculatorTestCase(unittest.TestCase):
 
@@ -29,6 +29,12 @@ class StringCalculatorTestCase(unittest.TestCase):
 
     def testAddOperationIsOKWithCustomSeparator(self):
         self.assertEquals(self.sc.add("//;\n4,5\n6;4"), 19)
+
+    def testAddOperationLaunchExceptionWithNegatives(self):
+        self.assertRaises(NegativesNotAllowed, self.sc.add, ("-1,2"))
+
+    def testAddOperationLaunchExceptionWithOneNegative(self):
+        self.assertRaises(NegativesNotAllowed, self.sc.add, ("-1"))
 
 if __name__ == '__main__':
     unittest.main()
