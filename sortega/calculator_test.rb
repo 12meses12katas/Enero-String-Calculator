@@ -25,5 +25,9 @@ class TestCalculator < Test::Unit::TestCase
   def test_newlines
     assert_equal(6, add("1\n2,3"))
   end
+
+  def test_custom_delimiter
+    assert_equal(6, add("//;\n1\n2;3"))
+  end
 end
 
