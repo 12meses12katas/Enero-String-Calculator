@@ -38,5 +38,9 @@ class TestCalculator < Test::Unit::TestCase
     assert_equal(2, add("1001,2"))
     assert_equal(1002, add("1000,2"))
   end
+
+  def test_multicharacter_delimiter
+    assert_equal(9, add("//[***]\n1\n2***3***3"))
+  end
 end
 
