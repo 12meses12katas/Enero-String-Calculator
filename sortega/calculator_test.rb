@@ -33,5 +33,10 @@ class TestCalculator < Test::Unit::TestCase
   def test_reject_negatives
     assert_raises(ArgumentError) { add("1,3,-1,4") }
   end
+
+  def test_ignore_greater_than_1000
+    assert_equal(2, add("1001,2"))
+    assert_equal(1002, add("1000,2"))
+  end
 end
 

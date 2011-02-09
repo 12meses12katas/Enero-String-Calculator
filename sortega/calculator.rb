@@ -13,7 +13,7 @@ def add(numbers)
       value = n.to_i
       if value < 0
         raise ArgumentError.new('negatives not allowed')
-      else
+      elsif value <= 1000
         total += value
       end
     end
