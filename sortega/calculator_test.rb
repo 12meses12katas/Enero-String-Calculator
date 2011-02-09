@@ -29,5 +29,9 @@ class TestCalculator < Test::Unit::TestCase
   def test_custom_delimiter
     assert_equal(6, add("//;\n1\n2;3"))
   end
+
+  def test_reject_negatives
+    assert_raises(ArgumentError) { add("1,3,-1,4") }
+  end
 end
 

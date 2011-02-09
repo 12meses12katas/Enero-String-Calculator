@@ -9,7 +9,14 @@ def add(numbers)
 
   total = 0
   lines.each do |line|
-    line.split(/#{delimiter}/).each { |n| total += n.to_i }
+    line.split(/#{delimiter}/).each do |n|
+      value = n.to_i
+      if value < 0
+        raise ArgumentError.new('negatives not allowed')
+      else
+        total += value
+      end
+    end
   end
 
   return total
