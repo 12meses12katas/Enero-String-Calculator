@@ -1,4 +1,5 @@
 def add(numbers)
+  return 0 unless numbers != nil
   lines = numbers.split(/\n/)
 
   if lines[0] =~ /^\/\//

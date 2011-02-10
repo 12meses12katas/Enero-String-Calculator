@@ -4,6 +4,7 @@ require "test/unit"
 class TestCalculator < Test::Unit::TestCase
   def test_empty_is_0
     assert_equal(0, add(""))
+    assert_equal(0, add(nil))
   end
 
   def test_simple_addition
