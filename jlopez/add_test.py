@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import unittest
-from add import add
+from add import add, NegativeNumberException
 
 class TestAdd(unittest.TestCase):
     
@@ -24,6 +24,9 @@ class TestAdd(unittest.TestCase):
 
     def test_delimiter(self):
         self.assertEqual(10, add("\\;\n1;2\n3;4"))
+
+    def test_negatives(self):
+        self.assertRaises(NegativeNumberException, add, "1,2,-3")
 
 if __name__ == '__main__':
     unittest.main()

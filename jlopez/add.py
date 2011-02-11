@@ -24,7 +24,13 @@ def add(input_string=""):
         numbers += line.split(delimiter)
     result = 0
     for number in numbers:
+        number = int(number)
+        if number < 0:
+            raise NegativeNumberException
         result += int(number)
 
     return result
 
+
+
+class NegativeNumberException(Exception): "no negative"
