@@ -23,7 +23,7 @@ class TestAdd(unittest.TestCase):
         self.assertEqual(10, add("1,2\n3\n4"))
 
     def test_delimiter(self):
-        self.assertEqual(10, add("\\;\n1;2\n3;4"))
+        self.assertEqual(10, add("//;\n1;2\n3;4"))
 
     def test_negatives(self):
         self.assertRaises(NegativeNumberException, add, "1,2,-3")
@@ -33,7 +33,11 @@ class TestAdd(unittest.TestCase):
         self.assertEqual(1002, add("2,1000"))
 
     def test_long_delimiter(self):
-        self.assertEqual(10, add("\\[...]\n1...2...3...4"))
+        self.assertEqual(10, add("//[...]\n1...2...3...4"))
+
+    def test_multiple_delimiters(self):
+        self.assertEqual(10, add("//[..][oo]\n1..2\n3oo4"))
+        self.assertEqual(20, add("//[..][oo]\n1..2\n3oo4..10"))
 
 if __name__ == '__main__':
     unittest.main()
