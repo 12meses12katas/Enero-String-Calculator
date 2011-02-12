@@ -1,6 +1,6 @@
 import re
 
-DELIMITER_RE = r'^\\(.*)'
+DELIMITER_RE = r'^\\\[?([^]]+)\]?'
 
 def add(input_string=""):
     if not input_string or len(input_string) == 0:
@@ -27,7 +27,8 @@ def add(input_string=""):
         number = int(number)
         if number < 0:
             raise NegativeNumberException
-        result += int(number)
+        if number <= 1000:
+            result += int(number)
 
     return result
 
