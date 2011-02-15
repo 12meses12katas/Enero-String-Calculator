@@ -13,7 +13,8 @@ def add(input_text):
     if lines and lines[0].startswith('//'):
         delimiter_spec = lines.pop(0)[2:]
         delimiters = [multi or simple 
-            for (multi, simple) in re.findall(r'\[(.*?)\]|(.)', delimiter_spec)]
+            for (multi, simple)
+            in re.findall(r'\[(.*?)\]|(.)', delimiter_spec)]
     else:
         delimiters = [',']
 
@@ -22,5 +23,5 @@ def add(input_text):
     numbers = [int(token) for token in tokens]
     if [n for n in numbers if n < 0]:
         raise ValueError("Negatives not allowed")
-    valid_numbers = [n for n in numbers if n <= 1000]
-    return sum(valid_numbers, 0)
+
+    return sum([n for n in numbers if n <= 1000], 0)
