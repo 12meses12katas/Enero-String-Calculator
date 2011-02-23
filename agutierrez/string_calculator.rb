@@ -1,50 +1,38 @@
 class StringCalculator
-DEFAULT_DELIMITER = [","]
 
- def add(text)
+  DEFAULT_DELIMITER = ","
 
-   return 0 if text.empty?
+  def add(string)
+    return 0 if string.empty?
+    cleaned_string = parse_string(string)
+    addends = extract_addends(cleaned_string)
+    addends.reduce(:+)
+  end # add
 
-   @delimiter = []
-   @delimiter = set_delimiter(text)
-   addends = extract_addends(text)
-   check_for_negatives(addends)
-   make_sum(addends)
- end
+  def parse_string(cad)
+    new_string = cad
+    if cad[0] == "\\" then
+      delimiters = extract_delimiters(cad[1..cad.index("\n")-1])
+      new_string = cad[cad.index("\n")+1..cad.length-1]
+      delimiters.each { |de| new_string.gsub!(de,DEFAULT_DELIMITER) }
+      #new_string = new_string.gsub!(cad[1],DEFAULT_DELIMITER)
+    end
+    new_string = new_string.gsub("\n", DEFAULT_DELIMITER)
+  end
 
- def set_delimiter(cad)
-   return DEFAULT_DELIMITER if cad[0] != "\\"
-   if cad.match(/\[.*\]/)
-     delimiters_expresion = cad.match(/\[.*\]/)[0]
-     if delimiters_expresion.count("[") > 1
-       return delimiters_expresion.gsub!(/[\[,\]]/, " ").split(" ")
-     else
-       return delimiters_expresion[1..delimiters_expresion.index("]")-1].split
-     end
-   elsif cad.match(/\\.*\n/)[0]
-       return cad[1..cad.index("\n")-1].split
-   end
- end
+  def extract_delimiters(cad)
+    return cad.gsub("][", " ").gsub(/[\[,\]]/, "").split
+  end
 
- def extract_addends(cad)
-   cad = cad[cad.index("\n")+1..cad.length]  if cad[0] == "\\"
-   cad.gsub!("\n", ",")
-   @delimiter.each { |d| cad.gsub!(d, ",")}
-   cad.split(",").map{ |a| a.to_i }
-
- end
-
- def make_sum(numbers)
-   sum = 0
-   numbers.each do |number|
-     sum += number.to_i if number.to_i + sum < 1000
-   end
-   sum
- end
-
- def check_for_negatives(addends_chk)
-   negatives = addends_chk.reject{ |n| n >= 0 }
-   raise "Negatives are not allowed: #{negatives.join(', ')}" if !negatives.empty?
- end
+  def extract_addends(cad)
+    working_array = cad.split(DEFAULT_DELIMITER).collect { |a| a.to_i }
+    negatives = []
+    working_array.each { |wa| negatives << wa if wa < 0 }
+    working_array.delete_if { |wa| wa > 999 }
+    if !negatives.empty?
+      raise "No negatives allowed: #{negatives.join(', ')}" if !negatives.empty?
+    end
+    return working_array
+  end
 
 end # class
