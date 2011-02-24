@@ -2,36 +2,33 @@ class StringCalculator
 
   DEFAULT_DELIMITER = ","
 
-  def add(string)
-    return 0 if string.empty?
-    cleaned_string = parse_string(string)
+  def add(raw_string)
+    return 0 if raw_string.empty?
+    cleaned_string = clean_string(raw_string)
     addends = extract_addends(cleaned_string)
     addends.reduce(:+)
   end # add
 
-  def parse_string(cad)
-    new_string = cad
-    if cad[0] == "\\" then
-      delimiters = extract_delimiters(cad[1..cad.index("\n")-1])
-      new_string = cad[cad.index("\n")+1..cad.length-1]
+  def clean_string(dirty_string)
+    new_string = dirty_string
+    if dirty_string[0] == "\\" then
+      delimiters = extract_delimiters(dirty_string[1..dirty_string.index("\n")-1])
+      new_string = dirty_string[dirty_string.index("\n")+1..dirty_string.length-1]
       delimiters.each { |de| new_string.gsub!(de,DEFAULT_DELIMITER) }
-      #new_string = new_string.gsub!(cad[1],DEFAULT_DELIMITER)
     end
     new_string = new_string.gsub("\n", DEFAULT_DELIMITER)
   end
 
-  def extract_delimiters(cad)
-    return cad.gsub("][", " ").gsub(/[\[,\]]/, "").split
+  def extract_delimiters(delimiter_string)
+    return delimiter_string.gsub("][", " ").gsub(/[\[,\]]/, "").split
   end
 
-  def extract_addends(cad)
-    working_array = cad.split(DEFAULT_DELIMITER).collect { |a| a.to_i }
+  def extract_addends(addends_string)
+    working_array = addends_string.split(DEFAULT_DELIMITER).collect { |a| a.to_i }
     negatives = []
     working_array.each { |wa| negatives << wa if wa < 0 }
     working_array.delete_if { |wa| wa > 999 }
-    if !negatives.empty?
-      raise "No negatives allowed: #{negatives.join(', ')}" if !negatives.empty?
-    end
+    raise "No negatives allowed: #{negatives.join(', ')}" if !negatives.empty?
     return working_array
   end
 
