@@ -1,3 +1,8 @@
+# Calculadora con entrada de string
+
+# Programa - StringCalculator
+# Escrito por - Helios Vicente Beltran
+
 class StringCalculator:
 	def add(self,numbers=None):
 		if numbers is None or len(numbers)==0: 
