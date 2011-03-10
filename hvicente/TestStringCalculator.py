@@ -13,6 +13,8 @@ class TestStringCalculator(unittest.TestCase):
                 self.assertTrue(self.calculator.add("1")==1,"1 arg call error")
 	def test_twoArgs(self):
                 self.assertTrue(self.calculator.add("1,2")==3,"2 args call error")
+	def test_differentDelim(self):
+                self.assertTrue(self.calculator.add("//h\n1h2")==3,"Different Delimiter call error")
 
 
 if __name__ == "__main__":
