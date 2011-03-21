@@ -4,6 +4,7 @@ class Calculator
   def add args
     strnumbers, delimiter = extract_strnumbers_and_delimiter args
     numbers = get_number_list strnumbers, delimiter
+    get_only_suitable_numbers numbers
     check_negatives_numbers numbers
     numbers.inject(0, :+)
   end
@@ -11,7 +12,11 @@ class Calculator
   private
 
   def get_number_list numbers_str, delimiter
-    numbers_str.split(delimiter).collect { |num| num.to_i.to_suitable_for_string_calculator }
+    numbers_str.split(delimiter).collect { |num| num.to_i }
+  end
+
+  def get_only_suitable_numbers numbers
+    numbers.select! { |num| num.suitable_for_string_calculator? }
   end
 
   def check_negatives_numbers numbers
@@ -33,8 +38,8 @@ class Integer
     self < 0
   end
 
-  def to_suitable_for_string_calculator
-    self > 1000 ? 0 : self
+  def suitable_for_string_calculator?
+    self <= 1000
   end
 
 end
