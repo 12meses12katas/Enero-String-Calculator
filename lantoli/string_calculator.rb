@@ -25,9 +25,17 @@ class Calculator
   end
 
   def extract_strnumbers_and_delimiter args
-      numbers = args.sub %r{^//\[(.+)\]\n} , ""
-      numbers = args.sub %r{^//(.)\n} , "" if ($~ == nil)
-      delimiter = ($~ == nil) ?  /[\n,]/ : $~[1]
+      delimiter = /[\n,]/
+      numbers = args.sub %r{^//(.+)\n} , ""
+      if $~ != nil
+        first_line = $~[1]
+        if first_line =~  /\[(.+)\]/
+          elements = $~[1].split "]["
+          delimiter = Regexp.union elements
+        else        
+          delimiter = first_line
+        end
+      end
       return numbers, delimiter
   end
 
@@ -81,9 +89,9 @@ describe "String calculator" do
     @calculator.add("//[***]\n1***2***3").should == 6
   end
 
-  it "multiple delimities are allowed" do
-#    @calculator.add("//[*][%]\n1*2%3").should == 6
- #   @calculator.add("//[*#][%%%]\n1*#2%%%5").should == 8
+  it "multiple delimiters are allowed" do
+    @calculator.add("//[*][%]\n1*2%3").should == 6
+    @calculator.add("//[*#][%%%]\n1*#2%%%5").should == 8
   end
 
 end
