@@ -2,20 +2,24 @@ require "rspec"
 
 class Calculator
   def add args
-    numbers, delimiter = extract_delimiter args
-    negatives = []
-    sum = numbers.split(delimiter).inject(0) do |accum, str_num|
-      num = str_num.to_i > 1000 ? 0 : str_num.to_i
-      negatives << num if num.negative?
-      accum + num
-    end
-    raise "negatives not allowed (#{negatives.join(', ')})" if negatives.any?
-    sum
+    strnumbers, delimiter = extract_strnumbers_and_delimiter args
+    numbers = get_number_list strnumbers, delimiter
+    check_negatives_numbers numbers
+    numbers.inject(0, :+)
   end
 
   private
 
-  def extract_delimiter args
+  def get_number_list numbers_str, delimiter
+    numbers_str.split(delimiter).collect { |num| num.to_i.to_suitable_for_string_calculator }
+  end
+
+  def check_negatives_numbers numbers
+    negatives = numbers.select{ |num| num.negative? }
+    raise "negatives not allowed (#{negatives.join(', ')})" if negatives.any?
+  end
+
+  def extract_strnumbers_and_delimiter args
       numbers = args.sub %r{^//\[(.+)\]\n} , ""
       numbers = args.sub %r{^//(.)\n} , "" if ($~ == nil)
       delimiter = ($~ == nil) ?  /[\n,]/ : $~[1]
@@ -29,8 +33,11 @@ class Integer
     self < 0
   end
 
-end
+  def to_suitable_for_string_calculator
+    self > 1000 ? 0 : self
+  end
 
+end
 
 describe "String calculator" do
 
