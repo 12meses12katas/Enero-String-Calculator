@@ -1,30 +1,30 @@
 require "rspec"
 
 class Calculator
-  def add args
+  def add(args)
     strnumbers, delimiter = extract_strnumbers_and_delimiter args
     numbers = get_number_list strnumbers, delimiter
     get_only_suitable_numbers numbers
     check_negatives_numbers numbers
-    numbers.inject(0, :+)
+    numbers.inject 0, :+
   end
 
   private
 
-  def get_number_list numbers_str, delimiter
+  def get_number_list(numbers_str, delimiter)
     numbers_str.split(delimiter).collect { |num| num.to_i }
   end
 
-  def get_only_suitable_numbers numbers
+  def get_only_suitable_numbers(numbers)
     numbers.select! { |num| num.suitable_for_string_calculator? }
   end
 
-  def check_negatives_numbers numbers
-    negatives = numbers.select{ |num| num.negative? }
+  def check_negatives_numbers(numbers)
+    negatives = numbers.select &:negative? 
     raise "negatives not allowed (#{negatives.join(', ')})" if negatives.any?
   end
 
-  def extract_strnumbers_and_delimiter args
+  def extract_strnumbers_and_delimiter(args)
       delimiter = /[\n,]/
       numbers = args.sub %r{^//(.+)\n} , ""
       if $~ != nil
