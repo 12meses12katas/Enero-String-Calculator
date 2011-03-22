@@ -16,7 +16,7 @@ class Calculator
   end
 
   def get_only_suitable_numbers(numbers)
-    numbers.select! { |num| num.suitable_for_string_calculator? }
+    numbers.select! &:suitable_for_string_calculator? 
   end
 
   def check_negatives_numbers(numbers)
