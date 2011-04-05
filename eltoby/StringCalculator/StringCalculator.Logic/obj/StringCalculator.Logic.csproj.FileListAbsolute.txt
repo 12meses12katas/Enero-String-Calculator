@@ -1,0 +1,5 @@
+C:\Users\root\Enero-String-Calculator\eltoby\StringCalculator\StringCalculator.Logic\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\root\Enero-String-Calculator\eltoby\StringCalculator\StringCalculator.Logic\bin\Debug\StringCalculator.Logic.dll
+C:\Users\root\Enero-String-Calculator\eltoby\StringCalculator\StringCalculator.Logic\bin\Debug\StringCalculator.Logic.pdb
+C:\Users\root\Enero-String-Calculator\eltoby\StringCalculator\StringCalculator.Logic\obj\Debug\StringCalculator.Logic.dll
+C:\Users\root\Enero-String-Calculator\eltoby\StringCalculator\StringCalculator.Logic\obj\Debug\StringCalculator.Logic.pdb
