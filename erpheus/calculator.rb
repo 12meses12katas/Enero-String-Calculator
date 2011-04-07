@@ -2,22 +2,28 @@
   
   def add(numbers)
     
-    origin=numbers
-    if ((numbers.split("\n"))[0].to_s)[0,2]=="//"
-      delimiters=numbers.split("\n")[0].to_s.split("//")[1].to_s
-      delimiters=delimiters.split("[").join("").split("]")
-      if delimiters.length > 1
+    origin=numbers #          just to remember the string given
+ 
+    if ((numbers.split("\n"))[0].to_s)[0,2]=="//" #      check if there is a first line with // in it
+      delimiters=numbers.split("\n")[0].to_s.split("//")[1].to_s #  obtain the delimiters line without //
+      delimiters=delimiters.split("[").join("").split("]")   # separe the delimiters
+      
+    if delimiters.length > 1  #   prevent an empty delimiter from appearing
         delimiters.delete(-1)
       end
-      numbers=numbers.split("\n")[1].to_s
+
+      numbers=numbers.split("\n")[1].to_s  #   get the number line
+
     else
-      delimiters=[",","\n"]
+      delimiters=[",","\n"]   #  otherwise, set deafault delimiters
     end
     
     sum=0
     divided=Array.new
-    divided << numbers
+    divided << numbers   #prepare an array for dividing
     
+#      divide all the elemnts of the array with each delimiter
+
     delimiters.each do |d|
       thistime=Array.new
       divided.each do |s|
@@ -26,11 +32,11 @@
           thistime << ss
         end
       end
-      divided=thistime
+      divided=thistime  #puts back the divided elemnts into the original array for another process or for addition
     end
     
     divided.each do |d|
-      if (d.to_i>0)&&(d.to_i <= 1000)
+      if (d.to_i>0)&&(d.to_i <= 1000)  #check for negative or for numbers over a thousand
       sum+=d.to_i
       end
     end
