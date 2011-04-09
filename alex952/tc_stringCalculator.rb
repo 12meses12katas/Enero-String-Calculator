@@ -27,5 +27,23 @@ class TestStringCalculator < Test::Unit::TestCase
 		assert_equal 12, @calc.Add(param1)
 		assert_equal 21, @calc.Add(param2)
 	end 
+
+	def test_endLineSeparator
+		param = "3\n4\n5"
+
+		assert_equal 12, @calc.Add(param)
+	end
+	
+	def test_whateverSeparator
+		param = "3.4.5"
+
+		assert_equal 12, @calc.Add(param)
+	end
+
+	def test_definingSeparator
+		param = "//.\n3.4.5"
+
+		assert_equal 12, @calc.Add(param)
+	end
 	
 end
