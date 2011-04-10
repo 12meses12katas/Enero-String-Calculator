@@ -45,5 +45,11 @@ class TestStringCalculator < Test::Unit::TestCase
 
 		assert_equal 12, @calc.Add(param)
 	end
+
+	def test_negative
+		param = "//.\n-3.4.5"
+
+		assert_raise (RuntimeError) {@calc.Add(param)}
+	end
 	
 end
