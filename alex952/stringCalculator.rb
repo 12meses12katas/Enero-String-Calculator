@@ -4,26 +4,8 @@ class StringCalculator
 		#It's a blank line of parameters
 		return 0 if param == "" 
 
-		#Initilize separator to base case
-		separator = ','
-
-		#Searching for a separator field within param string
-		sep_fetch = param.split("\n")
-		if sep_fetch.length > 1 && sep_fetch[0].start_with?("//") then
-			#Exists the separator within params string
-			separator = sep_fetch[0][2]
-		else 
-			#Search for separator
-			param.each_char do |c|
-				begin
-					Integer(c)
-				rescue
-					separator = c
-					break
-				end
-			end
-		end
-
+		separator = getSeparator(param)
+		error = Array.new
 
 		#Split the parameters from a separator
 		params = param.split(separator)
@@ -32,12 +14,55 @@ class StringCalculator
 		#Add the parts, the operands
 		params.each do |p|
 			begin
-				res += Integer(p)
+				num = Integer(p)
+
+				if num < 0 then
+					error.push num
+				else
+					res += num
+				end
 			rescue
 			end
 		end
 
-		return res
+		if error.length == 0 then
+			return res
+		else 
+			ex = 'negatives not allowed - '
+
+			error.each do |er|
+				ex += er.to_s() + ' '
+			end
+
+			raise ex
+		end
+	end
+
+	def getSeparator(str)
+		#Initilize separator to base case
+		separator = ','
+
+		#Searching for a separator field within param string
+		sep_fetch = str.split("\n")
+		if sep_fetch.length > 1 && sep_fetch[0].start_with?("//") then
+			#Exists the separator within params string
+			separator = sep_fetch[0][2]
+		else 
+			#Search for separator
+			str.each_char do |c|
+				begin
+					Integer(c)
+				rescue
+					if c != '-' then
+						separator = c
+						break
+					end
+				end
+			end
+		end
+
+		return separator
+
 	end
 end
 
