@@ -51,5 +51,11 @@ class TestStringCalculator < Test::Unit::TestCase
 
 		assert_raise (RuntimeError) {@calc.Add(param)}
 	end
+
+	def test_gt1000
+		param = "1001.4.5"
+
+		assert_equal 9, @calc.Add(param)
+	end
 	
 end

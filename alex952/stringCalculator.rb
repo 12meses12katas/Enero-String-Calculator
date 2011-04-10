@@ -18,7 +18,7 @@ class StringCalculator
 
 				if num < 0 then
 					error.push num
-				else
+				elsif p.length < 3 then
 					res += num
 				end
 			rescue
