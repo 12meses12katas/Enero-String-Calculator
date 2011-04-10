@@ -8,8 +8,7 @@ class StringCalculator
 		separator = ','
 
 		#Searching for a separator field within param string
-		sep_fetch = param.split('\n')
-		puts "El array #{sep_fetch} tiene #{sep_fetch.length} longitud y #{sep_fetch[0].start_with?("//")}"
+		sep_fetch = param.split("\n")
 		if sep_fetch.length > 1 && sep_fetch[0].start_with?("//") then
 			#Exists the separator within params string
 			separator = sep_fetch[0][2]
@@ -32,7 +31,10 @@ class StringCalculator
 
 		#Add the parts, the operands
 		params.each do |p|
-			res += Integer(p)
+			begin
+				res += Integer(p)
+			rescue
+			end
 		end
 
 		return res

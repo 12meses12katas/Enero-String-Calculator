@@ -1,4 +1,4 @@
-require 'stringCalculator'
+require './stringCalculator.rb'
 require 'test/unit'
 
 class TestStringCalculator < Test::Unit::TestCase
