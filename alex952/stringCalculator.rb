@@ -38,13 +38,27 @@ class StringCalculator
 		end
 	end
 
-	def getSeparator(str)
-		#Initilize separator to base case
-		separator = ','
-
+	def getRegexpSeparator(str)
 		#Searching for a separator field within param string
 		sep_fetch = str.split("\n")
-		if sep_fetch.length > 1 && sep_fetch[0].start_with?("//") then
+
+		if sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/(\[.\])+/ then 
+			cad = sep_fetch[2..-1]
+			cad.gsub!(/\[/, "")
+			cad.gsub!(/\]$/, "")
+			cad.gsub!(/\]/, "|")
+
+			separator = ""
+
+			cad.split("|").each do |pat|
+				separator += pat + "|"
+			end
+
+			# Remove last |
+			separator = separator[0..-2]
+
+
+		elsif sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/./ then
 			#Exists the separator within params string
 			separator = sep_fetch[0][2]
 		else 
@@ -61,7 +75,7 @@ class StringCalculator
 			end
 		end
 
-		return separator
+		return Regexp.compile("[" + Regexp.escape(separator) + "]")
 
 	end
 end

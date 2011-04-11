@@ -57,5 +57,11 @@ class TestStringCalculator < Test::Unit::TestCase
 
 		assert_equal 9, @calc.Add(param)
 	end
+
+	def test_delimiterNChar
+		param = "//**\n1**2"
+
+		assert_equal 3, @calc.Add(param)
+	end
 	
 end
