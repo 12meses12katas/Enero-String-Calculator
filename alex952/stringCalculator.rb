@@ -4,7 +4,7 @@ class StringCalculator
 		#It's a blank line of parameters
 		return 0 if param == "" 
 
-		separator = getSeparator(param)
+		separator = getRegexpSeparator(param)
 		error = Array.new
 
 		#Split the parameters from a separator
@@ -43,21 +43,10 @@ class StringCalculator
 		sep_fetch = str.split("\n")
 
 		if sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/(\[.\])+/ then 
-			cad = sep_fetch[2..-1]
-			cad.gsub!(/\[/, "")
-			cad.gsub!(/\]$/, "")
-			cad.gsub!(/\]/, "|")
-
-			separator = ""
-
-			cad.split("|").each do |pat|
-				separator += pat + "|"
-			end
-
-			# Remove last |
-			separator = separator[0..-2]
-
-
+			separator = sep_fetch[2..-1]
+			separator.gsub!(/\[/, "")
+			separator.gsub!(/\]$/, "")
+			separator.gsub!(/\]/, "|")
 		elsif sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/./ then
 			#Exists the separator within params string
 			separator = sep_fetch[0][2]
