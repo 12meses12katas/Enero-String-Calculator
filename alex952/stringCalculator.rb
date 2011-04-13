@@ -42,6 +42,8 @@ class StringCalculator
 		#Searching for a separator field within param string
 		sep_fetch = str.split("\n")
 
+		separator = ""
+
 		if sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/(\[.\])+/ then 
 			separator = sep_fetch[2..-1]
 			separator = separator.gsub(/\[/, "")
@@ -49,7 +51,7 @@ class StringCalculator
 			separator = separator.gsub(/\]/, "|")
 		elsif sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/./ then
 			#Exists the separator within params string
-			separator = sep_fetch[0][2]
+			separator = sep_fetch[0][2..-1]
 		else 
 			#Search for separator
 			str.each_char do |c|
@@ -64,8 +66,8 @@ class StringCalculator
 			end
 		end
 
-		return Regexp.compile("[" + Regexp.escape(separator) + "]")
+		return Regexp.compile("[" + Regexp.escape(separator.to_s()) + "]") if separator != ""
+
+		return separator
 	end
 end
-
-s = StringCalculator.new
