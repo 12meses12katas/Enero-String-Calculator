@@ -44,9 +44,9 @@ class StringCalculator
 
 		if sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/(\[.\])+/ then 
 			separator = sep_fetch[2..-1]
-			separator.gsub!(/\[/, "")
-			separator.gsub!(/\]$/, "")
-			separator.gsub!(/\]/, "|")
+			separator = separator.gsub(/\[/, "")
+			separator = separator.gsub(/\]$/, "")
+			separator = separator.gsub(/\]/, "|")
 		elsif sep_fetch.length > 1 && sep_fetch[0] =~ /^\/\/./ then
 			#Exists the separator within params string
 			separator = sep_fetch[0][2]
@@ -65,7 +65,6 @@ class StringCalculator
 		end
 
 		return Regexp.compile("[" + Regexp.escape(separator) + "]")
-
 	end
 end
 
