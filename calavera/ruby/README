@@ -1,9 +1,0 @@
-String calculator Kata written in Ruby. It works on JRuby and Ruby 1.9.2.
-
-Note:
-
-Although it seems correct and clear this is probably one of the worse implementations ever. 
-If we take a look in detail we'll see that the complexity of the algorithm is
-O(4n). In theory this is equal to O(n) but iterate the array four times
-rather than one is still a bad practice . We should avoid the use of `map` and `select`, 
-and check the restrictions into the `inject` loop the get a real complexity of O(n).

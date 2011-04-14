@@ -1,2 +1,0 @@
-Para ejecutar los Tests de la Kata:
-> StringCalculatorTests.exe --format=plain --all
