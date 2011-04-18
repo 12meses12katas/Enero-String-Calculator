@@ -31,6 +31,8 @@ class Calculator
         first_line = $~[1]
         if first_line =~  /\[(.+)\]/
           elements = $~[1].split "]["
+          elements << "\n"
+          elements << ","
           delimiter = Regexp.union elements
         else        
           delimiter = first_line
@@ -62,7 +64,8 @@ describe "String calculator" do
     @calculator.add("").should == 0
   end
 
-  { "" => 0, "1" => 1, "1,1" => 2, "3,4" => 7, "1,1,1" => 3, "1,2,3" => 6,  "5\n2\n3" => 10}.each do | numbers, result |
+  { "" => 0, "1" => 1, "345" => 345, "1,1" => 2, "3,4" => 7, "1,1,1" => 3,
+    "1,2,3" => 6, "5\n2\n3" => 10, "123,78" => 201}.each do | numbers, result |
     it "adding #{numbers} should be #{result}" do
       @calculator.add(numbers).should == result
     end
@@ -75,6 +78,8 @@ describe "String calculator" do
   it "different delimiters specified in first line should work" do
     @calculator.add("//%\n2%6").should == 8
     @calculator.add("//;\n1;2").should == 3
+    @calculator.add("//[;]\n1;2").should == 3
+    @calculator.add("//[+]\n8+12,43").should == 63
   end
 
   it "doesn't allow negative numbers" do
@@ -83,15 +88,21 @@ describe "String calculator" do
 
   it "big numbers should be ignored" do
     @calculator.add("2,1001").should == 2
+    @calculator.add("2,1000").should == 1002
   end
 
   it "delimiter can be of any length" do
     @calculator.add("//[***]\n1***2***3").should == 6
+    @calculator.add("//[+=]\n1+=2+=3").should == 6
+    @calculator.add("//[-]\n1-2-3").should == 6
+    @calculator.add("//[--]\n1--2--3").should == 6
+    expect {  @calculator.add("//[--]\n1--2---3") }.to raise_error(Exception, "negatives not allowed (-3)")
   end
 
   it "multiple delimiters are allowed" do
     @calculator.add("//[*][%]\n1*2%3").should == 6
     @calculator.add("//[*#][%%%]\n1*#2%%%5").should == 8
+    @calculator.add("//[*][=>]\n1=>2*3").should == 6
   end
 
 end
