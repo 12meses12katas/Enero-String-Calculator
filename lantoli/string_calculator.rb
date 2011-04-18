@@ -26,19 +26,14 @@ class Calculator
 
   def extract_strnumbers_and_delimiter(args)
       delimiter = /[\n,]/
-      numbers = args.sub %r{^//(.+)\n} , ""
-      if $~ != nil
-        first_line = $~[1]
-        if first_line =~  /\[(.+)\]/
-          elements = $~[1].split "]["
-          elements << "\n"
-          elements << ","
-          delimiter = Regexp.union elements
-        else        
-          delimiter = first_line
-        end
-      end
-      return numbers, delimiter
+      text = args.dup
+      first_line = text.slice!(%r{^//(.+)\n})
+      return text, delimiter unless first_line
+
+      delimiters = first_line.scan(%r{\[([^\]]+)\]}).flatten
+      delimiters = first_line.scan(%r{^//(.+)\n}).flatten if delimiters.empty?
+      delimiters << delimiter
+      return text, Regexp.union(delimiters)
   end
 
 end
@@ -53,6 +48,7 @@ class Integer
   end
 
 end
+
 
 describe "String calculator" do
 
