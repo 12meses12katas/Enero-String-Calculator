@@ -25,14 +25,10 @@ class Calculator
   end
 
   def extract_strnumbers_and_delimiter(args)
-      delimiter = /[\n,]/
+      delimiters = /[\n,]/ 
       text = args.dup
       first_line = text.slice!(%r{^//(.+)\n})
-      return text, delimiter unless first_line
-
-      delimiters = first_line.scan(%r{\[([^\]]+)\]}).flatten
-      delimiters = first_line.scan(%r{^//(.+)\n}).flatten if delimiters.empty?
-      delimiters << delimiter
+      delimiters = first_line.scan(%r{\[([^\]]+)\]}).flatten << delimiters if first_line
       return text, Regexp.union(delimiters)
   end
 
@@ -50,8 +46,8 @@ class Integer
 end
 
 
-describe "String calculator" do
 
+describe "String calculator" do
   before do
     @calculator = Calculator.new
   end
@@ -72,8 +68,7 @@ describe "String calculator" do
   end
 
   it "different delimiters specified in first line should work" do
-    @calculator.add("//%\n2%6").should == 8
-    @calculator.add("//;\n1;2").should == 3
+    @calculator.add("//[%]\n2%6").should == 8
     @calculator.add("//[;]\n1;2").should == 3
     @calculator.add("//[+]\n8+12,43").should == 63
   end
