@@ -48,4 +48,12 @@ public class StringCalculatorTest {
 	public void AddOneNumber(){
 		Assert.assertEquals(2, calculator.add("2"));
 	}
+	
+	/**
+	 * Ejemplo 3: Si numbers="1,2" obtenemos 3
+	 */
+	@Test 
+	public void AddTwoNumbers(){
+		Assert.assertEquals(3, calculator.add("1,2"));
+	}
 }

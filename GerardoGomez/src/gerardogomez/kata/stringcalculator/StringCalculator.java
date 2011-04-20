@@ -11,6 +11,8 @@ package gerardogomez.kata.stringcalculator;
  *
  */
 public class StringCalculator {
+	
+	private String delimiter = ",";
 
 	/**
 	 * @param string
@@ -19,14 +21,37 @@ public class StringCalculator {
 	public int add(String string) {
 		int result=0;
 		
-		try {
-			result = Integer.valueOf(string);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			String[] numbers = string.split(delimiter);
+			int[] values = parseNumbers(numbers);
+			result = add(values); 
 		
 		return result;
 	}
+
+	private int[] parseNumbers(String[] numbers){
+		int[] values = new int[numbers.length];
+		
+		for(int i=0; i<numbers.length; i++){
+			try{
+				String number = numbers[i];
+				if(!"".equals(number.trim())){
+					values[i] = Integer.valueOf(number);
+				}
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException("NaN");
+			}
+		}
+		
+		return values;
+	}
+		
+	private int add(int[] values){
+		int result = 0;
+		for(int value: values){
+			result += value;
+		}
+		return result;
+	}
+		
 
 }
