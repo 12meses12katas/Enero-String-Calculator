@@ -9,7 +9,11 @@ def add(numbers):
         delimiter, numbers = numbers.split('\n', 1)
         delimiter = delimiter[2:]
     numbers = numbers.replace("\n", delimiter)
-    return sum(map(int, numbers.split(delimiter)))
+    numbers = map(int, numbers.split(delimiter))
+    negatives = [number for number in numbers if number < 0]
+    if negatives:
+        raise Exception('negatives not allowed', negatives)
+    return sum(numbers)
 
 if __name__ == '__main__':
     assert add("") == 0
@@ -18,3 +22,8 @@ if __name__ == '__main__':
     assert add("1,2,3") == 6
     assert add("1\n2,3") == 6
     assert add("//;\n1;2") == 3
+    try:
+        add("-1")
+    except Exception as e:
+        assert e.args[0] == 'negatives not allowed'
+        assert e.args[1] == [-1] 
