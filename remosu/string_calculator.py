@@ -13,6 +13,7 @@ def add(numbers):
     negatives = [number for number in numbers if number < 0]
     if negatives:
         raise Exception('negatives not allowed', negatives)
+    numbers = [number for number in numbers if number <= 1000]
     return sum(numbers)
 
 if __name__ == '__main__':
@@ -27,3 +28,5 @@ if __name__ == '__main__':
     except Exception as e:
         assert e.args[0] == 'negatives not allowed'
         assert e.args[1] == [-1] 
+    assert add("2,1001") == 2
+
