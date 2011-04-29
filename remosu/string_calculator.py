@@ -6,8 +6,11 @@ def add(numbers):
         return 0
     delimiter = ','
     if numbers.startswith('//'):
-        delimiter, numbers = numbers.split('\n', 1)
-        delimiter = delimiter.strip('/[]')
+        delimiters, numbers = numbers.split('\n', 1)
+        delimiters = delimiters.strip('/[]').split('][')
+        delimiter = delimiters[0]
+        for other in delimiters[1:]:
+            numbers = numbers.replace(other, delimiter)
     numbers = numbers.replace("\n", delimiter)
     numbers = map(int, numbers.split(delimiter))
     negatives = [number for number in numbers if number < 0]
@@ -30,3 +33,4 @@ if __name__ == '__main__':
         assert e.args[1] == [-1] 
     assert add("2,1001") == 2
     assert add("//[***]\n1***2***3") == 6
+    assert add("//[*][%]\n1*2%3") == 6
