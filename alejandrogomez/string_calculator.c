@@ -2,25 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ERROR_BAD_INPUT -1
-#define ERROR_NEGATIVE_NUMBER -2
-
-typedef char * string;
-
-int add(string numbers);
-int has_delimiter_definitions(string s);
-int belongs(char c, string s);
-int valid_input(string s);
-int is_separator(char c);
-void take(string s, int n, string * res);
-void drop(string s, int n, string * res);
-void extract_delimiter(string * s, string * delim);
-int index_of(char c, string s);
-void replace_substring(string * s, string sub, char c);
-int is_substring(string sub, string s);
-int equal_strings(string a, string b);
-int to_number(string number);
-int empty_string(string s);
+#include "string_calculator.h"
 
 int add(string numbers)
 {
@@ -85,30 +67,28 @@ int add(string numbers)
 
 int has_delimiter_definitions(string s)
 {
-    return (s[0] == '/') && (s[1] == '/') && belongs('\n', s);
+    return 	s[0] == '/' && 
+			s[1] == '/' && 
+			belongs('\n', s);
 }
 
 int belongs(char c, string s)
 {   
-    if (empty_string(s))
-        return 0;
-    else
-        return ( s[0] == c || belongs(c, &s[1]) );
+    return 	!empty_string(s) && 
+			(s[0] == c || belongs(c, &s[1]));
 }
 
 int valid_input(string s)
 {
-    int i, s_length = (int) strlen(s);
+    int i, s_length = length(s);
     int separator_found = 0;
     
     for(i = 0; i < s_length; i++)
     {
         if (is_separator(s[i]) && separator_found)
             return 0;
-        else if (is_separator(s[i]))
-            separator_found = 1;
-        else
-            separator_found = 0;
+        else 
+			separator_found = is_separator(s[i]);
     }
         
     return 1;
@@ -116,14 +96,14 @@ int valid_input(string s)
 
 int is_separator(char c)
 {
-    return ( c == '.' ||
-             c == ',' ||
-             c == '\n' );
+    return 	c == '.' ||
+            c == ',' ||
+            c == '\n';
 }
 
-void take(string s, int n, string * res)
+string * take(string s, int n, string * res)
 {
-    int i, s_length = (int) strlen(s);
+    int i, s_length = length(s);
     string aux = strdup(s);
     
     if (n > s_length)
@@ -131,15 +111,16 @@ void take(string s, int n, string * res)
     
     for(i = 0; i < n; i++)
         aux[i] = s[i];
+
     aux[i] = (long int) NULL;
-        
-    strcpy(*res, aux);
-    free(aux);
+	*res = aux;
+	
+	return res;
 }
 
-void drop(string s, int n, string * res)
+string * drop(string s, int n, string * res)
 {
-    int i, s_length = (int) strlen(s);
+    int i, s_length = length(s);
 
     if (n > s_length)
         *res = NULL;
@@ -147,14 +128,15 @@ void drop(string s, int n, string * res)
     {
         string aux = strdup(s);
         take(&aux[n], s_length - n, res);
-        free(aux);
     }
+
+	return res;
 }
 
 void extract_delimiter(string * s, string * delim)
 {
     string raw = *s;
-    int i, s_length = (int) strlen(raw);
+    int i, s_length = length(raw);
     string clean = strdup(raw);
     string aux = strdup(raw);
     
@@ -167,16 +149,18 @@ void extract_delimiter(string * s, string * delim)
         *delim = "";
         return;
     }
+	else
+	{
+		*delim = "";
+		return;
+	}
             
     i = index_of(']', aux);
-    
     if (i == -1)
         *delim = "";
     else
     {   
-        // extract delim
         take(aux, i, delim);
-        // clean s
         drop(aux, i + 1, &clean);
         *s = clean;
     }
@@ -184,9 +168,9 @@ void extract_delimiter(string * s, string * delim)
 
 int index_of(char c, string s)
 {
-    int i;
+    int i, s_length = length(s);
     
-    for(i = 0; i < (int) strlen(s); i++)
+    for(i = 0; i < s_length; i++)
     {
         if(s[i] == c)
             return i;
@@ -195,31 +179,27 @@ int index_of(char c, string s)
     return -1;
 }
 
-void replace_substring(string * s, string sub, char c)
+string * replace_substring(string * s, string sub, char c)
 {
-    int sub_index, sub_length = (int) strlen(sub);
+    int sub_index, sub_length = length(sub);
     string raw = *s;
     string left, right;
     
-    left = strdup(raw);
-    right = strdup(raw);
-    
-    sub_index = is_substring(sub, raw);
-    if (sub_index != -1)
+    left = strdup(*s);
+    right = strdup(*s);
+    sub_index = is_substring(sub, *s);
+    while (sub_index != -1)
     {
-        // save left part
         take(raw, sub_index, &left);
-        
-        // delete delimiter and put c on its place
         drop(&raw[sub_index], sub_length - 1, &right);
         right[0] = c;
-        
-        // build the entire string and check for substring
         strcat(left, right);
         sub_index = is_substring(sub, left);
     }
     
     *s = left;
+	
+	return s;
 }
 
 int is_substring(string sub, string s)
@@ -229,8 +209,8 @@ int is_substring(string sub, string s)
     max_index = 0;
     if (!empty_string(sub))
     {
-        sub_length = (int) strlen(sub);
-        max_index = (int) strlen(s) - sub_length;
+        sub_length = length(sub);
+        max_index = length(s) - sub_length;
     }
     
     for(i = 0; i <= max_index; i++)
@@ -250,122 +230,20 @@ int is_substring(string sub, string s)
 
 int equal_strings(string a, string b)
 {
-    return ( !strcmp(a, b) );
+    return (!strcmp(a, b));
 }
 
 int to_number(string number)
 {
-    return ( (int) strtol(number, (char **) NULL, 10) );
+    return ((int) strtol(number, (char **) NULL, 10));
 }
 
 int empty_string(string s)
 {
-    return ( strlen(s) == 0 );
+    return (strlen(s) == 0);
 }
 
-/*********
- * Test. *
- *********/
-
-int main()
+int length(string s)
 {
-    printf ("\t*** TEST - STRING CALCULATOR ***\n");
-    
-    printf ("add(\"\") == 0 :\t\t\t\t\t\t");
-    if (test_empty_string())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"1,2,3\") == 6 :\t\t\t\t\t");
-    if (test_well_formed_string())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"1\\n2,3\") == 6 :\t\t\t\t\t");
-    if (test_well_formed_string_cr())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"1\\n,2,3\") is bad input :\t\t\t\t");
-    if (test_bad_formed_string())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"//[*][:]\\n1*2:3\") == 6 :\t\t\t\t");
-    if (test_single_character_delimiter_definitions())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"//[***][:::1:::]\\n1***2:::1:::3\") == 6 :\t\t");
-    if (test_multiple_character_delimiter_definitions())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"-1,2,-3\") is bad input (negatives not allowed) :\t");
-    if (test_negative_numbers_not_allowed())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    printf ("add(\"1000,2,1001\") == 1002\t\t\t\t");
-    if (test_ignore_values_greater_than_1000())
-        printf ("+PASS+");
-    else
-        printf ("-FAIL-");
-    printf("\n");
-    
-    return EXIT_SUCCESS;
-}
-
-int test_empty_string()
-{
-    return ( add("") == 0 );
-}
-
-int test_well_formed_string()
-{
-    return ( add("1,2,3") == 6 );
-}
-
-int test_well_formed_string_cr()
-{
-    return ( add("1\n2,3") == 6 );
-}
-
-int test_bad_formed_string()
-{
-    return ( add("1\n,2,3") == ERROR_BAD_INPUT );
-}
-
-int test_single_character_delimiter_definitions()
-{
-    return ( add("//[*][:]\n1*2:3") == 6 );
-}
-
-int test_multiple_character_delimiter_definitions()
-{
-    return ( add("//[***][:::1:::]\n1***2:::1:::3") == 6 );
-}
-
-int test_negative_numbers_not_allowed()
-{
-    return ( add("-1,2,-3") == ERROR_NEGATIVE_NUMBER );
-}
-
-int test_ignore_values_greater_than_1000()
-{
-    return ( add("1000,2,1001") == 1002 );
+	return ((int) strlen(s));
 }
