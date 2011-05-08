@@ -7,16 +7,15 @@
 int add(string numbers)
 {
     string nums, separators = ".,\n";
-    string * s;
-    int negatives_found, result = 0;
+    int result = 0;
     
     if (empty_string(numbers))
         return result;
-    else if (has_delimiter_definitions(numbers))
+    else
+		nums = strdup(numbers);
+	
+	if (has_delimiter_definitions(numbers))
     {
-        // extract and replace delimiters
-        // use 'nums' to store result
-        nums = strdup(numbers);
         drop(numbers, 2, &nums);
         string delimiter = strdup(nums);
         extract_delimiter(&nums, &delimiter);
@@ -25,14 +24,12 @@ int add(string numbers)
             replace_substring(&nums, delimiter, '.');
             extract_delimiter(&nums, &delimiter);
         }
-    }
-    else
-        nums = strdup(numbers);     
+    }  
     
     if (!valid_input(nums))
         return ERROR_BAD_INPUT;
         
-    negatives_found = 0;
+    int negatives_found = 0;
     string negatives = malloc(sizeof(nums));
     string nums_tok = strdup(nums);
     string num = strtok(nums_tok, separators);
@@ -52,15 +49,13 @@ int add(string numbers)
         num = strtok(NULL, separators); 
     }
     
-    free(nums_tok); 
-    free(nums);
-    
     if (negatives_found)
     {
         fprintf(stderr, "Negatives not allowed: %s\n", negatives);
-        free(negatives);
-        return ERROR_NEGATIVE_NUMBER;
+        result = ERROR_NEGATIVE_NUMBER;
     }
+
+	free(negatives);
     
     return result;
 }
