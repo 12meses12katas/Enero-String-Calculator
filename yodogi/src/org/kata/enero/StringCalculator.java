@@ -1,32 +1,33 @@
 package org.kata.enero;
 
+import java.util.regex.PatternSyntaxException;
+
 public class StringCalculator {
 
-	String numbers;
-	String delimiter;
-	
+	char delimiter;
 	
 	public StringCalculator() {
-		numbers = "";
-		delimiter = ",";
+		delimiter = ',';
 	}
 	
-	public StringCalculator(String numbers) {
-		setNumbers(numbers);
+	public StringCalculator(char delimiter) {
+		setDelimiter(delimiter);
 	}
 	
-	public int getValue() {
+	public int add(String numbers) throws PatternSyntaxException {
 		int result = 0;
 		String[] operands = numbers.split("\n");
 		if (operands.length == 0) return result;
 		
 		int indx = 0;
-		if (operands[0].indexOf("//") == 0) { // Initializate StringCalculator
+		String defDelimiter = operands[indx].replaceAll("\\s+", "");
+		if ((defDelimiter.indexOf("//") == 0)  && (defDelimiter.length() == 3)) { // Initializate StringCalculator
+			delimiter = defDelimiter.charAt(2);
 			indx++;
 		}
 		
 		while (indx < operands.length) {
-			int cal = calcutate(operands[indx]);
+			int cal = calcutate(operands[indx].replaceAll("\\s+", ""));
 			result += cal;
 			indx++;
 		}
@@ -43,28 +44,33 @@ public class StringCalculator {
 		return result;
 	}
 
-	public void setNumbers(String numbers) {
-		this.numbers = numbers;
-	}
-	
-	public void setDelimiter(String delimiter) {
+	public void setDelimiter(char delimiter) {
 		this.delimiter = delimiter;
 	}
 	
 	private int calcutate(String operands) {
 		int result = 0;
-		String patternStr = "[" + delimiter + " ]";
+		String patternStr = "[" + delimiter + "]";
 
-		System.out.print("Sumando elementos(" + operands.split(patternStr).length + "):");
+		String[] operators = operands.split(patternStr);
+		
+		if (operators.length == 1 && operands.contains("" + delimiter))
+			throw new PatternSyntaxException("the following input is NOT ok", operands, operands.indexOf(delimiter) + 1);
+		
 		for (String numStr : operands.split(patternStr))
 			try {
-				System.out.print("(" + numStr + ")");
-				result += Integer.parseInt(numStr);
+				
+				int num = Integer.parseInt(numStr);
+				
+				if (num < 0)
+					throw new PatternSyntaxException("negatives not allowed", operands, operands.indexOf(delimiter) + 1);
+				
+				result += num;
+				
 			} catch (NumberFormatException ex) {
 				// On exceptions numStr equal zero
 			}
 		
-		System.out.println(".");
 		return result;
 		
 	}
