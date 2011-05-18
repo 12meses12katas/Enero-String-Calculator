@@ -65,4 +65,26 @@ public class StringCalculatorTest {
 		
 	}
 	
+	@Test
+	public void numbersBiggerThanOnethousand() throws Exception {
+		
+		assertEquals(7, cal.add("2,1001, 5"));
+		
+	}
+
+	@Test
+	public void delimiterCanBeAnyLength() throws Exception {
+		
+		assertEquals(16, cal.add("//[***]\n1***12***3"));
+		
+	}
+
+	@Test
+	public void delimiterMultiple() throws Exception {
+		
+		assertEquals(16, cal.add("//[***][aaaa]\n1***12aaaa3"));
+//		assertEquals(48, cal.add("//[*][%]\n17*28%3"));
+//		assertEquals(1, cal.add("1, \n"));
+		
+	}
 }
