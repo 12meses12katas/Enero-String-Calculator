@@ -24,4 +24,11 @@ int main(){
 		printf("\t+PASS+\n");
 	else
 		printf("\t-FAIL-\n");
+	
+	printf("add(\"1\\n2,3,4\\n5,6\") == 21\n");
+	if(add("1\n2,3,4\n5,6")==21)
+		printf("\t+PASS+\n");
+	else
+		printf("\t-FAIL-\n");
+	
 }

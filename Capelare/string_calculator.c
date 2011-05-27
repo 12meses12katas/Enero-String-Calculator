@@ -6,13 +6,15 @@
 
 int add(string numbers){
 	string tks;
+	string delimiters = ",\n";
 	int result = 0;
 	
 	string nums = strdup(numbers);
-	tks = strtok(nums, ",");
+	
+	tks = strtok(nums, delimiters);
 	while(tks != NULL){
 		result+=atoi(tks);
-		tks = strtok(NULL, ",");
+		tks = strtok(NULL, delimiters);
 	}
 	
 	return result;
