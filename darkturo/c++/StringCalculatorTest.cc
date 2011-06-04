@@ -7,8 +7,8 @@
 
 class StringCalculatorTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(StringCalculatorTest);
-//    CPPUNIT_TEST(test_add_with_empty_string);
-//    CPPUNIT_TEST(test_add_with_one_number);
+    CPPUNIT_TEST(test_add_with_empty_string);
+    CPPUNIT_TEST(test_add_with_one_number);
     CPPUNIT_TEST(test_add_with_two_numbers);
     CPPUNIT_TEST_SUITE_END();
     private:
