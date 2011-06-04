@@ -12,6 +12,8 @@ class StringCalculatorTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(test_add_with_two_numbers);
     CPPUNIT_TEST(test_add_with_unknown_amount_of_numbers);
     CPPUNIT_TEST(test_add_with_new_lines_between_numbers);
+    CPPUNIT_TEST(test_add_with_a_new_different_delimiter);
+    CPPUNIT_TEST(test_add_negatives_not_allowed);
     CPPUNIT_TEST_SUITE_END();
     private:
         StringCalculator * calc;
@@ -42,6 +44,14 @@ class StringCalculatorTest : public CppUnit::TestFixture {
     
     void test_add_with_new_lines_between_numbers() {
         CPPUNIT_ASSERT_EQUAL(6, calc->add("1\n2,3"));
+    }
+
+    void test_add_with_a_new_different_delimiter() {
+        CPPUNIT_ASSERT_EQUAL(3, calc->add("//;\n1;2"));
+    }
+
+    void test_add_negatives_not_allowed() {
+        CPPUNIT_ASSERT_EQUAL( 3, calc->add("1,-2"));
     }
 };
 
