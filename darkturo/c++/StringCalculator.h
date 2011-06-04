@@ -1,12 +1,9 @@
 #include <string>
 
+using namespace std;
 class StringCalculator {
     public:
-        StringCalculator() {
-            /* empty */
-        }
-        
         int add(string theString) {
             return 0;
         }
-}
+};
