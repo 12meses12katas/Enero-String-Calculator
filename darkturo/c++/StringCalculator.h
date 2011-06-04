@@ -20,19 +20,23 @@ class StringCalculatorException : exception {
 };
 
 class StringCalculator {
+    private:
+        string str;
+
     public:
         int add(string theString) {
             unsigned int sum;
+            str =  theString;
 
-            const vector<int> * numbersList = extractNumbers(theString);
+            const vector<int> * numbersList = extractNumbers();
             sum = accumulate(numbersList->begin(), numbersList->end(), 0);
 
-            delete numbersList;
             return sum;
         }
+
     private:
-        vector<int> * extractNumbers(string theString) {
-            vector<string> * numList = split(getDelimiters(), theString);
+        vector<int> * extractNumbers() {
+            vector<string> * numList = splitStringWith(getDelimiters());
             return convertToNumbers(numList);
         }
 
@@ -40,42 +44,63 @@ class StringCalculator {
             vector<string> * delimiters = new vector<string>(0);
             delimiters->push_back(",");
             delimiters->push_back("\n");
+            extractDelimitersFromString(delimiters);
             return delimiters;
         }
 
-        vector<string> * split(vector<string> * delimiters, string theString) {
+        void extractDelimitersFromString(vector<string> * delimiters) {
+            if (str.find_first_of("//") == 0) {
+                string::size_type endOfSequence = str.find_first_of("\n");
+                parseNewDelimiters(string(str, 2, endOfSequence - 2), delimiters);
+                str.erase(0, endOfSequence);
+            }
+        }
+
+        void parseNewDelimiters(string analizedString, 
+                                vector<string> * delimiters) 
+        {
+            delimiters->push_back(analizedString);
+        }
+
+        vector<string> * splitStringWith(vector<string> * delimiters) {
             vector<string> * strList = new vector<string>(0);
             string::size_type pos(0), tpos(0); 
             string sep;
 
             do {
-                tpos = find(delimiters, theString, pos, sep);
+                tpos = findInString(delimiters, pos, sep);
                 if (tpos != string::npos) {
-                    strList->push_back(string(theString, pos, tpos - pos));
+                    strList->push_back(string(str, pos, tpos - pos));
                     pos = tpos + sep.size();
                 } else {
-                    strList->push_back(string(theString, pos));
+                    strList->push_back(string(str, pos));
                 }
             } while( tpos != string::npos );
 
             return strList;
         }
 
-        string::size_type find(vector<string> *delimiters, string theString, 
-                               string::size_type pos, string & sep) 
+        string::size_type findInString(vector<string> *delimiters, 
+                                                string::size_type pos, 
+                                                string & sep) 
         {
             MatchWithDelimiter result = for_each(delimiters->begin(), 
                                                  delimiters->end(), 
-                                                 MatchWithDelimiter(theString, 
-                                                                        pos));
+                                                 MatchWithDelimiter(str, pos));
            
             sep = result.delimiter; 
             return result.position;
         }
 
         vector<int> * convertToNumbers(vector<string> * theNumList) {
-            return for_each(theNumList->begin(), theNumList->end(), 
-                            ToInt()).numbersList;
+            ToInt result = for_each(theNumList->begin(), 
+                                    theNumList->end(), 
+                                    ToInt());
+
+            if (result.negatives->size() > 0) {
+                throw StringCalculatorException("negatives not allowed");
+            }
+            return result.numbersList;
         }
 
         // * * * Functors * * * //
@@ -105,16 +130,22 @@ class StringCalculator {
         class ToInt : public unary_function<string, void> {
             public:
                 vector <int> * numbersList; 
+                vector <int> * negatives;
 
                 ToInt() {
                     numbersList = new vector<int>(0);
+                    negatives   = new vector<int>(0);
                 }
 
                 void operator() (string x) { 
                     char * endptr;
                     int num = strtoll(x.c_str(), &endptr, 10);
                     if (*endptr == '\0') {
-                        numbersList->push_back(num);
+                        if (num >= 0) { 
+                            numbersList->push_back(num);
+                        } else {
+                            negatives->push_back(num);
+                        }
                     } else {
                         throw StringCalculatorException("invalid input");
                     }
