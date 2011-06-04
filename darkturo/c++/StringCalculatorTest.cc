@@ -7,7 +7,9 @@
 
 class StringCalculatorTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(StringCalculatorTest);
-    CPPUNIT_TEST(test_add_with_empty_string);
+//    CPPUNIT_TEST(test_add_with_empty_string);
+//    CPPUNIT_TEST(test_add_with_one_number);
+    CPPUNIT_TEST(test_add_with_two_numbers);
     CPPUNIT_TEST_SUITE_END();
     private:
         StringCalculator * calc;
@@ -26,6 +28,10 @@ class StringCalculatorTest : public CppUnit::TestFixture {
 
     void test_add_with_one_number() {
         CPPUNIT_ASSERT_EQUAL( 1, calc->add("1"));
+    }
+    
+    void test_add_with_two_numbers() {
+        CPPUNIT_ASSERT_EQUAL( 3, calc->add("1,2"));
     }
 };
 
