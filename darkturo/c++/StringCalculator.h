@@ -32,16 +32,24 @@ class StringCalculator {
         }
     private:
         vector<int> * extractNumbers(string theString) {
-            vector<string> * numList = splitWithSeparator(",", theString);
+            vector<string> * numList = split(getDelimiters(), theString);
             return convertToNumbers(numList);
         }
 
-        vector<string> * splitWithSeparator(string sep, string theString) {
+        vector<string> * getDelimiters() {
+            vector<string> * delimiters = new vector<string>(0);
+            delimiters->push_back(",");
+            delimiters->push_back("\n");
+            return delimiters;
+        }
+
+        vector<string> * split(vector<string> * delimiters, string theString) {
             vector<string> * strList = new vector<string>(0);
             string::size_type pos(0), tpos(0); 
+            string sep;
 
             do {
-                tpos = theString.find(sep, pos); 
+                tpos = find(delimiters, theString, pos, sep);
                 if (tpos != string::npos) {
                     strList->push_back(string(theString, pos, tpos - pos));
                     pos = tpos + sep.size();
@@ -53,28 +61,64 @@ class StringCalculator {
             return strList;
         }
 
-        vector<int> * convertToNumbers(vector<string> * theNumList) {
-            ToInt result = for_each(theNumList->begin(), theNumList->end(), ToInt());
-            return result.numbersList;
+        string::size_type find(vector<string> *delimiters, string theString, 
+                               string::size_type pos, string & sep) 
+        {
+            MatchWithDelimiter result = for_each(delimiters->begin(), 
+                                                 delimiters->end(), 
+                                                 MatchWithDelimiter(theString, 
+                                                                        pos));
+           
+            sep = result.delimiter; 
+            return result.position;
         }
+
+        vector<int> * convertToNumbers(vector<string> * theNumList) {
+            return for_each(theNumList->begin(), theNumList->end(), 
+                            ToInt()).numbersList;
+        }
+
+        // * * * Functors * * * //
+        class MatchWithDelimiter: public unary_function<string, void> {
+            private:
+                string analizedString;
+                string::size_type pos;
+                bool firstIteration;
+            public:
+                string::size_type position;
+                string delimiter; 
+
+                MatchWithDelimiter(string theString, string::size_type thePos) : 
+                                   analizedString(theString), pos(thePos), 
+                                   firstIteration(true) {}
+
+                void operator() (string sep) { 
+                    string::size_type founded = analizedString.find(sep, pos);
+                    if (founded < position or firstIteration) {
+                        position = founded; 
+                        delimiter= sep;
+                        firstIteration = false;
+                    }
+                }
+        };
 
         class ToInt : public unary_function<string, void> {
             public:
-            vector <int> * numbersList; 
+                vector <int> * numbersList; 
 
-            ToInt() {
-                numbersList = new vector<int>(0);
-            }
-
-            void operator() (string x) { 
-                char * endptr;
-                int num = strtoll(x.c_str(), &endptr, 10);
-                if (*endptr == '\0') {
-                    numbersList->push_back(num);
-                } else {
-                    throw StringCalculatorException("invalid input");
+                ToInt() {
+                    numbersList = new vector<int>(0);
                 }
-            }
+
+                void operator() (string x) { 
+                    char * endptr;
+                    int num = strtoll(x.c_str(), &endptr, 10);
+                    if (*endptr == '\0') {
+                        numbersList->push_back(num);
+                    } else {
+                        throw StringCalculatorException("invalid input");
+                    }
+                }
         };
 };
 
