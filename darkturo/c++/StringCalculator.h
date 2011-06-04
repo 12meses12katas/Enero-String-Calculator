@@ -54,17 +54,27 @@ class StringCalculator {
         }
 
         vector<int> * convertToNumbers(vector<string> * theNumList) {
-            vector <int> * numbersList = new vector<int>(0);
-            for (vector<string>::iterator it = theNumList->begin(); it != theNumList->end(); it++) {
+            ToInt result = for_each(theNumList->begin(), theNumList->end(), ToInt());
+            return result.numbersList;
+        }
+
+        class ToInt : public unary_function<string, void> {
+            public:
+            vector <int> * numbersList; 
+
+            ToInt() {
+                numbersList = new vector<int>(0);
+            }
+
+            void operator() (string x) { 
                 char * endptr;
-                int num = strtoll((*it).c_str(), &endptr, 10);
+                int num = strtoll(x.c_str(), &endptr, 10);
                 if (*endptr == '\0') {
                     numbersList->push_back(num);
                 } else {
                     throw StringCalculatorException("invalid input");
                 }
             }
-            return numbersList;
-        }
+        };
 };
 
