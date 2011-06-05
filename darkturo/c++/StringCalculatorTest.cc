@@ -13,7 +13,10 @@ class StringCalculatorTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(test_add_with_unknown_amount_of_numbers);
     CPPUNIT_TEST(test_add_with_new_lines_between_numbers);
     CPPUNIT_TEST(test_add_with_a_new_different_delimiter);
-    CPPUNIT_TEST(test_add_negatives_not_allowed);
+    CPPUNIT_TEST_EXCEPTION(test_add_negatives_not_allowed_throw_exception, \
+                           StringCalculatorException);
+    CPPUNIT_TEST(test_add_negatives_not_allowed_check_message);
+    CPPUNIT_TEST(test_add_negatives_not_allowed_check_message_multiple_negs);
     CPPUNIT_TEST_SUITE_END();
     private:
         StringCalculator * calc;
@@ -50,8 +53,26 @@ class StringCalculatorTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(3, calc->add("//;\n1;2"));
     }
 
-    void test_add_negatives_not_allowed() {
+    void test_add_negatives_not_allowed_throw_exception() {
         CPPUNIT_ASSERT_EQUAL( 3, calc->add("1,-2"));
+    }
+
+    void test_add_negatives_not_allowed_check_message() {
+        try {
+            calc->add("1,-2");
+        } catch (StringCalculatorException &except) {
+            string expected_message= "negatives not allowed: -2";
+            CPPUNIT_ASSERT_EQUAL(0, expected_message.compare(except.what()));
+        }
+    }
+
+    void test_add_negatives_not_allowed_check_message_multiple_negs() {
+        try {
+            calc->add("1,-2,-3,4,5,6,-7");
+        } catch (StringCalculatorException &except) {
+            string expected_message= "negatives not allowed: -2, -3, -7";
+            CPPUNIT_ASSERT_EQUAL(0, expected_message.compare(except.what()));
+        }
     }
 };
 
