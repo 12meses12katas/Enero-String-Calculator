@@ -60,7 +60,24 @@ class StringCalculator {
         void parseNewDelimiters(string analizedString, 
                                 vector<string> * delimiters) 
         {
-            delimiters->push_back(analizedString);
+            unsigned int last = analizedString.size() - 1;
+            if (analizedString[0] == '[' and analizedString[last] == ']') {
+                analizedString.erase(last,last+1);
+                analizedString.erase(0,1);
+               
+                string::size_type begin(0),end(0); 
+                do {
+                    end = analizedString.find("][", begin);
+                    if (end != string::npos) {
+                        delimiters->push_back(string(analizedString, begin, end - begin));
+                        begin = end + 2; // size_of("][")
+                    } else {
+                        delimiters->push_back(string(analizedString, begin));
+                    }
+                } while (end != string::npos);
+            } else {
+                delimiters->push_back(analizedString);
+            }
         }
 
         vector<string> * splitStringWith(vector<string> * delimiters) {
@@ -150,7 +167,7 @@ class StringCalculator {
                     int num = strtoll(x.c_str(), &endptr, 10);
                     if (*endptr == '\0') {
                         if (num >= 0) { 
-                            numbersList->push_back(num);
+                            if (num <= 1000) numbersList->push_back(num);
                         } else {
                             negatives->push_back(num);
                             if (foundNegative) *ss << ", ";
