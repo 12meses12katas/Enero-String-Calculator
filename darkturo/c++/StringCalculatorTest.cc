@@ -17,6 +17,10 @@ class StringCalculatorTest : public CppUnit::TestFixture {
                            StringCalculatorException);
     CPPUNIT_TEST(test_add_negatives_not_allowed_check_message);
     CPPUNIT_TEST(test_add_negatives_not_allowed_check_message_multiple_negs);
+    CPPUNIT_TEST(test_add_numbers_bigger_than_1000_should_be_ignored);
+    CPPUNIT_TEST(test_add_with_delimiters_of_any_size);
+    CPPUNIT_TEST(test_add_multiple_delimiters);
+    CPPUNIT_TEST(test_add_multiple_delimiters_of_any_size);
     CPPUNIT_TEST_SUITE_END();
     private:
         StringCalculator * calc;
@@ -73,6 +77,22 @@ class StringCalculatorTest : public CppUnit::TestFixture {
             string expected_message= "negatives not allowed: -2, -3, -7";
             CPPUNIT_ASSERT_EQUAL(0, expected_message.compare(except.what()));
         }
+    }
+
+    void test_add_numbers_bigger_than_1000_should_be_ignored(){
+        CPPUNIT_ASSERT_EQUAL( 2, calc->add("2,1001"));
+    }
+
+    void test_add_with_delimiters_of_any_size() {
+        CPPUNIT_ASSERT_EQUAL( 6, calc->add("//[***]\n1***2***3"));
+    }
+
+    void test_add_multiple_delimiters() {
+        CPPUNIT_ASSERT_EQUAL(6, calc->add("//[*][%]\n1*2%3"));
+    }
+
+    void test_add_multiple_delimiters_of_any_size() {
+        CPPUNIT_ASSERT_EQUAL(21, calc->add("//[***][%][|||]\n1|||2|||3***4***5%6"));
     }
 };
 
