@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <vector>
+#include <sstream>
 #include <algorithm>
 #include <exception>
 #include <bits/stl_numeric.h>
@@ -98,7 +99,9 @@ class StringCalculator {
                                     ToInt());
 
             if (result.negatives->size() > 0) {
-                throw StringCalculatorException("negatives not allowed");
+                string msg("negatives not allowed: ");
+                msg.append(result.negativesToString());
+                throw StringCalculatorException(msg);
             }
             return result.numbersList;
         }
@@ -128,6 +131,9 @@ class StringCalculator {
         };
 
         class ToInt : public unary_function<string, void> {
+            private:
+                bool foundNegative;
+                stringstream * ss;
             public:
                 vector <int> * numbersList; 
                 vector <int> * negatives;
@@ -135,6 +141,8 @@ class StringCalculator {
                 ToInt() {
                     numbersList = new vector<int>(0);
                     negatives   = new vector<int>(0);
+                    foundNegative = false;
+                    ss = new stringstream();
                 }
 
                 void operator() (string x) { 
@@ -145,10 +153,17 @@ class StringCalculator {
                             numbersList->push_back(num);
                         } else {
                             negatives->push_back(num);
+                            if (foundNegative) *ss << ", ";
+                            else foundNegative = true;
+                            *ss << num;
                         }
                     } else {
                         throw StringCalculatorException("invalid input");
                     }
+                }
+
+                string negativesToString() {
+                    return ss->str();
                 }
         };
 };
