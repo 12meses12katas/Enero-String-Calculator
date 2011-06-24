@@ -1,0 +1,9 @@
+$:.unshift File.join( File.dirname( __FILE__ ), 'lib' )
+
+task :test do 
+  require 'rake/runtest'
+
+  Rake.run_tests 'test/unit/tc_*.rb'
+end
+
+task :default=>[:test]
