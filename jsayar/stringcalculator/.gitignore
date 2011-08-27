@@ -1,0 +1,11 @@
+# Ignore eclipse configuration files
+.classpath
+.project
+.settings/
+
+# Ignore build output directory
+target/
+
+# Ignore temp files
+*~
+
