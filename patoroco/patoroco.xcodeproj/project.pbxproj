@@ -20,6 +20,19 @@
 		B918DB59140EC0EA00B32CFA /* StringCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = B918DB54140EBFEA00B32CFA /* StringCalculator.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		B918DB5A140EEA6700B32CFA /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+				"",
+			);
+			script = "# <com.apple.compilers.gcc>\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXContainerItemProxy section */
 		B918DB56140EC0BA00B32CFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -195,6 +208,7 @@
 				B918DB32140EBE3800B32CFA /* ShellScript */,
 			);
 			buildRules = (
+				B918DB5A140EEA6700B32CFA /* PBXBuildRule */,
 			);
 			dependencies = (
 				B918DB57140EC0BA00B32CFA /* PBXTargetDependency */,

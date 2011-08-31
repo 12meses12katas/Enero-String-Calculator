@@ -17,31 +17,20 @@
     NSString *delimitador = @",";
     
     NSArray *componentesSaltoLinea = [numbers componentsSeparatedByString:@"\n"];
+    if ([[componentesSaltoLinea objectAtIndex:0] hasPrefix:@"//"])
+        delimitador = [[componentesSaltoLinea objectAtIndex:0] substringFromIndex:2];
+    
     for (NSString *comp in componentesSaltoLinea){
-        if ([comp hasPrefix:@"//"]){
-            delimitador = [comp substringFromIndex:2];
-            continue;
-        }
-        NSArray *componentesComa = [comp componentsSeparatedByString:delimitador];
-        for (NSString *c in componentesComa){
-            int valor = [c intValue];
-            if (valor < 0){
-                [errores addObject:c];
-            }else if (valor < 1000){
-                result += valor;
-            }
+        for (NSString *c in [comp componentsSeparatedByString:delimitador]){
+            if ([c intValue] < 0) [errores addObject:c];
+            else if ([c intValue] < 1000) result += [c intValue];
         }
     }
     
-    if ([errores count] > 0){
-        NSMutableString *cadenaError = [[NSMutableString alloc] initWithString:@"No se pueden usar números negativos: "];
-        for (NSString *numero in errores){
-            [cadenaError appendString:numero];
-        }
-        @throw([NSException exceptionWithName:@"No negativos" reason:cadenaError userInfo:nil]);
-        [cadenaError release];
-        [errores release];
-    }    
+    if ([errores count] > 0)
+        @throw([NSException exceptionWithName:@"No negativos"
+                    reason:[NSString stringWithFormat:@"No se pueden usar números negativos: %@",
+                            [errores componentsJoinedByString:@", "]] userInfo:nil]);
 
     return result;
 }
