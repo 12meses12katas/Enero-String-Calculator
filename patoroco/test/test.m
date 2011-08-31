@@ -38,4 +38,8 @@
     STAssertEquals([calculadora add:@"1,1,1,2,3"], 8, @"");
 }
 
+-(void)testSaltosDeLinea{
+    STAssertEquals([calculadora add:@"1\n2,3"], 6, @"");
+}
+
 @end

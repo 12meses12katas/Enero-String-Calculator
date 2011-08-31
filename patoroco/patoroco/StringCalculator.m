@@ -13,9 +13,12 @@
 -(int)add:(NSString *)numbers{
     int result = 0;
     
-    NSArray *componentes = [numbers componentsSeparatedByString:@","];
-    for (NSString *comp in componentes){
-        result += [comp intValue];
+    NSArray *componentesSaltoLinea = [numbers componentsSeparatedByString:@"\n"];
+    for (NSString *comp in componentesSaltoLinea){
+        NSArray *componentesComa = [comp componentsSeparatedByString:@","];
+        for (NSString *c in componentesComa){
+            result += [c intValue];
+        }
     }
     return result;
 }
