@@ -50,4 +50,11 @@
     STAssertEquals([calculadora add:@"//&\n3&4\n3"], 10, @"");
 }
 
+-(void)testNumeroNegativo{
+    STAssertThrows([calculadora add:@"1,-5,-8,9,25"], @"");
+}
+
+-(void)testNumerosMayoresQue1000{
+    STAssertEquals([calculadora add:@"1000,1,1"], 2, @"");
+}
 @end
