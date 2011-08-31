@@ -34,4 +34,8 @@
     STAssertEquals([calculadora add:@"1,2"], 3, @"");
 }
 
+-(void)testMuchosNumeros{
+    STAssertEquals([calculadora add:@"1,1,1,2,3"], 8, @"");
+}
+
 @end
