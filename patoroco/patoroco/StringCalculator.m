@@ -12,10 +12,15 @@
 
 -(int)add:(NSString *)numbers{
     int result = 0;
+    NSString *delimitador = @",";
     
     NSArray *componentesSaltoLinea = [numbers componentsSeparatedByString:@"\n"];
     for (NSString *comp in componentesSaltoLinea){
-        NSArray *componentesComa = [comp componentsSeparatedByString:@","];
+        if ([comp hasPrefix:@"//"]){
+            delimitador = [comp substringFromIndex:2];
+            continue;
+        }
+        NSArray *componentesComa = [comp componentsSeparatedByString:delimitador];
         for (NSString *c in componentesComa){
             result += [c intValue];
         }

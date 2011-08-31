@@ -42,4 +42,12 @@
     STAssertEquals([calculadora add:@"1\n2,3"], 6, @"");
 }
 
+-(void)testDelimitadorPuntoYComa{
+    STAssertEquals([calculadora add:@"//;\n1;2"], 3, @"");
+}
+
+-(void)testDelimitadorMenos{
+    STAssertEquals([calculadora add:@"//&\n3&4\n3"], 10, @"");
+}
+
 @end
