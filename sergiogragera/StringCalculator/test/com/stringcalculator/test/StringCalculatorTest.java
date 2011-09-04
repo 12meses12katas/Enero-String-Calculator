@@ -47,8 +47,8 @@ public class StringCalculatorTest
 	{
 		exception.expectMessage("negatives not allowed -2");
 		StringCalculator.add("//;\n1;-2");
-		exception.expectMessage("negatives not allowed -2 -4 -1");
-		StringCalculator.add("//;\n1;-2;-4;-1");
+		exception.expectMessage("negatives not allowed -42 -4 -1");
+		StringCalculator.add("//;\n1;-42;-4;-1");
 	}
 	
 	@Test
