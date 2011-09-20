@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-checkstyle:checkstyle</actionName>
+            <displayName>checkstyle:checkstyle</displayName>
+            <goals>
+                <goal>checkstyle:checkstyle</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-site</actionName>
+            <displayName>site</displayName>
+            <goals>
+                <goal>site</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-pmd:pmd</actionName>
+            <displayName>pmd:pmd</displayName>
+            <goals>
+                <goal>pmd:pmd</goal>
+            </goals>
+        </action>
+    </actions>
