@@ -26,10 +26,12 @@ public class StringCalculatorTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    
+
+    StringCalculator calc;
+
     @Before
     public void setUp() {
-        
+        calc = new StringCalculator();
     }
     
     @After
@@ -41,14 +43,12 @@ public class StringCalculatorTest {
      */
     @Test
     public void CadenaVaciaDevuelveCero() {
-        StringCalculator calc = new StringCalculator();
         assertEquals(0, calc.Add(""));
     }
     
     @Test
     public void NumeroSumaNumero()
     {
-        StringCalculator calc = new StringCalculator();
         assertEquals(1, calc.Add("1"));
     }
 }
