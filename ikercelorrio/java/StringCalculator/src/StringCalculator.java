@@ -12,6 +12,7 @@ public class StringCalculator {
     {
         if (numbers.isEmpty()) 
             return 0;
+        
         if (numbers.indexOf(',') == -1)
             return Integer.parseInt(numbers);
         

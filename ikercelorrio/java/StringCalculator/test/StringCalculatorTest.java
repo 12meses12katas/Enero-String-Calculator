@@ -47,15 +47,16 @@ public class StringCalculatorTest {
     }
     
     @Test
-    public void NumeroSumaNumero()
+    public void UnNumero()
     {
         assertEquals(1, calc.Add("1"));
         assertEquals(2, calc.Add("2"));
     }
     
     @Test
-    public void NumerosSerparadosPorComas()
+    public void DosNumerosSerparadosPorComas()
     {
         assertEquals(3, calc.Add("1,2"));
+        assertEquals(37, calc.Add("13,24"));
     }
 }
