@@ -50,5 +50,6 @@ public class StringCalculatorTest {
     public void NumeroSumaNumero()
     {
         assertEquals(1, calc.Add("1"));
+        assertEquals(2, calc.Add("2"));
     }
 }
