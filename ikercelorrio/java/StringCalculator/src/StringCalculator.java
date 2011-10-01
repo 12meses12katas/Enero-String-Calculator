@@ -17,6 +17,11 @@ public class StringCalculator {
             return Integer.parseInt(numbers);
         
         String[] numArray = numbers.split(",");
-        return Integer.parseInt(numArray[0]) + Integer.parseInt(numArray[1]);
+        int sum, max, i;
+        for ( sum = 0, i = 0, max = numArray.length ; i < max ; ++i)
+        {
+            sum += Integer.parseInt(numArray[i]);
+        }
+        return sum;
     }
 }

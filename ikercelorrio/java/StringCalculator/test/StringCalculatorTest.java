@@ -59,4 +59,10 @@ public class StringCalculatorTest {
         assertEquals(3, calc.Add("1,2"));
         assertEquals(37, calc.Add("13,24"));
     }
+    
+    @Test
+    public void VariosNumerosSerparadosPorComas()
+    {
+        assertEquals(10, calc.Add("1,3,2,4"));
+    }    
 }
