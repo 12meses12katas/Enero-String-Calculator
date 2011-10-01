@@ -44,4 +44,11 @@ public class StringCalculatorTest {
         StringCalculator calc = new StringCalculator();
         assertEquals(0, calc.Add(""));
     }
+    
+    @Test
+    public void NumeroSumaNumero()
+    {
+        StringCalculator calc = new StringCalculator();
+        assertEquals(1, calc.Add("1"));
+    }
 }
