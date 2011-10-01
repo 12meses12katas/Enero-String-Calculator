@@ -29,6 +29,7 @@ public class StringCalculatorTest {
     
     @Before
     public void setUp() {
+        
     }
     
     @After
@@ -39,14 +40,8 @@ public class StringCalculatorTest {
      * Test of Add method, of class StringCalculator.
      */
     @Test
-    public void testAdd() {
-        System.out.println("Add");
-        String numbers = "";
-        StringCalculator instance = new StringCalculator();
-        int expResult = 0;
-        int result = instance.Add(numbers);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void CadenaVaciaDevuelveCero() {
+        StringCalculator calc = new StringCalculator();
+        assertEquals(0, calc.Add(""));
     }
 }
