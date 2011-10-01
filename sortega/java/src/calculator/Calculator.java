@@ -4,7 +4,8 @@ import java.util.*;
 import java.util.regex.*;
 
 public class Calculator {
-    private static final Pattern CUSTOM_DELIMITERS_PATTERN = Pattern.compile("//(.*?)\\n(.*)");
+    private static final Pattern CUSTOM_DELIMITERS_PATTERN =
+	Pattern.compile("//(.*?)\\n(.*)");
 
     private String delimiterDefinition;
     private String numbers;
