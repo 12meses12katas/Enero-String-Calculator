@@ -65,5 +65,12 @@ public class StringCalculatorTest {
     {
         assertEquals(10, calc.Add("1,3,2,4"));
         assertEquals(110, calc.Add("11,33,22,44"));
-    }    
+    }   
+    
+    @Test
+    public void VariosNumerosSeparadosPorCommaOLF()
+    {
+        assertEquals(6, calc.Add("1\n2,3"));    
+    }
+    
 }
