@@ -14,11 +14,24 @@ public class StringCalculator {
             return 0;
         
         String[] numArray = numbers.split(",");
+        
+        return AddNumbers(numArray);
+    }
+    
+    private int AddNumbers(String[] numbers)
+    {
         int sum = 0;       
-        for ( String num : numArray)
+        for ( String num : numbers )
         {
-            sum += Integer.parseInt(num);
+            sum += toInt(num);
         }
-        return sum;
+        return sum;    
+    }
+    
+    private int toInt(String number)
+    {
+        if ( number.isEmpty() ) 
+            return 0;
+        return Integer.parseInt(number);
     }
 }
