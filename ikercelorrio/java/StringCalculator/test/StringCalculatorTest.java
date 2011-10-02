@@ -77,6 +77,8 @@ public class StringCalculatorTest {
     public void VariosNumerosConSeparadorPersonalizado()
     {
         assertEquals(3, calc.Add("//;\n1;2"));    
+        assertEquals(6, calc.Add("//\n\n1\n2\n3"));    
+        assertEquals(10, calc.Add("//s\n1s2s7"));    
     }
     
 }

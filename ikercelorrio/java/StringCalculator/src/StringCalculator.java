@@ -13,15 +13,20 @@ public class StringCalculator {
         if (numbers.isEmpty()) 
             return 0;
         
+        String[] numArray = GetNumbers(numbers);
+        
+        return AddNumbers(numArray);
+    }
+    
+    private String[] GetNumbers(String numbers)
+    {
         String delimiters = "[,\n]";
         if ( numbers.startsWith("//"))
         {
             delimiters = numbers.substring(2,3);
             numbers = numbers.substring(4);
         }
-        String[] numArray = numbers.split(delimiters);
-        
-        return AddNumbers(numArray);
+        return numbers.split(delimiters);
     }
     
     private int AddNumbers(String[] numbers)
