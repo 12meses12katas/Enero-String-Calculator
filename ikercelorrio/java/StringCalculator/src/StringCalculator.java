@@ -13,7 +13,13 @@ public class StringCalculator {
         if (numbers.isEmpty()) 
             return 0;
         
-        String[] numArray = numbers.split("[,\n]");
+        String delimiters = "[,\n]";
+        if ( numbers.startsWith("//"))
+        {
+            delimiters = numbers.substring(2,3);
+            numbers = numbers.substring(4);
+        }
+        String[] numArray = numbers.split(delimiters);
         
         return AddNumbers(numArray);
     }
