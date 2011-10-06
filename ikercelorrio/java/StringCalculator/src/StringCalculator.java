@@ -28,9 +28,21 @@ public class StringCalculator {
         if ( numbers.startsWith("//"))
         {
             delimiters = Pattern.quote(numbers.substring(2,3));
-            numbers = numbers.substring(numbers.indexOf('\n',3)+1);
+            numbers = numbers.substring(4);
         }
         return numbers.split(delimiters);
+    }
+     
+    private String CheckNegativeNumber(String negativeNumbers, String number)
+    {
+        if ( number.charAt(0) == '-' ) 
+        {
+            if ( negativeNumbers.isEmpty() )
+                negativeNumbers = "negatives not allowed : " + number;
+            else
+                negativeNumbers += ", " + number;
+        }
+        return negativeNumbers;            
     }
     
     private int AddNumbers(String[] numbers)
@@ -41,16 +53,12 @@ public class StringCalculator {
         
         for ( String num : numbers )
         {
-            if ( num.charAt(0) == '-' ) 
-                negativeNumbers += num + ", ";
-            else
+            negativeNumbers = CheckNegativeNumber(negativeNumbers, num);
+            if ( negativeNumbers.isEmpty() ) 
                 sum += toInt(num);
         }
         if ( !negativeNumbers.isEmpty() )
-        {
-            negativeNumbers = negativeNumbers.substring(0, negativeNumbers.length()-1);
-            throw new NumberFormatException("negatives not allowed : " + negativeNumbers);
-        }
+            throw new NumberFormatException(negativeNumbers);
         return sum;    
     }
     
