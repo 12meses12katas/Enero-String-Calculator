@@ -117,5 +117,13 @@ public class StringCalculatorTest {
         thrown.expect(NumberFormatException.class);
         thrown.expectMessage("negatives not allowed : -4");
         calc.Add("//*\n31*-4*73");
-    }       
+    }    
+    
+    @Test
+    public void VariosNumerosNegativosProvocanExcepcionConMensaje()
+    {               
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("negatives not allowed : -5, -6");
+        calc.Add("1,-5,-6");
+    }     
 }

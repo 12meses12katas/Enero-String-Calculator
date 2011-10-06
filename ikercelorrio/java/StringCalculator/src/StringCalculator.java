@@ -34,23 +34,32 @@ public class StringCalculator {
     }
     
     private int AddNumbers(String[] numbers)
+            throws NumberFormatException
     {
-        int sum = 0;       
+        int sum = 0;
+        String negativeNumbers = new String();
+        
         for ( String num : numbers )
         {
-            sum += toInt(num);
+            if ( num.charAt(0) == '-' ) 
+                negativeNumbers += num + ", ";
+            else
+                sum += toInt(num);
+        }
+        if ( !negativeNumbers.isEmpty() )
+        {
+            negativeNumbers = negativeNumbers.substring(0, negativeNumbers.length()-1);
+            throw new NumberFormatException("negatives not allowed : " + negativeNumbers);
         }
         return sum;    
     }
     
     private int toInt(String number)
-            throws NumberFormatException
     {
         if ( number.isEmpty() ) 
             return 0;
         int n = Integer.parseInt(number);
-        if ( n < 0 )
-            throw new NumberFormatException("negatives not allowed : " + number);
         return n;
     }
+    
 }
