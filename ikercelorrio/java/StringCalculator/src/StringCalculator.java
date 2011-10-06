@@ -1,3 +1,6 @@
+
+import java.util.regex.Pattern;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -23,8 +26,8 @@ public class StringCalculator {
         String delimiters = "[,\n]";
         if ( numbers.startsWith("//"))
         {
-            delimiters = numbers.substring(2,3);
-            numbers = numbers.substring(4);
+            delimiters = Pattern.quote(numbers.substring(2,3));
+            numbers = numbers.substring(numbers.indexOf('\n')+1);
         }
         return numbers.split(delimiters);
     }
