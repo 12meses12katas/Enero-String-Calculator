@@ -1,6 +1,7 @@
 
 import java.util.regex.Pattern;
 
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -27,7 +28,7 @@ public class StringCalculator {
         if ( numbers.startsWith("//"))
         {
             delimiters = Pattern.quote(numbers.substring(2,3));
-            numbers = numbers.substring(numbers.indexOf('\n')+1);
+            numbers = numbers.substring(numbers.indexOf('\n',3)+1);
         }
         return numbers.split(delimiters);
     }
@@ -43,9 +44,13 @@ public class StringCalculator {
     }
     
     private int toInt(String number)
+            throws NumberFormatException
     {
         if ( number.isEmpty() ) 
             return 0;
-        return Integer.parseInt(number);
+        int n = Integer.parseInt(number);
+        if ( n < 0 )
+            throw new NumberFormatException("negatives not allowed : " + number);
+        return n;
     }
 }

@@ -3,11 +3,13 @@
  * and open the template in the editor.
  */
 
+import org.junit.Rule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 
 /**
@@ -27,6 +29,9 @@ public class StringCalculatorTest {
     public static void tearDownClass() throws Exception {
     }
 
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();      
+    
     StringCalculator calc;
 
     @Before
@@ -82,4 +87,35 @@ public class StringCalculatorTest {
         assertEquals(156, calc.Add("//*\n31*52*73"));
     }
     
+    @Test
+    public void PrimerNumeroNegativoDeNumerosSeparadoPorComasProvocaExcepcionConMensaje()
+    {
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("negatives not allowed : -1");
+        calc.Add("-1,2");
+    }
+    
+    @Test
+    public void SegundoNumeroNegativoDeNumerosSeparadoPorComasProvocaExcepcionConMensaje()
+    {
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("negatives not allowed : -2");
+        calc.Add("1,-2");                
+    }
+    
+    @Test
+    public void NumeroNegativoConSeparadorPersonalizadoProvocaExcepcionConMensaje()
+    {               
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("negatives not allowed : -3");
+        calc.Add("//s\n1s-3s7");
+    }
+    
+    @Test
+    public void NumeroNegativoConSeparadorPersonalizadoMetacaracterProvocaExcepcionConMensaje()
+    {               
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("negatives not allowed : -4");
+        calc.Add("//*\n31*-4*73");
+    }       
 }
