@@ -2,4 +2,6 @@ STRING CALCULATOR Java Kata
 -----------------------------
 Eclipse + Maven + JUnit + Infinitest
 
-http://www.lebrijo.com
+Video: http://vimeo.com/jlebrijo/kata-stringcalculator-java
+
+by @jlebrijo (http://www.lebrijo.com)
