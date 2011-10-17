@@ -10,13 +10,8 @@ class Calculator(object):
         result = 0
         
         if addParams != "":
-        
             const = _constants()
-            
-            if const.COMMA_SEP() in addParams:
-                params = addParams.split(const.COMMA_SEP())
-                result = int(params[0]) + int(params[1]) 
-            else:
-                result = int(addParams)
+            for calcParam in addParams.split(const.COMMA_SEP()):
+                result += int(calcParam)
         
         return result

@@ -67,6 +67,31 @@ class CalculatorTest(unittest.TestCase):
         
         pass
 
+    def testAddSomeParams(self):
+        
+        calc = Calculator()
+        
+        expected = 6
+        resulted = calc.add("1,2,3")
+        
+        self.assertEquals(expected, resulted, "Adding some params Error")
+        
+        expected = 12
+        resulted = calc.add("1,2,3,6")
+        
+        self.assertEquals(expected, resulted, "Adding some params Error")
+        
+        expected = 5
+        resulted = calc.add("1,1,3")
+        
+        self.assertEquals(expected, resulted, "Adding some params Error")
+        
+        expected = 30
+        resulted = calc.add("10,10,10")
+        
+        self.assertEquals(expected, resulted, "Adding some params Error")
+        
+        pass
 
 if __name__ == "__main__":
     unittest.main()
