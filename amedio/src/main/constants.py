@@ -5,3 +5,6 @@ class _constants(object):
     
     def COMMA_SEP(self):
         return ','
+    
+    def NEW_LINE_SEP(self):
+        return '\\n'

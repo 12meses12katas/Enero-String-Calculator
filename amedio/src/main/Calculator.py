@@ -11,7 +11,7 @@ class Calculator(object):
         
         if addParams != "":
             const = _constants()
-            for calcParam in addParams.split(const.COMMA_SEP()):
+            for calcParam in addParams.replace(const.COMMA_SEP(), const.NEW_LINE_SEP()).split(const.NEW_LINE_SEP()):
                 result += int(calcParam)
         
         return result
