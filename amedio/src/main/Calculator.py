@@ -8,6 +8,10 @@ class Calculator(object):
         result = 0
         
         if addParams != "":
-            result = int(addParams)
+            if ',' in addParams:
+                params = addParams.split(',')
+                result = int(params[0]) + int(params[1]) 
+            else:
+                result = int(addParams)
         
         return result
