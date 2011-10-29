@@ -5,7 +5,7 @@ class StringCalculator
   def self.add(string)
     delimiter = string.match(%r{^\/\/(.+)\\n}) && $1 || ','
     
-    numbers = string.split(%r{[\\n, #{delimiter}]}).map(&:to_i)
+    numbers = string.split(%r{[\\n, #{delimiter}]}).map(&:to_i).delete_if {|i| i > 1000}
     
     negatives = numbers.select {|number| number < 0}
     raise "Negatives numbers not allowed: #{negatives.join(', ')}" if negatives.any?
@@ -42,5 +42,9 @@ describe 'StringCalculator.add' do
   
   it "should raise an exception when called with a negative number" do
     -> { StringCalculator.add("1,2,-3,5,-7") }.should raise_error("Negatives numbers not allowed: -3, -7")
+  end
+  
+  it "should return 2 for '2,1001'" do
+    StringCalculator.add('2,1001').should == 2
   end
 end
