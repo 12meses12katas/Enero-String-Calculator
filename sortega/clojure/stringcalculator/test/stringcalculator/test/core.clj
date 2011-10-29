@@ -17,7 +17,18 @@
   (testing "newline"
     (is (= 10 (add "3\n5,2"))))
   (testing "with custom-delimiter line"
-    (is (= 3 (add "//;\n1;2")))) )
+    (is (= 3 (add "//;\n1;2")))
+    (is (= 3 (add "//.\n1.2"))))
+  (testing "multicharacter"
+    (is (= 10 (add "//[***]\n3\n5***2"))))
+  (testing "multidelimiter"
+    (is (= 11 (add "//;[***][->]\n3;5***2->1"))))
+)
 
 (deftest exception-on-negatives
   (is (thrown? IllegalArgumentException (add "1,-1"))))
+
+(deftest ignore-greater-than-1000
+  (is (= 2 (add "2,1001")))
+  (is (= 1002 (add "2,1000"))))
+
