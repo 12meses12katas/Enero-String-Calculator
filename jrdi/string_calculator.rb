@@ -6,6 +6,10 @@ class StringCalculator
     delimiter = string.match(%r{^\/\/(.+)\\n}) && $1 || ','
     
     numbers = string.split(%r{[\\n, #{delimiter}]}).map(&:to_i)
+    
+    negatives = numbers.select {|number| number < 0}
+    raise "Negatives numbers not allowed: #{negatives.join(', ')}" if negatives.any?
+    
     numbers.inject(0) {|total, number| total += number }
   end
   
@@ -34,5 +38,9 @@ describe 'StringCalculator.add' do
   
   it "should return 3 for '//;\n1;2'" do
     StringCalculator.add('//;\n1;2').should == 3
+  end
+  
+  it "should raise an exception when called with a negative number" do
+    -> { StringCalculator.add("1,2,-3,5,-7") }.should raise_error("Negatives numbers not allowed: -3, -7")
   end
 end
