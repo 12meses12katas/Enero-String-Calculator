@@ -3,7 +3,8 @@ require 'rspec'
 class StringCalculator
   
   def self.add(string)
-    string.split(',').map(&:to_i).inject(0) {|total, number| total += number }
+    numbers = string.gsub('\n', ',').split(',').map(&:to_i)
+    numbers.inject(0) {|total, number| total += number }
   end
   
 end
@@ -21,7 +22,11 @@ describe 'StringCalculator.add' do
     StringCalculator.add('2,3').should == 5
   end
   
-  it "should return 5 for '2,3,4,5'" do
+  it "should return 14 for '2,3,4,5'" do
     StringCalculator.add('2,3,4,5').should == 14
+  end
+  
+  it "should return 6 for '1\n2,3'" do
+    StringCalculator.add('1\n2,3').should == 6
   end
 end
