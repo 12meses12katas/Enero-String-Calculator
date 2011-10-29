@@ -3,7 +3,7 @@ require 'rspec'
 class StringCalculator
   
   def self.add(string)
-    delimiter = string.match(%r{^\/\/(.+)\\n}) && $1 || ','
+    delimiter = string.match(%r{^\/\/\[(.+)\]\\n}) && $1 || ','
     
     numbers = string.split(%r{[\\n, #{delimiter}]}).map(&:to_i).delete_if {|i| i > 1000}
     
@@ -36,8 +36,8 @@ describe 'StringCalculator.add' do
     StringCalculator.add('1\n2,3').should == 6
   end
   
-  it "should return 3 for '//;\n1;2'" do
-    StringCalculator.add('//;\n1;2').should == 3
+  it "should return 3 for '//[;]\n1;2'" do
+    StringCalculator.add('//[;]\n1;2').should == 3
   end
   
   it "should raise an exception when called with a negative number" do
@@ -46,5 +46,9 @@ describe 'StringCalculator.add' do
   
   it "should return 2 for '2,1001'" do
     StringCalculator.add('2,1001').should == 2
+  end
+  
+  it "should return 3 for '//[;;;]\n1;;;2'" do
+    StringCalculator.add('//[;;;]\n1;;;2').should == 3
   end
 end
