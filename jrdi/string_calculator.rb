@@ -20,4 +20,8 @@ describe 'StringCalculator.add' do
   it "should return 5 for '2,3'" do
     StringCalculator.add('2,3').should == 5
   end
+  
+  it "should return 5 for '2,3,4,5'" do
+    StringCalculator.add('2,3,4,5').should == 14
+  end
 end
