@@ -1,22 +1,37 @@
 require 'rspec'
 
 class StringCalculator
+  attr_reader :delimiters, :numbers 
   
-  def self.add(string)    
-    
-    delimiters = if delimiter = (string.match(%r{^\/\/\[(.+)\]\\n}) && $1)
+  def initialize(string)
+    @delimiters = extract_delimiters(string)
+    @numbers    = extract_numbers(string)
+  end
+  
+  def extract_delimiters(string)
+    if delimiter = (string.match(%r{^\/\/\[(.+)\]\\n}) && $1)
       delimiter.split('][')
     else
       [',']
     end
-    
-    numbers = string.split(%r{#{delimiters + ['\n']}}).map(&:to_i).delete_if {|i| i > 1000}
+  end
+  
+  def extract_numbers(string)
+    numbers = string.split(%r{#{delimiters + ['\n']}}).map(&:to_i).reject{|i| i > 1000}
     
     negatives = numbers.select {|number| number < 0}
     raise "Negatives numbers not allowed: #{negatives.join(', ')}" if negatives.any?
     
+    numbers
+  end
+  
+  def calculate
     return 0 if numbers.empty?
     numbers.reduce(:+)
+  end
+  
+  def self.add(string)    
+    new(string).calculate
   end
   
 end
