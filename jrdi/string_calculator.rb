@@ -2,15 +2,21 @@ require 'rspec'
 
 class StringCalculator
   
-  def self.add(string)
-    delimiter = string.match(%r{^\/\/\[(.+)\]\\n}) && $1 || ','
+  def self.add(string)    
     
-    numbers = string.split(%r{[\\n, #{delimiter}]}).map(&:to_i).delete_if {|i| i > 1000}
+    delimiters = if delimiter = (string.match(%r{^\/\/\[(.+)\]\\n}) && $1)
+      delimiter.split('][')
+    else
+      [',']
+    end
+    
+    numbers = string.split(%r{#{delimiters + ['\n']}}).map(&:to_i).delete_if {|i| i > 1000}
     
     negatives = numbers.select {|number| number < 0}
     raise "Negatives numbers not allowed: #{negatives.join(', ')}" if negatives.any?
     
-    numbers.inject(0) {|total, number| total += number }
+    return 0 if numbers.empty?
+    numbers.reduce(:+)
   end
   
 end
@@ -50,5 +56,9 @@ describe 'StringCalculator.add' do
   
   it "should return 3 for '//[;;;]\n1;;;2'" do
     StringCalculator.add('//[;;;]\n1;;;2').should == 3
+  end
+  
+  it "should return 7 for '//[;;;][***]\n1;;;2***4'" do
+    StringCalculator.add('//[;;;][***]\n1;;;2***4').should == 7
   end
 end
