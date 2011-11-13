@@ -37,7 +37,9 @@ public class StringCalculator {
                 if (candidate < 0) {
                     exception.addInvalidValue(current);
                 } else {
-                    retVal += candidate;
+                    if (candidate <= 1000) {
+                        retVal += candidate;
+                    }
                 }
             }
             if (exception.getInvalidValuesSet().size() > 0) {
