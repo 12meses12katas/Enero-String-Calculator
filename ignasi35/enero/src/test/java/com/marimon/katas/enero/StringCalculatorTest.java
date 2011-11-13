@@ -69,4 +69,9 @@ public class StringCalculatorTest {
         Assert.assertEquals(3, _app.add("3,1001"));
     }
 
+    @Test
+    public void testComplexDelimiter() {
+        Assert.assertEquals(6, _app.add("//[***]\n1***2***3"));
+    }
+
 }

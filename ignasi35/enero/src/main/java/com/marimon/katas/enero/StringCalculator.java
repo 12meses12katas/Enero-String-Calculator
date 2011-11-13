@@ -25,7 +25,12 @@ public class StringCalculator {
             NegativesNotAllowedException exception =
                 new NegativesNotAllowedException();
             if (values.startsWith("//")) {
-                separator = new String(new char[] {values.charAt(2) });
+                separator = values.substring(2, values.indexOf('\n'));
+                if (separator.startsWith("[") && separator.endsWith("]")) {
+                    separator =
+                        separator.substring(1, separator.length() - 1);
+                }
+                separator = escape(separator);
                 parseable =
                     values.substring(values.indexOf('\n') + 1, values
                         .length());
@@ -48,4 +53,9 @@ public class StringCalculator {
             return retVal;
         }
     }
+
+    private String escape(final String separator) {
+        return separator.replace("*", "\\*");
+    }
+
 }
