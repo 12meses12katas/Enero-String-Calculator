@@ -1,5 +1,9 @@
 package com.marimon.katas.enero;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -46,6 +50,23 @@ public class StringCalculatorTest {
     @Test
     public void testConfigurableSeparator() {
         Assert.assertEquals(3, _app.add("//;\n1;2"));
+    }
+
+    @Test
+    public void testSingleNonNegatives() {
+        try {
+            _app.add("-1,2,-3");
+            Assert.fail("Should have throw exception.");
+        } catch (NegativesNotAllowedException nnae) {
+            Set<String> expected =
+                new TreeSet<String>(Arrays.asList("-1", "-3"));
+            Assert.assertEquals(expected, nnae.getInvalidValuesSet());
+        }
+    }
+
+    @Test
+    public void testUpperBoundary() {
+        Assert.assertEquals(3, _app.add("3,1001"));
     }
 
 }

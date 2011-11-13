@@ -13,6 +13,7 @@ public class StringCalculator {
      *            a delimited (separator is comma or '\n') string with 0, 1 or 2
      *            numbers.
      * @return
+     * @throws NegativesNotAllowedException
      */
     public int add(final String values) {
 
@@ -21,6 +22,8 @@ public class StringCalculator {
         } else {
             String separator = "[,\n]";
             String parseable = values;
+            NegativesNotAllowedException exception =
+                new NegativesNotAllowedException();
             if (values.startsWith("//")) {
                 separator = new String(new char[] {values.charAt(2) });
                 parseable =
@@ -30,13 +33,17 @@ public class StringCalculator {
             String[] split = parseable.split(separator);
             int retVal = 0;
             for (String current : split) {
-                retVal += toNum(current);
+                Integer candidate = Integer.valueOf(current);
+                if (candidate < 0) {
+                    exception.addInvalidValue(current);
+                } else {
+                    retVal += candidate;
+                }
+            }
+            if (exception.getInvalidValuesSet().size() > 0) {
+                throw exception;
             }
             return retVal;
         }
-    }
-
-    private Integer toNum(final String lala) {
-        return Integer.valueOf(lala);
     }
 }
