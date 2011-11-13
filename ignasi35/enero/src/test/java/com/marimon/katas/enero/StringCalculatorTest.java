@@ -43,4 +43,9 @@ public class StringCalculatorTest {
         Assert.assertEquals(6, _app.add("1\n2,3"));
     }
 
+    @Test
+    public void testConfigurableSeparator() {
+        Assert.assertEquals(3, _app.add("//;\n1;2"));
+    }
+
 }

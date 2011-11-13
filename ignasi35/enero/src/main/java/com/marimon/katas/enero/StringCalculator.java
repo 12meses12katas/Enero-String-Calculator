@@ -15,10 +15,19 @@ public class StringCalculator {
      * @return
      */
     public int add(final String values) {
+
         if (values.length() == 0) {
             return 0;
         } else {
-            String[] split = values.split("[,\n]");
+            String separator = "[,\n]";
+            String parseable = values;
+            if (values.startsWith("//")) {
+                separator = new String(new char[] {values.charAt(2) });
+                parseable =
+                    values.substring(values.indexOf('\n') + 1, values
+                        .length());
+            }
+            String[] split = parseable.split(separator);
             int retVal = 0;
             for (String current : split) {
                 retVal += toNum(current);
