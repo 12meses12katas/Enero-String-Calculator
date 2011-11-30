@@ -95,8 +95,12 @@ class StringCalculatorTest extends PHPUnit_Framework_TestCase {
     $this->fail('must not be here');
   }
 
-  public function _test_delimiters_can_be_any_length() {
+  public function test_delimiters_can_be_any_length() {
     $this->assertEquals(22, $this->sut->add("//***\n10***9***3"));
+  }
+
+  public function test_all_working() {
+    $this->assertEquals(44, $this->sut->add("//[***][..][&&]\n10***9&&3..14\n8"));
   }
 
 }
