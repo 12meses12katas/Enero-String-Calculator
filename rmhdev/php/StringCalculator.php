@@ -71,7 +71,9 @@ class StringCalculator {
 
     protected function extractStringOnlyWithNumbersAndFinalDelimiter(){
         $stringAfterDelimiterCode = $this->getStringAfterDelimiterCode();
-        $onlyNumbersAndFinalDelimiter = str_replace($this->getDelimiters(), $this->getFinalDelimiter(), $stringAfterDelimiterCode);
+        $onlyNumbersAndFinalDelimiter = str_replace(
+            $this->getDelimiters(), $this->getFinalDelimiter(), $stringAfterDelimiterCode
+        );
         return $this->replaceNewLinesWithFinalDelimiter($onlyNumbersAndFinalDelimiter);
     }
 
@@ -80,7 +82,9 @@ class StringCalculator {
     }
     
     protected function getStringAfterDelimiterCode(){
-        return $this->stringHasDelimiterCode() ? substr($this->getString(), $this->lengthOfDelimiterCodeInString()) : $this->getString();
+        return $this->stringHasDelimiterCode() ? 
+            substr($this->getString(), $this->lengthOfDelimiterCodeInString()) :
+            $this->getString();
     }
 
     protected function lengthOfDelimiterCodeInString(){
