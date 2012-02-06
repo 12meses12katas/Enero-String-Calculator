@@ -14,7 +14,7 @@ namespace EneroStringCalculator
             if(!ContainsSeparator(numbers))
                 return int.Parse(numbers);
             var parsedNumbers = numbers.Split(SEPARATOR.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            return int.Parse(parsedNumbers[0]) + int.Parse(parsedNumbers[1]);
+            return parsedNumbers.Sum(n => int.Parse(n));
         }
 
         private bool ContainsSeparator(string numbers)

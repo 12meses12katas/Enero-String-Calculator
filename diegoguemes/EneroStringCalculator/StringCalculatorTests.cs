@@ -29,5 +29,11 @@ namespace EneroStringCalculator
         {
             Assert.AreEqual(15, calculator.Add("5,10"));
         }
+
+        [Test]
+        public void AddWithMultipleNumbers()
+        {
+            Assert.AreEqual(50, calculator.Add("2,3,5,10,30"));
+        }
     }
 }
