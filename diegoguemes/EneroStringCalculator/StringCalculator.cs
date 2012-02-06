@@ -8,33 +8,37 @@ namespace EneroStringCalculator
     {
         private const string COMMA_SEPARATOR = ",";
         private const string NEW_LINE_SEPARATOR = "\n";
+        private const string CUSTOM_SEPARATOR_START = "//";
+        private const string CUSTOM_SEPARATOR_END = "\n";
 
         public int Add(string numbers)
         {
-            if(string.IsNullOrEmpty(numbers))
+            if (string.IsNullOrEmpty(numbers))
                 return 0;
-            if(!ContainsSeparator(numbers))
-                return int.Parse(numbers);
-            IEnumerable<string> separators;
-            string numbersPart;
-            if(numbers.StartsWith("//"))
-            {
-                string customSeparator = numbers.Substring(2, numbers.IndexOf("\n") - 2);
-                separators = new string[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR, customSeparator };
-                numbersPart = numbers.Substring(numbers.IndexOf("\n") + 1);
-            }
-            else
-            {
-                separators = new string[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR };
-                numbersPart = numbers;
-            }
-            var parsedNumbers = numbersPart.Split(separators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            string numbersPart = GetNumbersPart(numbers);
+            string[] separators = GetSeparators(numbers);
+            var parsedNumbers = numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             return parsedNumbers.Sum(n => int.Parse(n));
         }
 
-        private bool ContainsSeparator(string numbers)
+        private string GetNumbersPart(string numbers)
         {
-            return numbers.Contains(COMMA_SEPARATOR) || numbers.Contains(NEW_LINE_SEPARATOR);
+            if (!numbers.StartsWith(CUSTOM_SEPARATOR_START))
+                return numbers;
+            return numbers.Substring(numbers.IndexOf(CUSTOM_SEPARATOR_END) + 1);
+        }
+
+        private string[] GetSeparators(string numbers)
+        {
+            if (!numbers.StartsWith(CUSTOM_SEPARATOR_START))
+                return new string[] {COMMA_SEPARATOR, NEW_LINE_SEPARATOR};
+            return new string[] {COMMA_SEPARATOR, NEW_LINE_SEPARATOR, GetCustomSeparator(numbers)};
+        }
+
+        private string GetCustomSeparator(string numbers)
+        {
+            return numbers.Substring(CUSTOM_SEPARATOR_START.Length,
+                                     numbers.IndexOf(CUSTOM_SEPARATOR_END) - CUSTOM_SEPARATOR_START.Length);
         }
     }
 }
