@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EneroStringCalculator
@@ -14,8 +15,20 @@ namespace EneroStringCalculator
                 return 0;
             if(!ContainsSeparator(numbers))
                 return int.Parse(numbers);
-            var separators = new string[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR };
-            var parsedNumbers = numbers.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            IEnumerable<string> separators;
+            string numbersPart;
+            if(numbers.StartsWith("//"))
+            {
+                string customSeparator = numbers.Substring(2, numbers.IndexOf("\n") - 2);
+                separators = new string[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR, customSeparator };
+                numbersPart = numbers.Substring(numbers.IndexOf("\n") + 1);
+            }
+            else
+            {
+                separators = new string[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR };
+                numbersPart = numbers;
+            }
+            var parsedNumbers = numbersPart.Split(separators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
             return parsedNumbers.Sum(n => int.Parse(n));
         }
 
