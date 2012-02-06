@@ -9,7 +9,7 @@ namespace EneroStringCalculator
         [SetUp]
         public void SetUp()
         {
-            calculator = new StringCalculator();
+            calculator = new StringCalculator(new NumberSplitter());
         }
 
         [Test]
