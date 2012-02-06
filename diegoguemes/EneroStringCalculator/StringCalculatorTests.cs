@@ -5,6 +5,29 @@ namespace EneroStringCalculator
     [TestFixture]
     public class StringCalculatorTests
     {
-         
+        private StringCalculator calculator;
+        [SetUp]
+        public void SetUp()
+        {
+            calculator = new StringCalculator();
+        }
+
+        [Test]
+        public void AddingEmptyStringShouldReturnZero()
+        {
+            Assert.AreEqual(0, calculator.Add(""));
+        }
+
+        [Test]
+        public void AddingSingleNumberShouldReturnTheNumber()
+        {
+            Assert.AreEqual(5, calculator.Add("5"));
+        }
+
+        [Test]
+        public void AddWithTwoNumbers()
+        {
+            Assert.AreEqual(15, calculator.Add("5,10"));
+        }
     }
 }
