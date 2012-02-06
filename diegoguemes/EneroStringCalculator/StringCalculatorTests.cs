@@ -35,5 +35,11 @@ namespace EneroStringCalculator
         {
             Assert.AreEqual(50, calculator.Add("2,3,5,10,30"));
         }
+
+        [Test]
+        public void AllowAddWithNewLineSeparator()
+        {
+            Assert.AreEqual(10, calculator.Add("2\n3,5"));
+        }
     }
 }
