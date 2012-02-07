@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EneroStringCalculator
 {
@@ -14,7 +15,13 @@ namespace EneroStringCalculator
         {
             string numbersPart = GetNumbersPart(numbers);
             string[] separators = GetSeparators(numbers);
-            return numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            var parsedNumbers = numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            if(parsedNumbers.Any(n => int.Parse(n) < 0))
+            {
+                throw new ArgumentException(string.Format("Negatives not allowed: {0}",
+                                                          string.Join(",", parsedNumbers.Where(n => int.Parse(n) < 0))));
+            }
+            return parsedNumbers;
         }
 
         private string GetNumbersPart(string numbers)

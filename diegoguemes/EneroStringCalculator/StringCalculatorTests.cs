@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace EneroStringCalculator
 {
@@ -46,6 +47,27 @@ namespace EneroStringCalculator
         public void AllowAddWithCustomSeparator()
         {
             Assert.AreEqual(10, calculator.Add("//;\n2;3,5"));
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddingNegativesThrowsArgumentException()
+        {
+            calculator.Add("-10,1,2,3");
+        }
+
+        [Test]
+        public void AddingNegativesThrowsArgumentExceptionContainingNegatives()
+        {
+            try
+            {
+                calculator.Add("-10,-20,1,2,3");
+                Assert.Fail("Argument exception should have been thrown");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.True(exception.Message.EndsWith("-10,-20"));
+            }
         }
     }
 }
