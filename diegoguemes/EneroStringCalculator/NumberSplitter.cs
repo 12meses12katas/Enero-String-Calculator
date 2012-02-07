@@ -11,17 +11,11 @@ namespace EneroStringCalculator
         private const string CUSTOM_SEPARATOR_START = "//";
         private const string CUSTOM_SEPARATOR_END = "\n";
 
-        public IEnumerable<string> SplitNumbers(string numbers)
+        public IEnumerable<int> SplitNumbers(string numbers)
         {
             string numbersPart = GetNumbersPart(numbers);
             string[] separators = GetSeparators(numbers);
-            var parsedNumbers = numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-            if(parsedNumbers.Any(n => int.Parse(n) < 0))
-            {
-                throw new ArgumentException(string.Format("Negatives not allowed: {0}",
-                                                          string.Join(",", parsedNumbers.Where(n => int.Parse(n) < 0))));
-            }
-            return parsedNumbers;
+            return numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
         }
 
         private string GetNumbersPart(string numbers)
