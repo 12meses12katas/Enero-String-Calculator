@@ -76,6 +76,12 @@ namespace EneroStringCalculator
             Assert.AreEqual(1010, calculator.Add("2,3,5,1000,1001"));
         }
 
+        [Test]
+        public void Allow_Add_With_Custom_Separator_Of_Any_Length()
+        {
+            Assert.AreEqual(10, calculator.Add("//[***]\n2,3***5"));
+        }
+
 
     }
 }

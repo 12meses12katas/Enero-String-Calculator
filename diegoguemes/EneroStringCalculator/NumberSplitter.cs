@@ -34,8 +34,11 @@ namespace EneroStringCalculator
 
         private string GetCustomSeparator(string numbers)
         {
-            return numbers.Substring(CUSTOM_SEPARATOR_START.Length,
-                                     numbers.IndexOf(CUSTOM_SEPARATOR_END) - CUSTOM_SEPARATOR_START.Length);
+            return numbers
+                .Substring(
+                    CUSTOM_SEPARATOR_START.Length,
+                    numbers.IndexOf(CUSTOM_SEPARATOR_END) - CUSTOM_SEPARATOR_START.Length)
+                .Trim("[]".ToCharArray());
         }
     }
 }
