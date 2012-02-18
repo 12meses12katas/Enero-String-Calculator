@@ -6,6 +6,7 @@ namespace EneroStringCalculator
 {
     public class StringCalculator
     {
+        private const int MAX_LIMIT = 1000;
         private NumberSplitter splitter;
 
         public StringCalculator(NumberSplitter splitter)
@@ -19,6 +20,7 @@ namespace EneroStringCalculator
                 return 0;
             var parsedNumbers = splitter.SplitNumbers(numbers);
             ValidateNumbers(parsedNumbers);
+            parsedNumbers = FilterNumbersGreaterThan(MAX_LIMIT, parsedNumbers);
             return parsedNumbers.Sum();
         }
 
@@ -40,6 +42,11 @@ namespace EneroStringCalculator
         private bool IsNegative(int number)
         {
             return number < 0;
+        }
+
+        private IEnumerable<int> FilterNumbersGreaterThan(int maxLimit, IEnumerable<int> numbers)
+        {
+            return numbers.Where(n => n <= maxLimit);
         }
 
     }
