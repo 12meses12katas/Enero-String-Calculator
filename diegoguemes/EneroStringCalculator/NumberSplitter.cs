@@ -8,37 +8,46 @@ namespace EneroStringCalculator
     {
         private const string COMMA_SEPARATOR = ",";
         private const string NEW_LINE_SEPARATOR = "\n";
-        private const string CUSTOM_SEPARATOR_START = "//";
-        private const string CUSTOM_SEPARATOR_END = "\n";
+        private const string SEPARATOR_PART_START = "//";
+        private const string SEPARATOR_PART_END = "\n";
+        private const string COMPLEX_CUSTOM_SEPARATOR_START = "[";
+        private const string COMPLEX_CUSTOM_SEPARATOR_END = "]";
 
         public IEnumerable<int> SplitNumbers(string numbers)
         {
-            string numbersPart = GetNumbersPart(numbers);
-            string[] separators = GetSeparators(numbers);
+            var numbersPart = GetNumbersPart(numbers);
+            var separatorsPart = GetSeparatorsPart(numbers);
+            var separators = GetSeparators(separatorsPart);
             return numbersPart.Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
         }
 
         private string GetNumbersPart(string numbers)
         {
-            if (!numbers.StartsWith(CUSTOM_SEPARATOR_START))
+            if (!numbers.StartsWith(SEPARATOR_PART_START))
                 return numbers;
-            return numbers.Substring(numbers.IndexOf(CUSTOM_SEPARATOR_END) + 1);
+            return numbers.Substring(numbers.IndexOf(SEPARATOR_PART_END) + 1);
         }
 
-        private string[] GetSeparators(string numbers)
+        private string GetSeparatorsPart(string numbers)
         {
-            if (!numbers.StartsWith(CUSTOM_SEPARATOR_START))
-                return new[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR };
-            return new[] { COMMA_SEPARATOR, NEW_LINE_SEPARATOR, GetCustomSeparator(numbers) };
+            if (!numbers.StartsWith(SEPARATOR_PART_START))
+                return string.Empty;
+            return numbers.Substring(SEPARATOR_PART_START.Length,
+                                     numbers.IndexOf(SEPARATOR_PART_END) - SEPARATOR_PART_START.Length);
         }
 
-        private string GetCustomSeparator(string numbers)
+        private string[] GetSeparators(string separatorsPart)
         {
-            return numbers
-                .Substring(
-                    CUSTOM_SEPARATOR_START.Length,
-                    numbers.IndexOf(CUSTOM_SEPARATOR_END) - CUSTOM_SEPARATOR_START.Length)
-                .Trim("[]".ToCharArray());
+            var defaultSeparators = new[] {COMMA_SEPARATOR, NEW_LINE_SEPARATOR};
+            return defaultSeparators.Union(GetCustomSeparators(separatorsPart)).ToArray();
         }
+
+        private IEnumerable<string> GetCustomSeparators(string separatorsPart)
+        {
+            return separatorsPart.Split(new[] {COMPLEX_CUSTOM_SEPARATOR_START, COMPLEX_CUSTOM_SEPARATOR_END},
+                                        StringSplitOptions.RemoveEmptyEntries);
+        }
+
+
     }
 }

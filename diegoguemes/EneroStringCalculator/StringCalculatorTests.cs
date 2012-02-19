@@ -7,6 +7,7 @@ namespace EneroStringCalculator
     public class StringCalculatorTests
     {
         private StringCalculator calculator;
+
         [SetUp]
         public void SetUp()
         {
@@ -80,6 +81,12 @@ namespace EneroStringCalculator
         public void Allow_Add_With_Custom_Separator_Of_Any_Length()
         {
             Assert.AreEqual(10, calculator.Add("//[***]\n2,3***5"));
+        }
+
+        [Test] 
+        public void Allow_Add_With_Multiple_Custom_Separators()
+        {
+            Assert.AreEqual(10, calculator.Add("//[***][###]\n2###3***5"));
         }
 
 
