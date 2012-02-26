@@ -6,12 +6,13 @@ namespace EneroStringCalculator
     [TestFixture]
     public class StringCalculatorTests
     {
+        private const int MAX_LIMIT = 1000;
         private StringCalculator calculator;
 
         [SetUp]
         public void SetUp()
         {
-            calculator = new StringCalculator(new NumberSplitter());
+            calculator = new StringCalculator(new NumberSplitter(), new NegativesValidator(), new GreaterThanFilter(MAX_LIMIT));
         }
 
         [Test]
