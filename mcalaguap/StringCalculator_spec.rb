@@ -35,4 +35,12 @@ describe "StringCalculator" do
 			sc.Add("1,2,3,4,5,6,7,8,9,10")
 		end
 	end
+
+	context "Salto de linea en lugar de , para separar los numeros" do
+		it "Retorna 20+20=40" do
+			sc = StringCalculator.new
+			sc.Add("20\n20").should == 40
+		end
+	end
+
 end
