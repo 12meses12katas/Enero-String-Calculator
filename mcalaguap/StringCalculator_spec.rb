@@ -43,4 +43,15 @@ describe "StringCalculator" do
 		end
 	end
 
+	context "Cualquier delimitador" do
+		it "Trabaja con ; y retrona 40" do
+			sc = StringCalculator.new
+			sc.Add("//;\n20;20").should == 40
+		end
+		it "Trabaja con culquiera como el caracter H" do
+			sc = StringCalculator.new
+			sc.Add("//H\n20H20").should == 40
+		end
+	end
+
 end
