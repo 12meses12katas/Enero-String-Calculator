@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringCalculator.Logic", "StringCalculator.Logic\StringCalculator.Logic.csproj", "{626EF91B-F885-4FC3-8D57-F323B2F1FA22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringCalculator.Test", "StringCalculator.Test\StringCalculator.Test.csproj", "{40780F28-448C-4A2C-B0E5-85EF653FE5D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{626EF91B-F885-4FC3-8D57-F323B2F1FA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{626EF91B-F885-4FC3-8D57-F323B2F1FA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{626EF91B-F885-4FC3-8D57-F323B2F1FA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{626EF91B-F885-4FC3-8D57-F323B2F1FA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40780F28-448C-4A2C-B0E5-85EF653FE5D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40780F28-448C-4A2C-B0E5-85EF653FE5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40780F28-448C-4A2C-B0E5-85EF653FE5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40780F28-448C-4A2C-B0E5-85EF653FE5D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
