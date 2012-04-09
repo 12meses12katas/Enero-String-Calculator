@@ -21,7 +21,7 @@ class StringCalculator
 			if negative.empty?
 				sum
 			else
-				raise "numero negativo no esta permitido #{negative.join(",")}"
+				raise "negative numbers are not allowed #{negative.join(",")}"
 			end
 		end
 	end

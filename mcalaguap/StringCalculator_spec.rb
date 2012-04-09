@@ -54,4 +54,11 @@ describe "StringCalculator" do
 		end
 	end
 
+	context "Numero negativos no permitidos" do
+		it "Saltar excepcion con un numero negativo" do
+			sc = StringCalculator.new
+			expect{ sc.Add("//;\n20;-20") }.to raise_error "negative numbers are not allowed -20"
+		end
+	end
+
 end
