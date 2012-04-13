@@ -1,0 +1,42 @@
+require 'string_calculator'
+require 'test/unit'
+
+class TestStringCalculator < Test::Unit::TestCase
+
+  def test_add_simple
+    assert_equal(0, add(""))
+    assert_equal(1, add("1"))
+  end
+
+  def test_add_multiple_args
+    assert_equal(3, add("1,2"))
+    assert_equal(50, add("1,2,43,4"))
+  end
+
+  def test_line_breaks
+    assert_equal(4, add("2\n2"))
+    assert_equal(6, add("1\n2,3"))
+  end
+
+  def test_custom_delimiter
+    assert_equal(10, add("//;\n3;7"))
+    assert_equal(3, add("// \n1 2"))
+  end
+
+  def test_negative_numbers
+    begin
+      add("-1,3")
+      fail("An exception must have been thrown")
+    rescue Exception => e
+      assert_equal('Numbers must be positive', e.message)
+    end
+  end
+
+  def test_greater_than_1000
+    assert_equal(3, add("1000,1,2"))
+  end
+
+  def test_multilength_delimiters
+    assert_equal(34, add("//abc\n1abc4abc29"))
+  end
+end
