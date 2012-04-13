@@ -1,7 +1,9 @@
+PATTERN = /\/\/\[(.*)\]\n(.*)/
+
 def getPattern(string)
   pattern = /,|\n/
   if (string.start_with?("//"))
-    pattern = string[/\/\/(.*)\n/,1]
+    pattern = string[PATTERN,1]
   end
   return pattern
 end
@@ -18,7 +20,9 @@ end
 def add (snumbers)
   return 0 unless snumbers != ""
   numbers = 0
-  snumbers.split(getPattern(snumbers)).each do |num|
+  data = snumbers
+  data = snumbers[PATTERN,2] if snumbers.start_with?("//")
+  data.split(getPattern(snumbers)).each do |num|
     numbers+=getValid(num.to_i)
   end
   return numbers

@@ -19,8 +19,8 @@ class TestStringCalculator < Test::Unit::TestCase
   end
 
   def test_custom_delimiter
-    assert_equal(10, add("//;\n3;7"))
-    assert_equal(3, add("// \n1 2"))
+    assert_equal(10, add("//[;]\n3;7"))
+    assert_equal(3, add("//[ ]\n1 2"))
   end
 
   def test_negative_numbers
@@ -37,6 +37,15 @@ class TestStringCalculator < Test::Unit::TestCase
   end
 
   def test_multilength_delimiters
-    assert_equal(34, add("//abc\n1abc4abc29"))
+    assert_equal(34, add("//[abc]\n1abc4abc29"))
+  end
+
+  def test_multiple_delimiters
+    assert_equal(15, add("//[;][:]\n3;7:2:3"))
+    assert_equal(7, add("//[ ][x]\n1 2x4"))
+  end
+
+  def test_multiple_multilength_delimiters
+    assert_equal(15, add("//[;_:][xxx]\n3;_:7;_:2xxx3"))
   end
 end
