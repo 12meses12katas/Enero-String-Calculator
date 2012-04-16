@@ -3,7 +3,7 @@ PATTERN = /\/\/\[(.+)\]\n(.*)/
 def getPattern(string)
   pattern = /,|\n/
   if (string.start_with?("//"))
-    pattern = string[PATTERN,1].gsub("][","|")
+    pattern = Regexp.new(string[PATTERN,1].gsub("][","|"))
   end
   return pattern
 end
