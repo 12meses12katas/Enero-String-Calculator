@@ -22,7 +22,7 @@ object calculator {
     only_numbers.split(separator).toList
   }
 
-  def sum(numbers: List[String]): Int = numbers match {
+  def sum(numbers: Iterable[String]): Int = numbers match {
     case "" :: Nil => 0
     case n :: Nil => toInt(n)
     case a :: tail => toInt(a) + add(tail.mkString(","))
