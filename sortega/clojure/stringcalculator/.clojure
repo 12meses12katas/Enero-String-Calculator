@@ -1,0 +1,4 @@
+lib/clojure-1.2.1.jar
+lib/dev/lein-nailgun-1.1.0.jar
+lib/dev/server-2.2.0.jar
+lib/dev/vimclojure-2.1.2.jar
