@@ -2,24 +2,24 @@
   (:use [clojure.string :exclude [replace reverse]])
   (:import [java.util.regex Pattern]))
 
-(defn parseNumbers [regex input]
-  (map read-string (remove blank? (split input regex))))
-
 (defn delimiterRegex [delimiters]
-  (let [quotedDelimiters (map #(Pattern/quote %) delimiters)]
-    (re-pattern (reduce #(str %1 \| %2) "\\n" quotedDelimiters))))
+  (re-pattern 
+    (join \| (map #(Pattern/quote %) delimiters))))
 
-(defn parseDelimiters [input]
-  (if (blank? input) 
-    nil
-    (remove blank? (split input #"(\[|\])+"))))
+(defn parseNumbers [delimiters lines]
+  (let [regex (delimiterRegex delimiters)]
+    (map read-string 
+         (mapcat #(split % regex) lines))))
+
+(defn parseDelimiters [header]
+  (re-seq #"[^\[\]]+" (.substring header 2)))
 
 (defn add [input]
-  (let [match (re-matches #"(?://(.+?)\n)?((?:.|\n)*)" input)
-        custom-delimiters (parseDelimiters (nth match 1))
-        delimiters (if (seq custom-delimiters) custom-delimiters [","])
-        numbers (parseNumbers (delimiterRegex delimiters) (nth match 2))]
-    (if (seq (filter #(< % 0) numbers))
-      (throw (new IllegalArgumentException "Negative number")))
-    (reduce + (filter #(<= % 1000) numbers))))
-
+  (if (blank? input) 0
+    (let [[header & body :as lines] (split-lines input)
+          nums (if (.startsWith header "//")
+                  (parseNumbers (parseDelimiters header) body)
+                  (parseNumbers [","] lines))]
+      (when (some neg? nums)
+        (throw (IllegalArgumentException. "Negative number")))
+      (reduce + (remove #(> % 1000) nums)))))
