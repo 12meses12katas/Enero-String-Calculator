@@ -1,0 +1,8 @@
+String calculator Kata written in Ruby. It works on JRuby and Ruby 1.9.2.
+
+Note:
+
+Although it seems correct and clear this is probably one of the worse implementations ever. 
+If we take a look in detail we'll see that the speed of the algorithm is O(n4). We should
+avoid the use of `map` and `select`, and check the restrictions into the
+`inject` loop the get a speed of O(n).
