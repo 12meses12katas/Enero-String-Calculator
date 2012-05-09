@@ -1,0 +1,2 @@
+javac -cp .:junit.jar StringCalculator.java StringCalculatorTest.java
+java -cp .:junit.jar StringCalculatorTest
