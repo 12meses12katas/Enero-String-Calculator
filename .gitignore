@@ -17,6 +17,7 @@ syntax: glob
 # worksheets
 *.sc
 .worksheet
+.cache
 
 # building
 target
