@@ -1,0 +1,10 @@
+Por ahora solo he implementado hasta el punto 5 de las instrucciones.
+
+La kata está implementada en Java y se pueden ejecutar los tests mediante el siguiente comando:
+
+mvn test
+
+Un saludo a todos.
+
+Edu
+
