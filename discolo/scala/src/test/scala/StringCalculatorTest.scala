@@ -1,11 +1,11 @@
-package es.rubenromero.academic.katas
+
 
 import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-
 import StringCalculator._
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class StringCalculatorTest extends FunSuite {
@@ -50,5 +50,25 @@ class StringCalculatorTest extends FunSuite {
     } catch {
       case e: Error => assert(true)
     }
+  }
+  
+  test("numbers greater than 1000 are ignored") {
+    assert(add("5,1001,6") === 5 + 6)
+  }
+  
+  test("number 1000 is not ignored") {
+    assert(add("5,1000,6") === 5 + 1000 + 6)
+  }
+  
+  test("multilength delimiter") {
+    assert(add("//[aaa]\n4aaa5aaa1001aaa4") === 4 + 5 + 4)
+  }
+  
+  test("multilength delimiter with special characters") {
+    assert(add("//[_*_]\n4_*_5_*_1001_*_4") === 4 + 5 + 4)
+  }
+  
+  test("multilength multiple delimiter") {
+    assert(add("//[_*_][***]\n4_*_5***1001_*_4") === 4 + 5 + 4)
   }
 }
