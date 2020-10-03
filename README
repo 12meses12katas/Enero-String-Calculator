@@ -2,12 +2,15 @@ Instrucciones de la Kata String Calculator (sacadas de la web: http://www.oshero
 ------------------------------------------
 
 Before you start:
+
  
 - Try not to read ahead.
 - Do one task at a time. The trick is to learn to work incrementally.
 - Make sure you only test for correct inputs. there is no need to test for invalid inputs for this kata
- 
+
+
 String Calculator:
+
 
 1) Create a simple String calculator with a method int Add(string numbers)
     1. The method can take 0, 1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example “” or “1” or “1,2”
@@ -23,9 +26,11 @@ String Calculator:
     2. the first line is optional. all existing scenarios should still be supported
 5) Calling Add with a negative number will throw an exception “negatives not allowed” - and the negative that was passed.if there are multiple negatives, show all of them in the exception message
 
+
 -----------------------------------------------------------------------------------------------------------------------
 stop here if you are a beginner. Continue if you can finish the steps so far in less than 30 minutes.
 -----------------------------------------------------------------------------------------------------------------------
+
 
 6) Numbers bigger than 1000 should be ignored, so adding 2 + 1001  = 2
 7) Delimiters can be of any length with the following format:  “//[delimiter]\n” for example: “//[***]\n1***2***3” should return 6
